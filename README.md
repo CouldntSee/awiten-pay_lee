@@ -1,7 +1,7 @@
 # AWITEN-Pay — Autonomous Post-Harvest Spoilage Clearinghouse & Agentic Payment Protocol on Stellar
 
-## 1. Project Title & One-Line Pitch
-**AWITEN-Pay (Agri Watch Intelligence Trading Exchange Network):** An autonomous biophysical clearinghouse agent on Stellar that senses in-transit vegetable spoilage inside open-canvas Philippine *Viajero* trucks, autonomously advances driver diversion fuel via **Noir Soroban Escrow (`@noirx402/agent-sdk`)**, liquidates distressed loads to pre-contracted regional processors via **Velo Checkout (`@carts1024/velo-sdk`)**, and settles farmer cooperative payouts on physical NFC dock handoff.
+## 1. Project Description
+**AWITEN-Pay (Agri Watch Intelligence Trading Exchange Network):** An autonomous biophysical clearinghouse agent on Stellar that senses in-transit vegetable spoilage inside open-canvas Philippine *Viajero* trucks, autonomously advances driver diversion fuel via **Noir Soroban Escrow (`@noirx402/agent-sdk`)**, liquidates distressed loads to pre-contracted regional processors via **Velo Checkout (`@carts1024/velo-sdk`)**, and settles farmer cooperative payouts on physical NFC dock handoff.ß
 
 ---
 
@@ -15,10 +15,13 @@
 ---
 
 ## 3. Live Links
-- **Unified 3-Portal Web Application (`Co-op Fleet Console` + `Broker Terminal` + `Driver Mobile App`):** `http://localhost:3001` (Production deployment target: `https://awiten-pay.onrender.com`)
-- **Direct Portal #3 Link (Mang Ramon Viajero Driver & Dock NFC Handoff App):** `http://localhost:3001/?role=driver`
+- **Live Deployed Web Application (Required Working Site):** [`https://shirts-pulling-earning-ellen.trycloudflare.com`](https://shirts-pulling-earning-ellen.trycloudflare.com)
+- **Direct Portal #3 Link (Mang Ramon Viajero Driver & Dock NFC Handoff Mobile App):** [`https://shirts-pulling-earning-ellen.trycloudflare.com/?role=driver`](https://shirts-pulling-earning-ellen.trycloudflare.com/?role=driver)
+- **Live Velo Webhook Endpoint:** `https://shirts-pulling-earning-ellen.trycloudflare.com/api/webhooks/velo`
+- **Live Velo Checkout Session (Bulacan Rescue Off-Taker):** [`https://www.velo-build.dev/pay/jx7f3gnymxfm9vvyhv69ny2bzx8hqbwv`](https://www.velo-build.dev/pay/jx7f3gnymxfm9vvyhv69ny2bzx8hqbwv)
 - **Velo Build Project Registry (`VeloPayAccess` Active):** `https://www.velo-build.dev` (`AWITEN-Pay`)
 - **Verified Stellar Testnet Proof Manifest:** [`packages/shared/src/testnet-proofs.json`](./packages/shared/src/testnet-proofs.json)
+- **Local Dev Server Fallback:** `http://localhost:3001`
 
 ---
 
@@ -243,7 +246,7 @@ All required keys are documented in [`env.template`](./env.template):
 ---
 
 ## 12. How to Test the Flow
-1. **Launch the App:** Run `npm start` and open `http://localhost:3001`. Use the top **Instant 3-Portal Switcher Bar** to jump between portals in 1 click.
+1. **Launch or Visit the App:** Open the live deployed site at [`https://shirts-pulling-earning-ellen.trycloudflare.com`](https://shirts-pulling-earning-ellen.trycloudflare.com) (or run locally via `npm start` at `http://localhost:3001`). Use the top **Instant 3-Portal Switcher Bar** to jump between portals in 1 click.
 2. **Autonomous Agent Mode & Zero-Click Liquidation:**
    - In Portal #1 (`🚛 Co-op Fleet Console`), make sure **Autonomous Agent Mode** (`#autonomousAgentToggle`) is checked.
    - Scrub the route timeline to `3.0h (26.4°C)`: The agent intercepts HTTP 402, queries `/api/x402/route-weather-oracle`, pays `1.00 XLM` on-chain, and streams `[PERCEIVE]` logs to the Live Terminal HUD.
