@@ -1,0 +1,234 @@
+{
+  "generatedAt": "2026-11-06T09:52:00.000Z",
+  "network": "Stellar Testnet",
+  "rpcUrl": "https://soroban-testnet.stellar.org",
+  "horizonUrl": "https://horizon-testnet.stellar.org",
+  "nativeXlmSacAddress": "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC",
+  "deviceSerial": "BGT-402-POD-ESP32S3",
+  "deviceHash": "d7603c3286417cd3d1857dbed397eb335f78b3e91f88733ccf9e46ede663ebda",
+  "dockDeviceSerial": "BULACAN-DOCK3-NFC-TERMINAL",
+  "dockDeviceHash": "8edde7503399cbd8da0aa0023c7184aee38e088ab5823ab7c8fe467a0b65a7e4",
+  "accounts": {
+    "ownerPublicKey": "GBZOFVJBXQADCCG2BOBC4DTBUSSSTA4OYJR3P4EZCZ75JHYHHQ6PLOLD",
+    "agentPublicKey": "GATDP2GAYZZB6PONNZDUKDQCN5YEZUU6VF6M3KSZ7KRDPKPGXVBQVYTU",
+    "driverMerchantPublicKey": "GCIOXLXP636L6FZUARPXNHFPTXU3WDTGX2UJFZUP2LOGTG32OSDMJHWL",
+    "coopMerchantPublicKey": "GA25IKKSJ3PDKR7B3T36ABE2L7O3IL6N4WUSDGQI3YAMV77MU7ZAQZPN"
+  },
+  "primaryContractSet": "SDK_DEFAULT_2026_10_07",
+  "contractSets": {
+    "SDK_DEFAULT_2026_10_07": {
+      "contractSetKey": "SDK_DEFAULT_2026_10_07",
+      "label": "SDK Default (2026-10-07)",
+      "contracts": {
+        "deviceRegistry": "CB4DPMGOA374JIB2ZVD4AHW5GJKQUYNOFGRYNOJ75EFH2KCJSMHOWIRA",
+        "agentRegistry": "CBTDMJVCFQDIVWZBKAKZ2FQ3UEJNAAUFYCTJ3E4ON2MYXPLPSIXQ25JZ",
+        "paymentEscrow": "CA5S4S7QGHJHJWVJBYL3CXZXZTNGKXMNZVDAEQNN7NUXFP4D7BYK7HIX"
+      },
+      "transactions": {
+        "registerDevice": {
+          "contract": "CB4DPMGOA374JIB2ZVD4AHW5GJKQUYNOFGRYNOJ75EFH2KCJSMHOWIRA",
+          "method": "register",
+          "txHash": "279fb4f3aa4adac7838c4bb056f74122f4795caecedff4915ae8f3f5721dfe28",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/279fb4f3aa4adac7838c4bb056f74122f4795caecedff4915ae8f3f5721dfe28"
+        },
+        "registerDockDevice": {
+          "contract": "CB4DPMGOA374JIB2ZVD4AHW5GJKQUYNOFGRYNOJ75EFH2KCJSMHOWIRA",
+          "method": "register",
+          "deviceSerial": "BULACAN-DOCK3-NFC-TERMINAL",
+          "deviceHash": "8edde7503399cbd8da0aa0023c7184aee38e088ab5823ab7c8fe467a0b65a7e4",
+          "txHash": "a61c8d77af87ebf7811ba2df8293b32bbc9528628df4ee52feffc5b26ba2ef11",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/a61c8d77af87ebf7811ba2df8293b32bbc9528628df4ee52feffc5b26ba2ef11"
+        },
+        "registerAgent": {
+          "contract": "CBTDMJVCFQDIVWZBKAKZ2FQ3UEJNAAUFYCTJ3E4ON2MYXPLPSIXQ25JZ",
+          "method": "register_agent",
+          "txHash": "776397ba58ee55054c749cd35b492de154b4886b12b2d79d0298541090de098e",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/776397ba58ee55054c749cd35b492de154b4886b12b2d79d0298541090de098e",
+          "maxAmountXlm": "100",
+          "expiresAt": "2026-11-09T08:07:53.144Z"
+        },
+        "fundEscrow": {
+          "contract": "CA5S4S7QGHJHJWVJBYL3CXZXZTNGKXMNZVDAEQNN7NUXFP4D7BYK7HIX",
+          "method": "fund_escrow",
+          "txHash": "3ca5f7ae30a12d167feb8218ab79e050799a405ab0d2a57a66aea6e3f6a7fd9b",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/3ca5f7ae30a12d167feb8218ab79e050799a405ab0d2a57a66aea6e3f6a7fd9b",
+          "fundedAmountXlm": "150"
+        },
+        "oracleQuery": {
+          "purpose": "x402 Traffic & Regional Weather Oracle Query (Hour 3.0)",
+          "amountXlm": "1.00",
+          "amountPhpEquivalent": 10000,
+          "nonce": "1793952498825",
+          "authorizeTxHash": "facbf05af10e964b99163996f39a51f5d95b8934b7780dadc27f260961713a29",
+          "authorizeExplorerUrl": "https://stellar.expert/explorer/testnet/tx/facbf05af10e964b99163996f39a51f5d95b8934b7780dadc27f260961713a29",
+          "claimTxHash": "6e68099666f687f3d1ea85f4cdde1183c40f849b27ed0c60d6f7c206229c26bd",
+          "claimExplorerUrl": "https://stellar.expert/explorer/testnet/tx/6e68099666f687f3d1ea85f4cdde1183c40f849b27ed0c60d6f7c206229c26bd"
+        },
+        "driverAdvance": {
+          "purpose": "Mang Ramon NLEX Toll & Diesel Diversion Advance (Hour 4.5)",
+          "amountXlm": "6.50",
+          "amountPhpEquivalent": 6500,
+          "nonce": "1793952498826",
+          "authorizeTxHash": "42bb2e18f8952f39f569af182aedba3911fee27f6a8ff628d1fa9ab653d30ecd",
+          "authorizeExplorerUrl": "https://stellar.expert/explorer/testnet/tx/42bb2e18f8952f39f569af182aedba3911fee27f6a8ff628d1fa9ab653d30ecd",
+          "claimTxHash": "26d1feec7625b1b8a5de61edf42d0a9bf00258a33640d7719f223733a94b020a",
+          "claimExplorerUrl": "https://stellar.expert/explorer/testnet/tx/26d1feec7625b1b8a5de61edf42d0a9bf00258a33640d7719f223733a94b020a"
+        },
+        "fundOriginalBuyerEscrow": {
+          "contract": "CA5S4S7QGHJHJWVJBYL3CXZXZTNGKXMNZVDAEQNN7NUXFP4D7BYK7HIX",
+          "method": "fund_escrow",
+          "purpose": "Original Balintawak Manila Wholesale Buyer Escrow Invoice (8t Cabbage)",
+          "amountXlm": "36.00",
+          "amountPhpEquivalent": 360000,
+          "txHash": "e007ff674ee7840ad0d4552d18deb0b796348d7ee837bbbfd85bf26981ef5cba",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/e007ff674ee7840ad0d4552d18deb0b796348d7ee837bbbfd85bf26981ef5cba"
+        },
+        "defundEscrow": {
+          "contract": "CA5S4S7QGHJHJWVJBYL3CXZXZTNGKXMNZVDAEQNN7NUXFP4D7BYK7HIX",
+          "method": "defund_escrow",
+          "purpose": "Unwinding & Refunding Original Manila Wholesale Buyer Escrow on Diversion",
+          "amountXlm": "36.00",
+          "amountPhpEquivalent": 360000,
+          "txHash": "df5cc030658505941fcf47ac2cefb7c0271af889416d3eb86aacc07546d699d5",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/df5cc030658505941fcf47ac2cefb7c0271af889416d3eb86aacc07546d699d5"
+        },
+        "unwindOriginalBuyerEscrow": {
+          "contract": "CA5S4S7QGHJHJWVJBYL3CXZXZTNGKXMNZVDAEQNN7NUXFP4D7BYK7HIX",
+          "method": "defund_escrow",
+          "purpose": "Unwinding & Refunding Original Manila Wholesale Buyer Escrow on Diversion",
+          "amountXlm": "36.00",
+          "amountPhpEquivalent": 360000,
+          "txHash": "df5cc030658505941fcf47ac2cefb7c0271af889416d3eb86aacc07546d699d5",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/df5cc030658505941fcf47ac2cefb7c0271af889416d3eb86aacc07546d699d5"
+        },
+        "clearingFee": {
+          "purpose": "AWITEN Clearinghouse Protocol Fee (4.5% of Gross Floor Settlement)",
+          "amountXlm": "1.15",
+          "amountPhpEquivalent": 11520,
+          "authorizeTxHash": "c080ab4bbcedd682a030de33ab8f396e6add054d1938d28b1486b7f33a3c08a2",
+          "authorizeExplorerUrl": "https://stellar.expert/explorer/testnet/tx/c080ab4bbcedd682a030de33ab8f396e6add054d1938d28b1486b7f33a3c08a2",
+          "claimTxHash": "327f18be382db96a3486bd9ba76e5215518e8ae559ab848be334be7de49cae90",
+          "claimExplorerUrl": "https://stellar.expert/explorer/testnet/tx/327f18be382db96a3486bd9ba76e5215518e8ae559ab848be334be7de49cae90"
+        },
+        "coopSettlement": {
+          "purpose": "Benguet Highland Co-op Net Rescue Payout on NFC Dock Tap (Hour 5.2)",
+          "amountXlm": "23.80",
+          "amountPhpEquivalent": 237980,
+          "nonce": "1793952498827",
+          "authorizeTxHash": "3abdef9b2d30d560221e4a6075209d7e4689455779800dc028a9ca43fcb6f03b",
+          "authorizeExplorerUrl": "https://stellar.expert/explorer/testnet/tx/3abdef9b2d30d560221e4a6075209d7e4689455779800dc028a9ca43fcb6f03b",
+          "claimTxHash": "6e72a527d8348d1d10e749c0ee33708e3479f81de244a0fb17820ecc8cd33def",
+          "claimExplorerUrl": "https://stellar.expert/explorer/testnet/tx/6e72a527d8348d1d10e749c0ee33708e3479f81de244a0fb17820ecc8cd33def"
+        }
+      },
+      "finalEscrowBalanceXlm": "118.7"
+    },
+    "HANDBOOK_2026_10_24": {
+      "contractSetKey": "HANDBOOK_2026_10_24",
+      "label": "Builder Handbook (2026-10-24)",
+      "contracts": {
+        "deviceRegistry": "CAC4KOLHDLDYDWBOKXNKRN5KVHO56PLOIFXDLTBUWGVN6GVDEB7FQHU5",
+        "agentRegistry": "CCMZDSPTLX7IIJWCYEUM5DJUHOSOYSTHGK777S2TXZWEMC5ZZGPJ3EBV",
+        "paymentEscrow": "CC7EAW5FNJEDBS7THM5IT6XIOHO4AOYMLXT3KSZ3HWUIKEACTW7E5BFS"
+      },
+      "transactions": {
+        "registerDevice": {
+          "contract": "CAC4KOLHDLDYDWBOKXNKRN5KVHO56PLOIFXDLTBUWGVN6GVDEB7FQHU5",
+          "method": "register",
+          "txHash": "fd8306cc4c903a81e4845a9654c6ee445a362356ae1edc234361b6a69bafcf70",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/fd8306cc4c903a81e4845a9654c6ee445a362356ae1edc234361b6a69bafcf70"
+        },
+        "registerDockDevice": {
+          "contract": "CAC4KOLHDLDYDWBOKXNKRN5KVHO56PLOIFXDLTBUWGVN6GVDEB7FQHU5",
+          "method": "register",
+          "deviceSerial": "BULACAN-DOCK3-NFC-TERMINAL",
+          "deviceHash": "8edde7503399cbd8da0aa0023c7184aee38e088ab5823ab7c8fe467a0b65a7e4",
+          "txHash": "982882909fdc7c4b0097ba2553c759fc76215fa493307b82cd6d9335a34ba7e0",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/982882909fdc7c4b0097ba2553c759fc76215fa493307b82cd6d9335a34ba7e0"
+        },
+        "registerAgent": {
+          "contract": "CCMZDSPTLX7IIJWCYEUM5DJUHOSOYSTHGK777S2TXZWEMC5ZZGPJ3EBV",
+          "method": "register_agent",
+          "txHash": "cd7a792ce99b2171ccdab5e1a1a50aa7431a49d9bb65a84a6f41ed244cd2f638",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/cd7a792ce99b2171ccdab5e1a1a50aa7431a49d9bb65a84a6f41ed244cd2f638",
+          "maxAmountXlm": "100",
+          "expiresAt": "2026-11-09T08:05:02.283Z"
+        },
+        "fundEscrow": {
+          "contract": "CC7EAW5FNJEDBS7THM5IT6XIOHO4AOYMLXT3KSZ3HWUIKEACTW7E5BFS",
+          "method": "fund_escrow",
+          "txHash": "68ecc484d8061d44b9a82ab923e7f313d5d74587dfbcd36071a53cabfe3c63b0",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/68ecc484d8061d44b9a82ab923e7f313d5d74587dfbcd36071a53cabfe3c63b0",
+          "fundedAmountXlm": "150"
+        },
+        "oracleQuery": {
+          "purpose": "x402 Traffic & Regional Weather Oracle Query (Hour 3.0)",
+          "amountXlm": "1.00",
+          "amountPhpEquivalent": 10000,
+          "nonce": "1793952336198",
+          "authorizeTxHash": "0aeae11c139d57eaa91473983df4f841e33be7af9888ff96e410d76f2a64e983",
+          "authorizeExplorerUrl": "https://stellar.expert/explorer/testnet/tx/0aeae11c139d57eaa91473983df4f841e33be7af9888ff96e410d76f2a64e983",
+          "claimTxHash": "53e8d991ecdda32528110de8d365b1d2eeeefbcdc80c10991949259995be456a",
+          "claimExplorerUrl": "https://stellar.expert/explorer/testnet/tx/53e8d991ecdda32528110de8d365b1d2eeeefbcdc80c10991949259995be456a"
+        },
+        "driverAdvance": {
+          "purpose": "Mang Ramon NLEX Toll & Diesel Diversion Advance (Hour 4.5)",
+          "amountXlm": "6.50",
+          "amountPhpEquivalent": 6500,
+          "nonce": "1793952336199",
+          "authorizeTxHash": "a17d6f4d2273f949b8a716f122bd4b0a302f297f12e5f827fcfbe36075481dc0",
+          "authorizeExplorerUrl": "https://stellar.expert/explorer/testnet/tx/a17d6f4d2273f949b8a716f122bd4b0a302f297f12e5f827fcfbe36075481dc0",
+          "claimTxHash": "d8101c684360a1b11b87cfadd32c5992eb5923de836a581463fa8046401c0ee8",
+          "claimExplorerUrl": "https://stellar.expert/explorer/testnet/tx/d8101c684360a1b11b87cfadd32c5992eb5923de836a581463fa8046401c0ee8"
+        },
+        "fundOriginalBuyerEscrow": {
+          "contract": "CC7EAW5FNJEDBS7THM5IT6XIOHO4AOYMLXT3KSZ3HWUIKEACTW7E5BFS",
+          "method": "fund_escrow",
+          "purpose": "Original Balintawak Manila Wholesale Buyer Escrow Invoice (8t Cabbage)",
+          "amountXlm": "36.00",
+          "amountPhpEquivalent": 360000,
+          "txHash": "8f023efe609f857706fa720fd6694a383e1b2b6c3568c8107ddf8e4207cea473",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/8f023efe609f857706fa720fd6694a383e1b2b6c3568c8107ddf8e4207cea473"
+        },
+        "defundEscrow": {
+          "contract": "CC7EAW5FNJEDBS7THM5IT6XIOHO4AOYMLXT3KSZ3HWUIKEACTW7E5BFS",
+          "method": "defund_escrow",
+          "purpose": "Unwinding & Refunding Original Manila Wholesale Buyer Escrow on Diversion",
+          "amountXlm": "36.00",
+          "amountPhpEquivalent": 360000,
+          "txHash": "6f480cf2cdecdba9c2339cf32b3ec76ec60a94ff059fd950ece7c063fa47a8bc",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/6f480cf2cdecdba9c2339cf32b3ec76ec60a94ff059fd950ece7c063fa47a8bc"
+        },
+        "unwindOriginalBuyerEscrow": {
+          "contract": "CC7EAW5FNJEDBS7THM5IT6XIOHO4AOYMLXT3KSZ3HWUIKEACTW7E5BFS",
+          "method": "defund_escrow",
+          "purpose": "Unwinding & Refunding Original Manila Wholesale Buyer Escrow on Diversion",
+          "amountXlm": "36.00",
+          "amountPhpEquivalent": 360000,
+          "txHash": "6f480cf2cdecdba9c2339cf32b3ec76ec60a94ff059fd950ece7c063fa47a8bc",
+          "explorerUrl": "https://stellar.expert/explorer/testnet/tx/6f480cf2cdecdba9c2339cf32b3ec76ec60a94ff059fd950ece7c063fa47a8bc"
+        },
+        "clearingFee": {
+          "purpose": "AWITEN Clearinghouse Protocol Fee (4.5% of Gross Floor Settlement)",
+          "amountXlm": "1.15",
+          "amountPhpEquivalent": 11520,
+          "authorizeTxHash": "e86df99b8983887c40ffede6d2e9467479e40b65cdcbd1e51f6113db2c683597",
+          "authorizeExplorerUrl": "https://stellar.expert/explorer/testnet/tx/e86df99b8983887c40ffede6d2e9467479e40b65cdcbd1e51f6113db2c683597",
+          "claimTxHash": "c996a784c78f0ca6d6ef81491e12ae8981893c645cc9fb6951ab694e30d39b33",
+          "claimExplorerUrl": "https://stellar.expert/explorer/testnet/tx/c996a784c78f0ca6d6ef81491e12ae8981893c645cc9fb6951ab694e30d39b33"
+        },
+        "coopSettlement": {
+          "purpose": "Benguet Highland Co-op Net Rescue Payout on NFC Dock Tap (Hour 5.2)",
+          "amountXlm": "23.80",
+          "amountPhpEquivalent": 237980,
+          "nonce": "1793952336200",
+          "authorizeTxHash": "4353b9a7ebe6f84529980e1f98ccbb1db06ada587b2b4f030bd34f6fa400f6f1",
+          "authorizeExplorerUrl": "https://stellar.expert/explorer/testnet/tx/4353b9a7ebe6f84529980e1f98ccbb1db06ada587b2b4f030bd34f6fa400f6f1",
+          "claimTxHash": "f03dfcdc135f14a5039c4e6d25b583839a6b4a248484a253041ad1356212e29e",
+          "claimExplorerUrl": "https://stellar.expert/explorer/testnet/tx/f03dfcdc135f14a5039c4e6d25b583839a6b4a248484a253041ad1356212e29e"
+        }
+      },
+      "finalEscrowBalanceXlm": "118.7"
+    }
+  }
+}

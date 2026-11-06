@@ -1,0 +1,28 @@
+{
+  "name": "awiten-pay",
+  "version": "1.0.0",
+  "description": "AWITEN-Pay — Autonomous Post-Harvest Spoilage Clearinghouse & Agentic Payment Protocol on Stellar (Noir x Velo Hackathon)",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "node apps/server/src/index.js",
+    "dev": "node --watch apps/server/src/index.js",
+    "setup:testnet": "node packages/agent/scripts/setup-testnet.js",
+    "test": "node packages/agent/scripts/verify-all.js"
+  },
+  "dependencies": {
+    "@carts1024/velo-sdk": "^1.0.0",
+    "@noirx402/agent-sdk": "^0.2.0",
+    "@stellar/stellar-sdk": "^16.0.1",
+    "express": "^4.21.0"
+  },
+  "author": "Team WalangKenen (John Dominic Ragudo, CpE & IT Co-Founders)",
+  "license": "MIT"
+}
