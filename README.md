@@ -18,6 +18,7 @@
 - **Live Deployed Web Application (Required Working Site):** [`https://shirts-pulling-earning-ellen.trycloudflare.com`](https://shirts-pulling-earning-ellen.trycloudflare.com)
 - **Direct Portal #3 Link (Mang Ramon Viajero Driver & Dock NFC Handoff Mobile App):** [`https://shirts-pulling-earning-ellen.trycloudflare.com/?role=driver`](https://shirts-pulling-earning-ellen.trycloudflare.com/?role=driver)
 - **Live Velo Webhook Endpoint:** `https://shirts-pulling-earning-ellen.trycloudflare.com/api/webhooks/velo`
+- **Live Webhook Tester (HTTP 200 / ?status=500 Failure Demo):** [`https://shirts-pulling-earning-ellen.trycloudflare.com/api/webhook-tester`](https://shirts-pulling-earning-ellen.trycloudflare.com/api/webhook-tester)
 - **Live Velo Checkout Session (Bulacan Rescue Off-Taker):** [`https://www.velo-build.dev/pay/jx7f3gnymxfm9vvyhv69ny2bzx8hqbwv`](https://www.velo-build.dev/pay/jx7f3gnymxfm9vvyhv69ny2bzx8hqbwv)
 - **Velo Build Project Registry (`VeloPayAccess` Active):** `https://www.velo-build.dev` (`AWITEN-Pay`)
 - **Verified Stellar Testnet Proof Manifest:** [`packages/shared/src/testnet-proofs.json`](./packages/shared/src/testnet-proofs.json)
@@ -97,7 +98,7 @@ When **Autonomous Agent Mode** is active (`#autonomousAgentToggle`), the agent a
    - Settles **`23.80 XLM` (`₱237,980` net)** from `payment_escrow` to the Benguet Highland Co-op.
 
 ### Persistent Agent HUD Live Terminal
-A slide-up bottom drawer HUD (`🤖 AWITEN Clearinghouse Agent — Live Terminal`) streams every agentic decision cycle through five operational tags:
+A slide-up bottom drawer HUD (`AWITEN Clearinghouse Agent — Live Terminal`) streams every agentic decision cycle through five operational tags:
 - `[PERCEIVE]`: Ingestion of sensor frames (canopy temp, humidity, VPD, respiration rate, and HTTP 402 challenge intercepts).
 - `[REASON]`: Arrhenius kinetic shelf-life decay, time-to-spoilage vs. ETA, and economic $\Delta\text{EV}$ solver output.
 - `[SIGN & DISBURSE]`: Cryptographic signing and Soroban escrow disbursement of driver diversion advance funds.
@@ -208,7 +209,7 @@ The primary default contract set is **`SDK_DEFAULT_2026_10_07`**. Both the prima
 ## 8. Velo Integration Details (`@carts1024/velo-sdk`)
 We integrate `@carts1024/velo-sdk@1.0.0` in [`apps/server/src/index.js`](./apps/server/src/index.js) for merchant off-take checkout creation and cryptographic webhook verification:
 1. **Hosted Off-Take Checkout (`velo.checkout.sessions.create`):**
-   - When the autonomous agent triggers a Bulacan diversion (`POST /api/agent/execute-diversion`) or when an accredited regional processor clicks **`💳 Pay & Lock Lot via Velo Checkout`** in Portal #2 (`POST /api/velo/create-checkout`), the server calls `new Velo({ apiKey }).checkout.sessions.create({ amount: '25.60', asset: 'native', anchor: 'inhouse', description: '...', successUrl, cancelUrl }, { idempotencyKey, correlationId })`.
+   - When the autonomous agent triggers a Bulacan diversion (`POST /api/agent/execute-diversion`) or when an accredited regional processor clicks **`Lock Floor via Velo Checkout`** in Portal #2 (`POST /api/velo/create-checkout`), the server calls `new Velo({ apiKey }).checkout.sessions.create({ amount: '25.60', asset: 'native', anchor: 'inhouse', description: '...', successUrl, cancelUrl }, { idempotencyKey, correlationId })`.
 2. **Raw-Body HMAC-SHA256 Webhook Verification (`Velo.webhooks.verify`):**
    - `POST /api/webhooks/velo` is mounted with `express.raw({ type: 'application/json' })` **before** `express.json()` so the exact byte stream is preserved.
    - Verifies `req.headers['x-velo-signature']` (`t=<timestamp>,v1=<hmac_sha256>`) via `Velo.webhooks.verify({ payload: rawBody, signature, secret: process.env.VELO_WEBHOOK_SECRET })`.
@@ -274,18 +275,18 @@ All required keys are documented in [`env.template`](./env.template):
 ---
 
 ## 12. How to Test the Flow
-1. **Launch or Visit the App:** Open the live deployed site at [`https://shirts-pulling-earning-ellen.trycloudflare.com`](https://shirts-pulling-earning-ellen.trycloudflare.com) (or run locally via `npm start` at `http://localhost:3001`). Use the top **Instant 3-Portal Switcher Bar** to jump between portals in 1 click.
+1. **Launch or Visit the App & Connect Wallet:** Open the live deployed site at [`https://shirts-pulling-earning-ellen.trycloudflare.com`](https://shirts-pulling-earning-ellen.trycloudflare.com) (or run locally via `npm start` at `http://localhost:3001`). Connect your Stellar Testnet wallet using the `<velo-wallet>` widget (`Connect Wallet` / `Velo Wallet` button) in the upper-right corner before executing on-chain actions. Use the top **Instant 3-Portal Switcher Bar** to jump between portals in 1 click.
 2. **Autonomous Agent Mode & Zero-Click Liquidation:**
-   - In Portal #1 (`🚛 Co-op Fleet Console`), make sure **Autonomous Agent Mode** (`#autonomousAgentToggle`) is checked.
+   - In Portal #1 (`1. Dispatcher (Co-op Fleet Console)`), make sure **Autonomous Agent Mode** (`#autonomousAgentToggle`) is checked.
    - Scrub the route timeline to `3.0h (26.4°C)`: The agent intercepts HTTP 402, queries `/api/x402/route-weather-oracle`, pays `1.00 XLM` on-chain, and streams `[PERCEIVE]` logs to the Live Terminal HUD.
-   - Scrub to `4.5h Divert Window ⭐ (34.2°C)`: The agent perceives biophysical distress, reasons $\Delta\text{EV} = +\text{₱117,980}$, disburses `6.50 XLM` driver fuel advance, unwinds `36.00 XLM` original buyer escrow, and creates a `25.60 XLM` Velo checkout session—all without popup confirmation modals.
-   - Click the bottom drawer header **`🤖 AWITEN Clearinghouse Agent — Live Terminal`** to inspect the live streaming log stream across all 5 operational stages.
-3. **Portal #2 (`🏭 Processor & Broker Terminal`):**
-   - Click **`💳 Pay & Lock Lot via Velo Checkout`** to create a `25.60 XLM` (`₱256,000` floor) Velo Checkout Session via `@carts1024/velo-sdk`.
-   - Click **`⚡ Simulate Verified Velo Webhook`** to sign a real `payment.succeeded` event with `x-velo-signature` and verify it through `Velo.webhooks.verify()`.
-4. **Portal #3 (`📱 Driver Mobile App — Mang Ramon`):**
-   - Verify that Mang Ramon's **Noir Driver Trip Wallet** shows **`+6.50 XLM` (`₱6,500 PHP Eq.` Toll & Diesel)** with a clickable Stellar Expert transaction hash and that the **Velo Buyer Escrow** badge reads **`🟢 Buyer Escrow Locked via Velo`**.
-   - Tap the pulsing **`📲 Tap Dehydrator Dock NFC Terminal (BGT-402-POD)`** button. The server verifies **Dual Hardware Attestation** (`BGT-402-POD-ESP32S3` truck pod + `BULACAN-DOCK3-NFC-TERMINAL` dock terminal), releases **`23.80 XLM` (`₱237,980` net)** from `payment_escrow` to the Benguet Co-op, deducts `1.15 XLM` clearing fee, and completes on-chain settlement.
+   - Scrub to `4.5h Divert Window (34.2°C)`: The agent perceives biophysical distress, reasons $\Delta\text{EV} = +\text{₱117,980}$, disburses `6.50 XLM` driver fuel advance, unwinds `36.00 XLM` original buyer escrow, and creates a `25.60 XLM` Velo checkout session—all without popup confirmation modals.
+   - Click the bottom drawer header **`AWITEN Clearinghouse Agent — Live Terminal`** to inspect the live streaming log stream across all 5 operational stages.
+3. **Portal #2 (`2. Buyer Bid (Bulacan Processor Terminal)`):**
+   - Click **`Lock Floor via Velo Checkout`** to create a `25.60 XLM` (`₱256,000` floor) Velo Checkout Session via `@carts1024/velo-sdk`.
+   - Click **`Simulate Verified Webhook`** to sign a real `payment.succeeded` event with `x-velo-signature` and verify it through `Velo.webhooks.verify()`.
+4. **Portal #3 (`3. Driver App (Viajero Mobile Companion)`):**
+   - Verify that Mang Ramon's **Noir Driver Trip Wallet** shows **`+6.50 XLM` (`₱6,500 PHP Eq.` Toll & Diesel)** with a clickable Stellar Expert transaction hash and that the **Velo Buyer Escrow** badge reads **`LOCKED_PAID (Buyer Escrow Locked via Velo)`**.
+   - Tap the pulsing **`Tap Bulacan Dock NFC Terminal (BGT-402-POD)`** button. The server verifies **Dual Hardware Attestation** (`BGT-402-POD-ESP32S3` truck pod + `BULACAN-DOCK3-NFC-TERMINAL` dock terminal), releases **`23.80 XLM` (`₱237,980` net)** from `payment_escrow` to the Benguet Co-op, deducts `1.15 XLM` clearing fee, and completes on-chain settlement.
 
 ---
 

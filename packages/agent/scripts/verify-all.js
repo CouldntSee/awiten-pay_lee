@@ -466,19 +466,35 @@ async function runVerification() {
     'apps/web/js/modal.js must enforce requireVeloWalletConnection'
   );
 
-  // Assert 100% Zero-Emoji rule across all frontend and server scripts
+  // Assert 100% Zero-Emoji rule across all frontend, server scripts, setup scripts, and README.md
   const checkedFiles = [
     { name: 'apps/web/index.html', content: htmlContent },
     { name: 'apps/web/css/style.css', content: styleCssContent },
     { name: 'apps/web/js/app.js', content: appJsContent },
     { name: 'apps/web/js/modal.js', content: modalJsContent },
     { name: 'apps/server/src/index.js', content: fs.readFileSync(path.join(MONOREPO_ROOT, 'apps/server/src/index.js'), 'utf8') },
+    { name: 'packages/agent/scripts/setup-testnet.js', content: fs.readFileSync(path.join(MONOREPO_ROOT, 'packages/agent/scripts/setup-testnet.js'), 'utf8') },
+    { name: 'README.md', content: fs.readFileSync(path.join(MONOREPO_ROOT, 'README.md'), 'utf8') },
   ];
   for (const file of checkedFiles) {
     const emojiMatches = file.content.match(/\p{Extended_Pictographic}/ug);
     assert.ok(
       !emojiMatches || emojiMatches.length === 0,
       `${file.name} must contain 0 emojis! Found: ${(emojiMatches || []).join(' ')}`
+    );
+  }
+
+  // Assert removal of non-project pitch deck files
+  const nonProjectFiles = [
+    'PITCH_DECK_10_SLIDES.md',
+    'generate_deck.py',
+    'apps/web/AWITEN-Pay-Pitch-Deck.pdf',
+    'apps/web/pitch-deck.html',
+  ];
+  for (const relFile of nonProjectFiles) {
+    assert.ok(
+      !fs.existsSync(path.join(MONOREPO_ROOT, relFile)),
+      `Non-project file ${relFile} must not exist in monorepo`
     );
   }
 

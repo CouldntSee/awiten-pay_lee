@@ -318,7 +318,7 @@ async function provisionContractSet({
 }
 
 async function main() {
-  console.log('🚀 AWITEN-Pay — Live Stellar Testnet Provisioner (Noir x Velo)');
+  console.log('[SETUP] AWITEN-Pay — Live Stellar Testnet Provisioner (Noir x Velo)');
 
   const aiBrainPrivateEnv = path.resolve(
     __dirname,
@@ -471,7 +471,7 @@ async function main() {
     'utf8'
   );
 
-  console.log(`\n✅ Wrote verified Stellar Testnet proofs to: ${existingProofsPath}`);
+  console.log(`\n[DONE] Wrote verified Stellar Testnet proofs to: ${existingProofsPath}`);
 }
 
 const isMain =
@@ -480,7 +480,7 @@ const isMain =
 
 if (isMain) {
   main().catch((err) => {
-    console.error('❌ setup-testnet failed:', err);
+    console.error('[ERROR] setup-testnet failed:', err);
     process.exit(1);
   });
 }
