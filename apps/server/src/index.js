@@ -565,6 +565,85 @@ export function createApp() {
   // Standard JSON middleware for all other routes
   app.use(express.json());
 
+  // Proxy for Velo wallet config to bypass CORS 403 ORIGIN_NOT_ALLOWED on tunnels or non-whitelisted origins
+  app.get('/api/v1/wallet-config/:projectKey', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Accept');
+
+    const projectKey = req.params.projectKey;
+    const fallbackConfig = {
+      appearance: {
+        button: { radius: 'rounded', size: 'lg', variant: 'solid' },
+        buttonLabel: 'Connect wallet',
+        fontFamily: 'system',
+        modal: { radius: 'md', shadow: 'md' },
+        palettes: {
+          dark: {
+            accent: '#FAFAFA',
+            accentText: '#18181B',
+            background: '#09090B',
+            border: '#A1A1AA',
+            danger: '#F87171',
+            focusRing: '#60A5FA',
+            mutedText: '#D4D4D8',
+            surface: '#18181B',
+            surfaceMuted: '#27272A',
+            text: '#FAFAFA',
+          },
+          light: {
+            accent: '#18181B',
+            accentText: '#FFFFFF',
+            background: '#FFFFFF',
+            border: '#71717A',
+            danger: '#B91C1C',
+            focusRing: '#2563EB',
+            mutedText: '#52525B',
+            surface: '#F4F4F5',
+            surfaceMuted: '#E4E4E7',
+            text: '#18181B',
+          },
+        },
+        theme: 'light',
+      },
+      modal: { hideUnsupportedWallets: false, showInstallLabel: true },
+      network: 'testnet',
+      projectKey: projectKey || 'vw_pk_TH73LPXfh_8OdvQPiYiMyL179KBbnGi_',
+      projectLogoUrl:
+        'https://trustworthy-peacock-272.ap-southeast-2.convex.cloud/api/storage/a7254c90-179e-408b-9b43-235c86950448',
+      revision: 1,
+      runtimeMajor: 1,
+      schemaVersion: 1,
+      selectorLogo: 'project',
+      session: { persist: true },
+      walletIds: ['freighter', 'noir'],
+    };
+
+    try {
+      const upstreamUrl = `https://www.velo-build.dev/api/v1/wallet-config/${encodeURIComponent(projectKey)}`;
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 3000);
+
+      const upstreamResp = await fetch(upstreamUrl, {
+        headers: {
+          Origin: 'http://localhost:3000',
+          Accept: 'application/json',
+          'User-Agent': 'AWITEN-Pay-Proxy/1.0',
+        },
+        signal: controller.signal,
+      }).finally(() => clearTimeout(timeout));
+
+      if (upstreamResp.ok) {
+        const data = await upstreamResp.json();
+        return res.status(200).json(data);
+      }
+    } catch {
+      // upstream failed or timed out; fall through to verified fallback config
+    }
+
+    return res.status(200).json(fallbackConfig);
+  });
+
   // ==========================================================================
   // 2. REAL HTTP 402 PAYMENT REQUIRED (x402) ORACLE ENDPOINT
   // ==========================================================================

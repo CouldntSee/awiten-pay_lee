@@ -40,6 +40,10 @@
     padding: 0;
 }
 
+html, body {
+    overflow-x: hidden;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -149,7 +153,7 @@ code {
 }
 
 .brand-logo-img {
-    height: 44px;
+    height: 40px;
     width: auto;
     object-fit: contain;
     display: block;
@@ -320,7 +324,7 @@ code {
 .public-nav-links {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 28px;
 }
 
 .public-nav-links a {
@@ -339,6 +343,26 @@ code {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+velo-wallet {
+    display: inline-flex;
+    align-items: center;
+}
+
+velo-wallet::part(status) {
+    display: none !important;
+}
+
+velo-wallet::part(trigger) {
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 8px;
+    white-space: nowrap;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s ease;
 }
 
 /* HERO SECTION */
@@ -1659,4 +1683,109 @@ th {
     border-radius: 14px;
     padding: 24px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* ============================================================================
+   RESPONSIVE FORM & GRID HELPERS AND BREAKPOINTS
+   ============================================================================ */
+.form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.architecture-split-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 960px) {
+    .public-navbar {
+        padding: 12px 20px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .public-nav-links {
+        display: none;
+    }
+    .nav-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .console-header {
+        padding: 12px 18px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .grid-3,
+    .grid-2,
+    .split-2,
+    .partner-layout,
+    .kpi-grid-4,
+    .about-split-grid,
+    .architecture-split-grid,
+    .dispatcher-workspace-2col {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .public-navbar {
+        padding: 10px 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .nav-actions {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    .console-header {
+        padding: 10px 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .console-tabs {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        flex-wrap: nowrap;
+    }
+    .hero-video-wrap {
+        min-height: auto;
+        padding: 36px 0;
+    }
+    .hero-video-title {
+        font-size: 26px;
+        letter-spacing: -0.5px;
+    }
+    .hero-video-sub {
+        font-size: 14px;
+    }
+    .hero-video-actions {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 16px;
+    }
+    .hero-video-actions .btn {
+        width: 100%;
+    }
+    .role-picker-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .form-row-2col {
+        grid-template-columns: 1fr !important;
+    }
+    .hero-kpis {
+        grid-template-columns: 1fr;
+    }
+    .mobile-phone-frame {
+        width: 100%;
+        border-width: 3px;
+        border-radius: 18px;
+        box-shadow: none;
+    }
 }

@@ -203,7 +203,17 @@ async function runVerification() {
     assert.equal(healthJson.hasTestnetProofs, true);
     assert.equal(healthJson.primaryContractSet, 'SDK_DEFAULT_2026_10_07');
 
-    // 4b. Real HTTP 402 Payment Required Oracle challenge-response
+    // 4b. Verify Velo wallet-config proxy endpoint
+    const walletConfigRes = await fetch(
+      `${baseUrl}/api/v1/wallet-config/vw_pk_TH73LPXfh_8OdvQPiYiMyL179KBbnGi_`
+    );
+    assert.equal(walletConfigRes.status, 200, 'wallet-config proxy must return HTTP 200');
+    const walletConfigJson = await walletConfigRes.json();
+    assert.equal(walletConfigJson.projectKey, 'vw_pk_TH73LPXfh_8OdvQPiYiMyL179KBbnGi_');
+    assert.ok(Array.isArray(walletConfigJson.walletIds));
+    assert.ok(walletConfigJson.walletIds.includes('noir'));
+
+    // 4c. Real HTTP 402 Payment Required Oracle challenge-response
     const unauthOracleRes = await fetch(`${baseUrl}/api/x402/route-weather-oracle`);
     assert.equal(unauthOracleRes.status, 402, 'Unauthenticated request must return HTTP 402');
     assert.equal(unauthOracleRes.headers.get('x-402-price'), '1.00 XLM');
@@ -352,6 +362,10 @@ async function runVerification() {
     '<velo-wallet',
     'id="stellar-wallet"',
     'https://stellar.expert/explorer/testnet/tx/',
+    'id="architecture-distinction"',
+    '/api/v1/wallet-config/',
+    'isNoir: true',
+    'assets/awiten-logo.png',
   ];
 
   for (const marker of requiredHtmlMarkers) {
@@ -366,12 +380,48 @@ async function runVerification() {
     'apps/web/index.html must not contain obsolete headline STOP LOSING HARVESTS TO HIGHWAY HEAT'
   );
 
-  // Assert 100% Zero-Emoji rule in apps/web/index.html
-  const emojiMatches = htmlContent.match(/\p{Extended_Pictographic}/ug);
-  assert.ok(
-    !emojiMatches || emojiMatches.length === 0,
-    `apps/web/index.html must contain 0 emojis! Found: ${(emojiMatches || []).join(' ')}`
+  const navbarSlice = htmlContent.slice(
+    htmlContent.indexOf('<header class="public-navbar">'),
+    htmlContent.indexOf('</header>')
   );
+  assert.ok(
+    !navbarSlice.includes('01 · Fleet Console'),
+    'header.public-navbar must not contain duplicate 01 · Fleet Console button'
+  );
+  assert.ok(
+    navbarSlice.includes('Open Console'),
+    'header.public-navbar must contain Open Console button'
+  );
+
+  // Assert style.css rules for velo-wallet and responsiveness
+  const styleCssPath = path.join(MONOREPO_ROOT, 'apps/web/css/style.css');
+  const styleCssContent = fs.readFileSync(styleCssPath, 'utf8');
+  assert.ok(
+    styleCssContent.includes('velo-wallet::part(status)'),
+    'apps/web/css/style.css must hide velo-wallet status line'
+  );
+  assert.ok(
+    styleCssContent.includes('velo-wallet::part(trigger)'),
+    'apps/web/css/style.css must style velo-wallet trigger button'
+  );
+  assert.ok(
+    styleCssContent.includes('overflow-x: hidden'),
+    'apps/web/css/style.css must set overflow-x: hidden'
+  );
+
+  // Assert 100% Zero-Emoji rule in apps/web/index.html, style.css, and server index.js
+  const checkedFiles = [
+    { name: 'apps/web/index.html', content: htmlContent },
+    { name: 'apps/web/css/style.css', content: styleCssContent },
+    { name: 'apps/server/src/index.js', content: fs.readFileSync(path.join(MONOREPO_ROOT, 'apps/server/src/index.js'), 'utf8') },
+  ];
+  for (const file of checkedFiles) {
+    const emojiMatches = file.content.match(/\p{Extended_Pictographic}/ug);
+    assert.ok(
+      !emojiMatches || emojiMatches.length === 0,
+      `${file.name} must contain 0 emojis! Found: ${(emojiMatches || []).join(' ')}`
+    );
+  }
 
   console.log(
     `[PASS 5/6] 3-Portal Web UI verified: dispatcherView, brokerView, driverView, persistent agent HUD drawer, Zero-Click autonomy controls, and 0 emojis`

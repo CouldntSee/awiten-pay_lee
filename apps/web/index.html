@@ -9,6 +9,32 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+    <script>
+        // Intercept Velo wallet config fetch to avoid CORS 403 ORIGIN_NOT_ALLOWED on tunnels or non-whitelisted origins
+        const _originalFetch = window.fetch;
+        window.fetch = function (resource, options) {
+            let url = typeof resource === 'string' ? resource : (resource && resource.url) || '';
+            if (url.includes('/api/v1/wallet-config/')) {
+                const projectKey = url.split('/api/v1/wallet-config/')[1]?.split('?')[0];
+                const localUrl = `/api/v1/wallet-config/${encodeURIComponent(projectKey || 'vw_pk_TH73LPXfh_8OdvQPiYiMyL179KBbnGi_')}`;
+                return _originalFetch(localUrl, options);
+            }
+            return _originalFetch(resource, options);
+        };
+
+        // Fallback Noir testnet provider when Chrome extension is not installed
+        if (typeof window.noir === 'undefined') {
+            window.noir = {
+                stellar: {
+                    isNoir: true,
+                    getAddress: async () => ({ address: 'GBZOFVJBXQADCCG2BOBC4DTBUSSSTA4OYJR3P4EZCZ75JHYHHQ6PLOLD' }),
+                    requestAccess: async () => ({ address: 'GBZOFVJBXQADCCG2BOBC4DTBUSSSTA4OYJR3P4EZCZ75JHYHHQ6PLOLD' }),
+                    getNetwork: async () => ({ network: 'TESTNET', networkPassphrase: 'Test SDF Network ; September 2015' }),
+                    signTransaction: async (xdr) => ({ signedTxXdr: xdr, signerAddress: 'GBZOFVJBXQADCCG2BOBC4DTBUSSSTA4OYJR3P4EZCZ75JHYHHQ6PLOLD' })
+                }
+            };
+        }
+    </script>
     <script type="module" src="https://www.velo-build.dev/wallets/v1/velo-wallet.js"></script>
 </head>
 <body>
@@ -22,9 +48,7 @@
     <!-- 1. STICKY NAVBAR -->
     <header class="public-navbar">
         <a href="#hero" class="brand-wrap">
-            <img src="assets/awiten-logo.png" alt="AWITEN.ai Logo" class="brand-logo-img">
-            <span class="brand-divider"></span>
-            <span class="logo-subtitle">Cargo Intelligence &amp; Agentic Payment Exchange</span>
+            <img src="assets/awiten-logo.png" alt="AWITEN.PAY Logo" class="brand-logo-img">
         </a>
 
         <div class="public-nav-links">
@@ -40,16 +64,10 @@
             <button id="navReturnConsoleBtn" class="btn btn-outline btn-sm" style="display:none;" onclick="returnToActiveConsole()">
                 Open My Console
             </button>
-            <button class="btn btn-outline btn-sm" onclick="quickLoginAs('dispatcher')">
-                01 · Fleet Console
+            <button class="btn btn-primary btn-sm" onclick="quickLoginAs('dispatcher')">
+                Open Console
             </button>
-            <button class="btn btn-outline btn-sm" onclick="quickLoginAs('broker')">
-                02 · Buyer Checkout
-            </button>
-            <button class="btn btn-outline btn-sm" onclick="quickLoginAs('driver')">
-                03 · Driver App
-            </button>
-            <button class="btn btn-primary btn-sm" onclick="navigateTo('login')">
+            <button class="btn btn-outline btn-sm" onclick="navigateTo('login')">
                 Log In
             </button>
         </div>
@@ -231,7 +249,7 @@
                         <input id="partnerOrg" type="text" class="form-control" placeholder="e.g., Benguet Highland Co-op" required>
                     </div>
 
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div class="form-row-2col">
                         <div class="form-group">
                             <label for="partnerRole">Partner Role *</label>
                             <select id="partnerRole" class="form-control" required>
@@ -247,7 +265,7 @@
                         </div>
                     </div>
 
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div class="form-row-2col">
                         <div class="form-group">
                             <label for="partnerCapacity">Trucks or Tons/Wk *</label>
                             <input id="partnerCapacity" type="text" class="form-control" placeholder="e.g., 10 Trucks" required>
@@ -266,9 +284,52 @@
         </div>
     </section>
 
+    <!-- 8. ARCHITECTURE DISTINCTION (AWITEN.ai vs AWITEN-Pay) -->
+    <section id="architecture-distinction" class="landing-section" style="padding-top:20px; padding-bottom:50px;">
+        <div class="section-head">
+            <span class="pill pill-green">SYSTEM ARCHITECTURE</span>
+            <h2>Two Systems. One Autonomous Cold-Chain Clearinghouse.</h2>
+            <p>Understanding the distinction between the physical telemetry layer and the financial settlement protocol.</p>
+        </div>
+
+        <div class="grid-2 architecture-split-grid">
+            <div class="clean-card" style="border-top: 4px solid var(--brand-green);">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                    <span class="pill pill-green">PHYSICAL TELEMETRY LAYER</span>
+                    <span class="step-meta" style="font-weight:700;">DICT PSC XI Region 1 · Top 2 Winner</span>
+                </div>
+                <h3 style="font-size:22px; color:var(--brand-forest); margin-bottom:10px;">
+                    AWITEN.ai &mdash; The Agri-Logistics Startup (Hardware &amp; Telemetry)
+                </h3>
+                <p style="color:var(--text-secondary); line-height:1.6; font-size:14.5px;">
+                    Our parent startup (Top 2 Winner, DICT Philippine Startup Challenge XI Region 1) that builds the clip-on <code>REV-1</code> sensor pod under the truck tarp to monitor canopy heat, humidity, and Remaining Useful Life (RUL). It continuously tracks canopy temperature, relative humidity, vapor pressure deficit (VPD), and respiration rate &mdash; calculating shelf life decay and Arrhenius degradation curves in real time.
+                </p>
+                <div style="margin-top:16px; padding:12px 14px; background:var(--bg-subtle); border-radius:10px; font-size:13px; color:var(--text-primary); border:1px solid var(--border-subtle);">
+                    <strong>Core Output:</strong> Attested canopy telemetrics, Arrhenius degradation curve, and ETA Manila spoilage thresholds.
+                </div>
+            </div>
+
+            <div class="clean-card" style="border-top: 4px solid var(--brand-emerald);">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+                    <span class="pill pill-blue">FINANCIAL SETTLEMENT LAYER</span>
+                    <span class="step-meta" style="font-weight:700;">Velo x Noir Agentic Hackathon</span>
+                </div>
+                <h3 style="font-size:22px; color:var(--brand-forest); margin-bottom:10px;">
+                    AWITEN-Pay &mdash; This Hackathon Build (The Decision &amp; Settlement Engine)
+                </h3>
+                <p style="color:var(--text-secondary); line-height:1.6; font-size:14.5px;">
+                    The autonomous financial decision engine built on Stellar for the Velo x Noir Hackathon. When <code>AWITEN.ai</code> sensors detect that a harvest will rot before reaching Manila, <strong>AWITEN-Pay</strong> autonomously queries the x402 route oracle, advances <code>6.50 XLM</code> driver diversion fuel, locks a <code>25.60 XLM</code> processor floor price via Velo Checkout, and settles Noir escrow upon delivery.
+                </p>
+                <div style="margin-top:16px; padding:12px 14px; background:var(--blue-glow); border-radius:10px; font-size:13px; color:var(--blue); border:1px solid rgba(29, 78, 216, 0.2);">
+                    <strong>Core Output:</strong> Stellar Testnet escrows, instant fuel advances, Velo checkout webhooks, and zero-cash-fraud dock clearing.
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
     <footer class="public-footer">
-        <img src="assets/awiten-logo.png" alt="AWITEN.ai" style="height:28px; vertical-align:middle; margin-right:8px;">
+        <img src="assets/awiten-logo.png" alt="AWITEN.PAY Logo" style="height:28px; vertical-align:middle; margin-right:8px;">
         <strong>AWITEN-Pay (AWITEN.ai)</strong> · Team WalangKenen · Velo x Noir Agentic Payment Hackathon on Stellar
     </footer>
 </div>
@@ -280,14 +341,14 @@
     <div class="login-wrapper">
         <div class="login-card">
             <div style="text-align:center;">
-                <img src="assets/awiten-logo.png" alt="AWITEN.ai Logo" class="brand-logo-lg">
+                <img src="assets/awiten-logo.png" alt="AWITEN.PAY Logo" class="brand-logo-lg">
                 <h2 style="font-size:21px; color:var(--brand-forest);">Sign In to Your Portal</h2>
                 <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">
                     Click a role below to auto-fill credentials:
                 </p>
             </div>
 
-            <div class="role-picker-grid" style="grid-template-columns:repeat(3, 1fr);">
+            <div class="role-picker-grid">
                 <button type="button" class="role-pick-btn" onclick="fillCredentials('dispatcher', 'admin')">
                     <strong style="color:var(--brand-green);">01 · Co-op Fleet</strong>
                     <span>User: <code>dispatcher</code><br>Pass: <code>admin</code></span>
