@@ -157,3 +157,9 @@ function ensureChartInitializedAndResized() {
 document.addEventListener("DOMContentLoaded", () => {
     initChart();
 });
+
+if (typeof window !== "undefined") {
+    window.ensureChartInitializedAndResized = ensureChartInitializedAndResized;
+    window.initChart = initChart;
+    window.updateChartData = updateChartData;
+}

@@ -1176,10 +1176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (requestedRole && AUTH_USERS[requestedRole]) {
         quickLoginAs(requestedRole);
     } else {
-        // Boot directly into AWITEN-Pay Decision Engine in dispatcherView
-        quickLoginAs("dispatcher");
-        if (typeof showTab === "function") {
-            showTab("noir-velo");
-        }
+        // Default to public Transflow-style video hero landing page
+        navigateTo("landing");
     }
 });

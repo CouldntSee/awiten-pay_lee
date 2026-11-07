@@ -12,43 +12,25 @@
 </head>
 <body>
 
-<!-- GLOBAL 1-CLICK 3-PORTAL ROLE SWITCHER BAR -->
-<div class="portal-switcher-bar">
-    <div class="portal-switcher-left">
-        <span class="status-dot status-dot-green"></span>
-        <span class="portal-tag">STELLAR TESTNET LIVE</span>
-        <span class="portal-divider">·</span>
-        <span class="portal-title">AWITEN-PAY CLEARINGHOUSE</span>
-    </div>
-    <div class="portal-switcher-buttons">
-        <button type="button" class="portal-switch-chip active" onclick="quickLoginAs('dispatcher'); showTab('noir-velo');">
-            01 · Dispatch &amp; Decision Engine
-        </button>
-        <button type="button" class="portal-switch-chip" onclick="quickLoginAs('broker')">
-            02 · Buyer Checkout
-        </button>
-        <button type="button" class="portal-switch-chip" onclick="quickLoginAs('driver')">
-            03 · Driver NFC App
-        </button>
-    </div>
-</div>
-
 <!-- =====================================================================
-     VIEW 1: PUBLIC LANDING PAGE (HIDDEN BY DEFAULT, PRESERVED FOR TESTS)
+     VIEW 1: PUBLIC LANDING PAGE (DEFAULT ACTIVE VIEW ON BOOT)
+     Modeled directly after the industrial layout of transflowlogistics.net
      ===================================================================== -->
-<div id="landingView" class="app-view">
+<div id="landingView" class="app-view active-view">
 
+    <!-- 1. STICKY NAVBAR -->
     <header class="public-navbar">
-        <a href="#" onclick="navigateTo('landing'); return false;" class="brand-wrap">
+        <a href="#hero" class="brand-wrap">
             <img src="assets/awiten-logo.png" alt="AWITEN.ai Logo" class="brand-logo-img">
             <span class="brand-divider"></span>
             <span class="logo-subtitle">Cargo Intelligence &amp; Agentic Payment Exchange</span>
         </a>
 
         <div class="public-nav-links">
-            <a href="#how-section">How It Works</a>
-            <a href="#consoles-section">3 Role Portals</a>
-            <a href="#partner-section">Partner With Us</a>
+            <a href="#hero">HOME</a>
+            <a href="#features">OUR FEATURES</a>
+            <a href="#about">ABOUT</a>
+            <a href="#contact">CONTACT</a>
         </div>
 
         <div class="nav-actions">
@@ -56,232 +38,167 @@
             <button id="navReturnConsoleBtn" class="btn btn-outline btn-sm" style="display:none;" onclick="returnToActiveConsole()">
                 Open My Console
             </button>
-            <button class="btn btn-primary" onclick="navigateTo('login')">
-                Sign In
+            <button class="btn btn-outline btn-sm" onclick="quickLoginAs('dispatcher')">
+                01 · Fleet Console
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="quickLoginAs('broker')">
+                02 · Buyer Checkout
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="quickLoginAs('driver')">
+                03 · Driver App
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="navigateTo('login')">
+                Log In
             </button>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
-    <section class="hero-section">
-        <div>
-            <span class="pill pill-green">Team WalangKenen · Velo x Noir Hackathon on Stellar</span>
-            <h1 class="hero-title">
-                Turn Spoiling Cargo Into <span class="accent">Recovered Cash</span> — With One Tap.
-            </h1>
-            <p class="hero-desc">
-                97% of Philippine vegetables move in open canvas trucks. Our autonomous agent senses cargo heat, predicts the exact hour a load drops grade, advances driver diversion fuel via <strong>Noir Soroban Escrow</strong>, and settles mid-route off-take via <strong>Velo Checkout</strong> before the load rots.
+    <!-- 2. FULL-BLEED VIDEO HERO (TRANSFLOW-STYLE HIGHWAY FOOTAGE) -->
+    <section id="hero" class="hero-video-wrap">
+        <video autoplay muted loop playsinline poster="assets/awiten-hero-poster.jpg" class="hero-bg-video">
+            <source src="assets/awiten-hero.mp4" type="video/mp4">
+        </video>
+        <div class="hero-video-overlay"></div>
+
+        <div class="hero-video-content">
+            <span class="hero-eyebrow">THE ONE-STOP AUTONOMOUS CARGO CLEARINGHOUSE</span>
+            <h1 class="hero-video-title">STOP LOSING HARVESTS TO HIGHWAY HEAT</h1>
+            <p class="hero-video-sub">
+                When a highland vegetable truck overheats mid-highway, AWITEN-Pay advances driver diversion fuel, locks a nearby processor's floor price via Velo Checkout, and settles Noir escrow on delivery.
             </p>
-
-            <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                <button class="btn btn-primary btn-lg" onclick="quickLoginAs('dispatcher')">
-                    Launch Fleet Console &rarr;
+            <div class="hero-video-actions">
+                <button type="button" class="btn btn-primary btn-lg" onclick="quickLoginAs('dispatcher')">
+                    OPEN DISPATCH CONSOLE &rarr;
                 </button>
-                <button class="btn btn-blue btn-lg" onclick="quickLoginAs('driver')">
-                    Open Mang Ramon Driver App
+                <button type="button" class="btn btn-outline btn-lg" style="color:#ffffff; border-color:rgba(255,255,255,0.7);" onclick="quickLoginAs('driver')">
+                    OPEN DRIVER APP
                 </button>
-                <a href="#partner-section" class="btn btn-outline btn-lg">
-                    Partner With Us
-                </a>
-            </div>
-
-            <div class="hero-kpis">
-                <div class="hero-kpi-box">
-                    <strong>+₱117,980</strong>
-                    <span>Net Cash Saved (+11.80 XLM)</span>
-                </div>
-                <div class="hero-kpi-box">
-                    <strong>6.50 XLM</strong>
-                    <span>Autonomous Driver Advance</span>
-                </div>
-                <div class="hero-kpi-box">
-                    <strong>23.80 XLM</strong>
-                    <span>Co-op Net Escrow Payout</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- VISUAL MANG RAMON COMPARISON CARD -->
-        <div class="hero-card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                    <span class="status-dot status-dot-green"></span>
-                    <strong style="font-size:14px; margin-left:6px; color:var(--brand-forest);">MANG RAMON · 8-TON CABBAGE RUN</strong>
-                    <div style="font-size:12px; color:var(--text-muted);">Benguet &rarr; Balintawak (13-Hr NLEX Delay · Pod BGT-402-POD)</div>
-                </div>
-                <span class="pill pill-amber">40 Mins Left</span>
-            </div>
-
-            <div class="vs-bars">
-                <div class="vs-row">
-                    <div class="vs-row-header">
-                        <span style="color:#b91c1c;">Without AWITEN (Arrive Wilted in Manila)</span>
-                        <strong style="color:#dc2626;">₱120,000 (12.00 XLM)</strong>
-                    </div>
-                    <div class="vs-bar-bg">
-                        <div class="vs-bar-fill" style="width:33%; background:#ef4444;"></div>
-                    </div>
-                </div>
-
-                <div class="vs-row" style="border-color:rgba(22,163,74,0.45); background:#f0fdf4;">
-                    <div class="vs-row-header">
-                        <span style="color:#065f46;">With AWITEN-Pay (Noir Advance + Velo Floor @ ₱32/kg)</span>
-                        <strong style="color:#15803d;">₱237,980 (23.80 XLM)</strong>
-                    </div>
-                    <div class="vs-bar-bg">
-                        <div class="vs-bar-fill" style="width:72%; background:linear-gradient(90deg, #0b6e3b, #4cb034);"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="saved-callout">
-                <span>NET CASH BACK IN FARMER POCKET:</span>
-                <span style="font-size:21px; color:#0b6e3b;">+₱117,980 (+11.80 XLM)</span>
-            </div>
-
-            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;">
-                <button class="btn btn-primary btn-sm" onclick="quickLoginAs('dispatcher')">
-                    01 · Fleet Console
-                </button>
-                <button class="btn btn-blue btn-sm" onclick="quickLoginAs('broker')">
-                    02 · Broker Terminal
-                </button>
-                <button class="btn btn-outline btn-sm" onclick="quickLoginAs('driver')">
-                    03 · Driver App
+                <button type="button" class="btn btn-blue btn-lg" onclick="quickLoginAs('broker')">
+                    BUYER CHECKOUT
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- HOW IT WORKS: 3 ULTRA-CLEAN STEPS -->
-    <section id="how-section" class="landing-section">
-        <div class="section-head">
-            <span class="pill pill-green">How It Works</span>
-            <h2>Three Steps. Autonomous On-Chain Settlement.</h2>
-            <p>Our agent senses thermal distress, pays for traffic/fuel execution via Noir, and collects buyer funds via Velo.</p>
+    <!-- 3. OUR FEATURES ("We live for the art of post-harvest transportation.") -->
+    <section id="features" class="landing-section">
+        <div id="how-section" class="section-head">
+            <span class="pill pill-green">OUR FEATURES</span>
+            <h2>We live for the art of post-harvest transportation.</h2>
+            <p>Three steps. Autonomous on-chain settlement.</p>
         </div>
 
         <div class="grid-3">
             <div class="clean-card">
-                <span class="pill pill-green">STEP 1 · SENSE &amp; ATTEST</span>
-                <h3>Clip-On Pod + Noir Device Registry</h3>
-                <p>Clips inside open canvas trucks to track heat, humidity, and road shock—bound on-chain to <code>device_registry</code> via SHA-256 hardware UID.</p>
+                <span class="pill pill-green">STEP 01 · SENSE &amp; ATTEST</span>
+                <h3 style="margin-top:10px;">SENSE &amp; ATTEST</h3>
+                <p>Clip-on telemetry pod (<code>AWITEN.ai | REV-1</code>) tracks canopy heat and humidity inside open-canvas trucks, attested on Stellar via <code>device_registry</code>.</p>
                 <div class="step-meta">₱2,350 BOM · 14-Day Battery · 96h Offline Buffer</div>
             </div>
 
             <div class="clean-card">
-                <span class="pill pill-amber">STEP 2 · PREDICT &amp; ADVANCE</span>
-                <h3>Arrhenius RUL + Autonomous Agent</h3>
-                <p>When RUL drops below Manila ETA, the agent autonomously pays <code>1.00 XLM</code> HTTP 402 oracle fees and advances <code>6.50 XLM</code> (₱6,500) driver fuel/tolls.</p>
-                <div class="step-meta">Constrained by Noir agent_registry Policy</div>
+                <span class="pill pill-amber">STEP 02 · ADVANCE &amp; REROUTE</span>
+                <h3 style="margin-top:10px;">ADVANCE &amp; REROUTE</h3>
+                <p>When shelf life drops below Manila ETA, our autonomous agent (<code>agent_registry</code>) sends <code>6.50 XLM</code> (₱6,500) for driver diversion fuel and tolls.</p>
+                <div class="step-meta">HTTP 402 Oracle Attestation · Zero Driver Cash Fraud</div>
             </div>
 
             <div class="clean-card">
-                <span class="pill pill-blue">STEP 3 · LIQUIDATE &amp; SETTLE</span>
-                <h3>Velo Checkout + NFC Dock Tap</h3>
-                <p>Locks in Bulacan Dehydrator off-take (<code>25.60 XLM</code> / ₱256,000) via Velo Checkout + HMAC webhook and settles <code>23.80 XLM</code> (₱237,980) on NFC tap.</p>
-                <div class="step-meta">Guaranteed Price Floors · 4.5% Success Fee</div>
+                <span class="pill pill-blue">STEP 03 · LIQUIDATE &amp; SETTLE</span>
+                <h3 style="margin-top:10px;">LIQUIDATE &amp; SETTLE</h3>
+                <p>Locks a <code>25.60 XLM</code> (₱256,000) floor price with a nearby processor via <strong>Velo Checkout</strong> and settles <code>23.80 XLM</code> (₱237,980) to the co-op on NFC dock tap.</p>
+                <div class="step-meta">defund_escrow Unwinds Original Buyer · Dual Hardware Attestation</div>
             </div>
         </div>
     </section>
 
-    <!-- THREE DEDICATED ROLE CONSOLES -->
-    <section id="consoles-section" class="landing-section">
-        <div class="section-head">
-            <span class="pill pill-blue">3 Synchronized Portals</span>
-            <h2>Three Dedicated Portals. Full 3-Actor Triangle.</h2>
-            <p>Co-op Dispatchers monitor fleet &amp; Noir contracts, Brokers pay via Velo Checkout, and Drivers tap NFC at the dock.</p>
+    <!-- 4. FULL-WIDTH TRUST BANNER (TRANSFLOW-STYLE TRUST STATEMENT) -->
+    <section class="trust-statement-banner">
+        <h2 class="trust-statement-text">
+            WE ARE DEFINED BY HARDWARE PROOF, BUILT ON STELLAR ESCROW, ZERO CASH FRAUD, AND INSTANT SETTLEMENT.
+        </h2>
+        <button type="button" class="btn btn-primary btn-lg" onclick="quickLoginAs('dispatcher')">
+            Start Now &rarr;
+        </button>
+    </section>
+
+    <!-- 5. ABOUT AWITEN-PAY ("Honest & Efficient Cargo Protection.") -->
+    <section id="about" class="landing-section">
+        <div id="consoles-section" class="section-head">
+            <span class="pill pill-green">ABOUT AWITEN-PAY</span>
+            <h2>Honest &amp; Efficient Cargo Protection.</h2>
+            <p>Eliminating driver cash skimming and gate-side price slashing across Luzon agricultural corridors.</p>
         </div>
 
-        <div class="grid-3">
-            <div class="clean-card" style="border-color:rgba(22,163,74,0.4);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span class="pill pill-green">PORTAL 1 · FLEET CONSOLE</span>
-                    <code style="font-size:11px; color:#0b6e3b; background:#dcfce7; padding:3px 7px; border-radius:6px;">dispatcher / admin</code>
+        <div class="about-split-grid">
+            <div class="clean-card">
+                <h3 style="font-size:20px; color:var(--brand-forest); margin-top:0;">
+                    Protecting Benguet Highland Farmers
+                </h3>
+                <p style="font-size:14px; line-height:1.65; color:var(--text-secondary); margin-bottom:16px;">
+                    In traditional open-canvas trucking, delays on NLEX mean cargo rots before reaching Balintawak. Drivers face cash shortages for alternate tolls, and destination buyers slash prices by 60% upon arrival. <strong>AWITEN-Pay</strong> changes the equation: biophysical sensors trigger an instant on-chain advance to the driver's phone, while Velo locks in an accredited dehydrator floor price before the truck exits the highway.
+                </p>
+
+                <div style="background:#f0fdf4; border:1px solid rgba(22,163,74,0.3); border-radius:10px; padding:14px; margin-bottom:16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <span style="font-size:12px; font-weight:700; color:#065f46;">NET CASH RESCUED VS. MANILA</span>
+                        <strong style="font-size:18px; color:#15803d;">+₱117,980 (+98.3%)</strong>
+                    </div>
+                    <div style="font-size:12px; color:var(--text-secondary);">
+                        Bulacan Floor Payout: <strong>23.80 XLM (₱237,980 Net)</strong> vs. Balintawak Spoilage: <strong>12.00 XLM (₱120,000)</strong>
+                    </div>
                 </div>
-                <h3>Co-op Fleet Console</h3>
-                <p style="margin-bottom:16px;">Track live truck freshness, inspect Tab 4 (<code>Noir x Velo Agentic Escrow</code>), and trigger autonomous mid-route diversions.</p>
-                <button class="btn btn-primary" style="width:100%;" onclick="quickLoginAs('dispatcher')">
-                    Open Co-op Fleet Console &rarr;
-                </button>
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="quickLoginAs('dispatcher')">
+                        01 · Dispatcher Console
+                    </button>
+                    <button type="button" class="btn btn-blue btn-sm" onclick="quickLoginAs('broker')">
+                        02 · Buyer Checkout
+                    </button>
+                    <button type="button" class="btn btn-outline btn-sm" onclick="quickLoginAs('driver')">
+                        03 · Driver Mobile App
+                    </button>
+                </div>
             </div>
 
-            <div class="clean-card" style="border-color:rgba(37,99,235,0.35);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span class="pill pill-blue">PORTAL 2 · OFF-TAKER</span>
-                    <code style="font-size:11px; color:#1d4ed8; background:#dbeafe; padding:3px 7px; border-radius:6px;">broker / admin</code>
+            <!-- HARDWARE SHOWCASE CARD -->
+            <div class="clean-card" style="padding:16px;">
+                <div style="border-radius:10px; overflow:hidden; border:1px solid #cbd5e1; position:relative; background:#0f172a;">
+                    <img src="assets/awiten-rev1-prototype.jpg" alt="AWITEN REV-1 Prototype Pod" style="width:100%; height:230px; object-fit:cover; display:block;">
+                    <div class="hardware-overlay-badge">
+                        <span class="status-dot status-dot-green"></span>
+                        <span>DUAL ATTESTED ON STELLAR TESTNET</span>
+                    </div>
                 </div>
-                <h3>Processor &amp; Broker Terminal</h3>
-                <p style="margin-bottom:16px;">Bid on distressed loads or lock Lot #BGT-402 immediately via <strong>Velo Checkout</strong> + verified <code>x-velo-signature</code> webhook.</p>
-                <button class="btn btn-blue" style="width:100%;" onclick="quickLoginAs('broker')">
-                    Open Processor &amp; Broker Terminal &rarr;
-                </button>
-            </div>
-
-            <div class="clean-card" style="border-color:rgba(245,130,31,0.45);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span class="pill pill-amber">PORTAL 3 · VIAJERO APP</span>
-                    <code style="font-size:11px; color:#b45309; background:#ffedd5; padding:3px 7px; border-radius:6px;">driver / admin</code>
+                <div style="padding-top:12px;">
+                    <strong style="font-size:13.5px; color:var(--brand-forest);">AWITEN.ai | REV-1 · BGT-402-POD-ESP32S3</strong>
+                    <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">
+                        Hardware Attested on <code>device_registry</code>: <code>d7603c328641...</code>
+                    </div>
+                    <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">
+                        Dock Receiver: <code>BULACAN-DOCK3-NFC-TERMINAL</code>
+                    </div>
+                    <div style="margin-top:10px; display:flex; gap:8px;">
+                        <a href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link" style="font-size:11px;">
+                            View Pod Attestation on Stellar Expert &rarr;
+                        </a>
+                    </div>
                 </div>
-                <h3>Driver Mobile App (Mang Ramon)</h3>
-                <p style="margin-bottom:16px;">Receive the <code>+6.50 XLM</code> NLEX toll/fuel advance, follow the Bulacan GPS reroute, and tap the Dehydrator Dock NFC terminal to settle escrow.</p>
-                <button class="btn btn-primary" style="width:100%;" onclick="quickLoginAs('driver')">
-                    Open Driver Mobile App &rarr;
-                </button>
             </div>
         </div>
     </section>
 
-    <!-- PARTNER WITH US SECTION -->
-    <section id="partner-section" class="landing-section">
-        <div class="section-head">
-            <span class="pill pill-green">Join the Network</span>
+    <!-- 6. CONTACT & PARTNERS ("WE CUT SPOILAGE IN FREIGHT") -->
+    <section id="contact" class="landing-section">
+        <div id="partner-section" class="section-head">
+            <span class="pill pill-green">WE CUT SPOILAGE IN FREIGHT</span>
             <h2>Partner With AWITEN.ai</h2>
-            <p>Onboard your cooperative fleet or register as a contracted mid-route buyer.</p>
+            <p>Onboard your cooperative fleet or register as an accredited regional processor.</p>
         </div>
 
         <div class="partner-layout">
             <div class="partner-track-list">
-                <div class="partner-track-item">
-                    <div class="track-icon">01</div>
-                    <div>
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            <strong style="color:var(--brand-forest);">Hauling Co-ops &amp; Truckers</strong>
-                            <span class="pill pill-green">₱2,000 / mo</span>
-                        </div>
-                        <p style="font-size:13px; color:var(--text-secondary); margin-top:3px;">
-                            Pod + dashboard included. One rescued load pays for 5 years of service.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="partner-track-item">
-                    <div class="track-icon">02</div>
-                    <div>
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            <strong style="color:var(--brand-forest);">Regional Wholesale Brokers</strong>
-                            <span class="pill pill-blue">₱0 Free Join</span>
-                        </div>
-                        <p style="font-size:13px; color:var(--text-secondary); margin-top:3px;">
-                            Get pre-alerts on discounted Grade 2/3 loads approaching Urdaneta, Tarlac &amp; Bambang.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="partner-track-item">
-                    <div class="track-icon">03</div>
-                    <div>
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            <strong style="color:var(--brand-forest);">Dehydrators, Feed Mills &amp; LGUs</strong>
-                            <span class="pill pill-amber">Floor Contracts</span>
-                        </div>
-                        <p style="font-size:13px; color:var(--text-secondary); margin-top:3px;">
-                            Lock in steady processing supply at pre-agreed price floors (₱12–₱32/kg).
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Active Pipeline Box -->
                 <div class="clean-card" style="padding:14px 18px;">
                     <div style="font-size:11.5px; font-weight:800; color:var(--brand-green); text-transform:uppercase; margin-bottom:6px;">
                         Active Corridor Partners
@@ -292,12 +209,19 @@
                         <div>• <strong>Central Luzon Feed Millers</strong> — ₱12/kg Biomass Floor</div>
                     </div>
                 </div>
+
+                <div class="clean-card" style="padding:14px 18px;">
+                    <strong style="font-size:13px; color:var(--brand-forest); display:block; margin-bottom:4px;">Corridor Protection Guarantee</strong>
+                    <p style="font-size:12px; color:var(--text-secondary); line-height:1.5; margin:0;">
+                        Every enrolled hauling co-op receives clip-on pods with zero upfront capital. 4.5% success fee is only deducted when a load is rescued and settled.
+                    </p>
+                </div>
             </div>
 
             <!-- STREAMLINED PARTNER FORM -->
             <div class="clean-card">
-                <h3 style="margin-top:0;">Become a Partner</h3>
-                <p style="margin-bottom:14px;">Join our Benguet–Manila corridor network in 30 seconds.</p>
+                <h3 style="margin-top:0;">Join Corridor Network</h3>
+                <p style="margin-bottom:14px;">Connect your fleet or processing facility in 30 seconds.</p>
 
                 <form id="partnerForm" onsubmit="submitPartnerForm(event)">
                     <div class="form-group">
@@ -340,6 +264,7 @@
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer class="public-footer">
         <img src="assets/awiten-logo.png" alt="AWITEN.ai" style="height:28px; vertical-align:middle; margin-right:8px;">
         <strong>AWITEN-Pay (AWITEN.ai)</strong> · Team WalangKenen · Velo x Noir Agentic Payment Hackathon on Stellar
@@ -403,10 +328,11 @@
 </div>
 
 <!-- =====================================================================
-     VIEW 3: DISPATCHER CONSOLE (DEFAULT ACTIVE BOOT VIEW)
+     VIEW 3: DISPATCHER CONSOLE (UNIFIED SINGLE SCREEN SHOWING GRAPH & DECISION)
      ===================================================================== -->
-<div id="dispatcherView" class="app-view active-view">
+<div id="dispatcherView" class="app-view">
 
+    <!-- CLEAN HEADER WITH PORTAL SWITCH CHIPS -->
     <header class="console-header">
         <div class="brand-wrap" onclick="navigateTo('landing')">
             <img src="assets/awiten-logo.png" alt="AWITEN.ai" class="brand-logo-img">
@@ -417,312 +343,222 @@
             </div>
         </div>
 
-        <nav id="dispatcherNav" class="console-tabs">
-            <button onclick="showTab('noir-velo')" class="nav-btn active-nav-btn">01 · Decision Engine (Noir x Velo)</button>
-            <button onclick="showTab('dashboard')" class="nav-btn">02 · Live Truck Monitor</button>
-            <button onclick="showTab('marketplace')" class="nav-btn">03 · Rescue Buyers (4)</button>
-            <button onclick="showTab('economics')" class="nav-btn">04 · Trip Math &amp; Pod</button>
+        <nav id="dispatcherNav" class="console-tabs" style="display:flex; gap:6px;">
+            <button type="button" class="portal-switch-chip active" onclick="quickLoginAs('dispatcher')">
+                01 · Fleet Console
+            </button>
+            <button type="button" class="portal-switch-chip" onclick="quickLoginAs('broker')">
+                02 · Buyer Checkout
+            </button>
+            <button type="button" class="portal-switch-chip" onclick="quickLoginAs('driver')">
+                03 · Driver App
+            </button>
         </nav>
 
         <div style="display:flex; align-items:center; gap:8px;">
             <span id="firewallBadge" class="pill pill-green"><span class="status-dot status-dot-green"></span> Firewall Active</span>
             <span id="liveClock" style="font-size:12px; font-weight:700; color:var(--text-muted);"></span>
-            <button class="btn btn-outline btn-sm" onclick="quickLoginAs('driver')">03 · Driver App</button>
-            <button class="btn btn-outline btn-sm" onclick="navigateTo('landing')">Overview</button>
+            <button class="btn btn-outline btn-sm" onclick="navigateTo('landing')">Back to Website</button>
             <button class="btn btn-danger btn-sm" onclick="logoutUser()">Sign Out</button>
         </div>
     </header>
 
     <main class="console-main">
 
-        <!-- TRUCK SWITCHER & AUTONOMY CONTROL STRIP -->
-        <div class="control-strip" style="margin-bottom:12px;">
-            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                <strong style="font-size:13px; color:var(--brand-forest);">Active Truck:</strong>
-                <select id="truckSelect" class="form-control" style="width:auto; padding:7px 12px;" onchange="switchTruckPreset(this.value)">
-                    <option value="bgt402">BGT-402 · Mang Ramon (8,000 kg Cabbage — NLEX Delay)</option>
-                    <option value="bgt118">BGT-118 · Co-op #2 (6,500 kg Wombok — Normal Run)</option>
-                    <option value="nvt309">NVT-309 · Bambang Hauler (9,000 kg Carrots — Synced)</option>
-                </select>
-                <label class="autonomous-mode-label" style="display:inline-flex; align-items:center; gap:6px; cursor:pointer; font-size:12.5px; font-weight:700; color:var(--brand-forest); background:#ecfdf5; padding:5px 11px; border-radius:8px; border:1px solid rgba(16,185,129,0.35);">
-                    <input type="checkbox" id="autonomousAgentToggle" checked onchange="toggleAutonomousAgentMode(this.checked)">
-                    <span>Autonomous Mode (Zero-Click)</span>
-                </label>
+        <!-- 4 SIMPLE KPI CARDS -->
+        <div class="kpi-grid-4" style="margin-bottom:16px;">
+            <div class="kpi-card">
+                <span class="kpi-label">Cargo Freshness</span>
+                <span id="freshnessScore" class="kpi-value" style="color:#d97706;">62.4%</span>
+                <span id="aiGrade" class="pill pill-amber">Grade 3</span>
+                <span id="gradeSubtext" class="kpi-sub" style="display:block; margin-top:4px;">Processing Tier</span>
             </div>
-            <div style="display:flex; gap:8px;">
-                <button id="simPlayBtn" class="btn btn-outline btn-sm" onclick="toggleAutoSimulation()">
-                    Auto-Play Route
-                </button>
-                <button class="btn btn-outline btn-sm" onclick="resetFullDemoState()">
-                    Reset Demo to 0h
-                </button>
-                <button class="btn btn-outline btn-sm" onclick="exportTelemetryReport()">
-                    Export Certificate
-                </button>
+
+            <div class="kpi-card">
+                <span class="kpi-label">Remaining Shelf Life</span>
+                <span id="rulValue" class="kpi-value" style="color:#dc2626;">1.5 hrs</span>
+                <span id="nsgaStatusText" class="kpi-sub" style="color:#dc2626; font-weight:700;">Manila is 8.5h away</span>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-label">Canopy Temperature</span>
+                <span id="tempValue" class="kpi-value" style="color:#dc2626;">34.2°C</span>
+                <span id="rhValue" class="kpi-sub">RH: 54%</span> · <span id="vpdValue" class="kpi-sub">2.48 kPa</span>
+                <div id="respValue" style="font-size:11px; color:var(--text-muted); margin-top:2px;">Heat: 179 mW/kg</div>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-label">Net Cash Saved</span>
+                <span id="liveEvDelta" class="kpi-value" style="color:#15803d;">+₱117,980</span>
+                <span id="aiBuyerSub" class="kpi-sub">Bulacan Floor: 23.80 XLM Net</span>
             </div>
         </div>
 
-        <!-- ROUTE TIMELINE SCRUBBER WITH 1-CLICK JUMP CHIPS -->
-        <div class="scrubber-card" style="margin-bottom:16px;">
-            <div class="scrubber-top">
+        <!-- UNIFIED 2-COLUMN WORKSPACE: GRAPH ON LEFT, DECISION ON RIGHT -->
+        <div class="dispatcher-workspace-2col">
+
+            <!-- LEFT COLUMN (62%): FRESHNESS GRAPH + ROUTE SLIDER -->
+            <div class="clean-card" style="display:flex; flex-direction:column; justify-content:space-between;">
                 <div>
-                    <strong style="font-size:13.5px; color:var(--brand-forest);">Route Progress:</strong>
-                    <span id="corridorLocationLabel" style="color:var(--brand-green); font-weight:700; font-size:13.5px; margin-left:6px;">
-                        Tarlac / Bulacan Junction (40m Before Grade Crash)
-                    </span>
-                </div>
-                <div class="quick-stops">
-                    <button type="button" class="stop-chip" onclick="updateSimulation(0)">0.0h Departure (17.5°C)</button>
-                    <button type="button" class="stop-chip" onclick="updateSimulation(2)">2.0h Mountain Buffer</button>
-                    <button type="button" class="stop-chip" onclick="updateSimulation(3.0)">3.0h HTTP 402 Oracle (1 XLM)</button>
-                    <button type="button" class="stop-chip" onclick="updateSimulation(4.5)">4.5h Divert Trigger</button>
-                    <button type="button" class="stop-chip" onclick="updateSimulation(10)">10.0h NLEX Traffic</button>
-                    <button type="button" class="stop-chip" onclick="updateSimulation(13)">13.0h Manila</button>
-                    <strong id="hourText" style="font-size:13px; color:var(--brand-forest); margin-left:6px;">4.5 / 13h</strong>
-                </div>
-            </div>
-
-            <input id="routeSlider" type="range" min="0" max="13" value="4.5" step="0.5" oninput="updateSimulation(this.value)">
-        </div>
-
-        <!-- TAB 1: NOIR x VELO DECISION ENGINE (DEFAULT ACTIVE CENTERPIECE) -->
-        <section id="noir-velo" class="tab active">
-            <div class="control-strip" style="margin-bottom:16px;">
-                <div>
-                    <span class="pill pill-green"><span class="status-dot status-dot-green"></span> LIVE STELLAR TESTNET PROOFS</span>
-                    <strong style="font-size:15px; color:var(--brand-forest); margin-left:8px;">
-                        Noir Soroban Contracts (<code>@noirx402/agent-sdk</code>) + Velo Checkout &amp; Webhooks (<code>@carts1024/velo-sdk</code>)
-                    </strong>
-                </div>
-                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                    <span style="font-size:12px; font-weight:700; color:var(--text-secondary);">Contract Set:</span>
-                    <button id="btnSetSdkDefault" type="button" class="btn btn-primary btn-sm" onclick="switchContractSetUI('SDK_DEFAULT_2026_10_07')">
-                        SDK Default (2026-10-07: CB4D... / CBTD... / CA5S...)
-                    </button>
-                    <button id="btnSetHandbook" type="button" class="btn btn-outline btn-sm" onclick="switchContractSetUI('HANDBOOK_2026_10_24')">
-                        Handbook (2026-10-24: CAC4... / CCMZ... / CC7E...)
-                    </button>
-                </div>
-            </div>
-
-            <!-- CENTERPIECE 3-COLUMN DECISION ENGINE MATRIX -->
-            <div class="decision-matrix-3col">
-
-                <!-- COL 1: 01 · BIOPHYSICAL TRIGGER -->
-                <div class="clean-card" style="border-color:rgba(220,38,38,0.35);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                        <span class="kpi-label-compact">01 · BIOPHYSICAL TRIGGER</span>
-                        <span id="matrixTriggerBadge" class="pill pill-amber"><span class="status-dot status-dot-amber"></span> DIVERT REQUIRED</span>
-                    </div>
-
-                    <div style="background:#fef2f2; border:1px solid rgba(220,38,38,0.2); border-radius:10px; padding:12px; margin-bottom:12px;">
-                        <div style="display:flex; justify-content:space-between; align-items:baseline;">
+                    <!-- ROUTE TIMELINE SCRUBBER -->
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; margin-bottom:14px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
                             <div>
-                                <div class="kpi-label-compact" style="color:#b91c1c;">REMAINING SHELF LIFE (RUL)</div>
-                                <div class="kpi-val-hero danger" id="matrixRul">1.5h</div>
+                                <strong style="font-size:13px; color:var(--brand-forest);">Route Progress:</strong>
+                                <span id="corridorLocationLabel" style="color:var(--brand-green); font-weight:700; font-size:13px; margin-left:6px;">
+                                    Tarlac / Bulacan Junction (40m Before Grade Crash)
+                                </span>
                             </div>
-                            <div style="font-size:16px; font-weight:700; color:#94a3b8;">vs</div>
-                            <div style="text-align:right;">
-                                <div class="kpi-label-compact" style="color:#b91c1c;">MANILA ETA</div>
-                                <div class="kpi-val-hero danger" id="matrixEta">8.5h</div>
-                            </div>
+                            <strong id="hourText" style="font-size:13px; color:var(--brand-forest);">4.5 / 13h</strong>
                         </div>
-                        <div id="matrixTriggerDesc" style="font-size:11.5px; color:#991b1b; font-weight:600; margin-top:4px;">
-                            RUL (1.5h) &lt; ETA (8.5h) · Spoils 7.0h before Balintawak
+
+                        <input id="routeSlider" type="range" min="0" max="13" value="4.5" step="0.5" oninput="updateSimulation(this.value)" style="width:100%; margin-bottom:10px;">
+
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+                            <div class="quick-stops">
+                                <button type="button" class="stop-chip" onclick="updateSimulation(0)">0.0h Departure</button>
+                                <button type="button" class="stop-chip" onclick="updateSimulation(3.0)">3.0h HTTP 402 Oracle</button>
+                                <button type="button" class="stop-chip" onclick="updateSimulation(4.5)">4.5h Heat Spike</button>
+                                <button type="button" class="stop-chip" onclick="updateSimulation(13)">13.0h Manila</button>
+                            </div>
+                            <div style="display:flex; gap:6px;">
+                                <button id="simPlayBtn" type="button" class="btn btn-outline btn-xs" onclick="toggleAutoSimulation()">Auto-Play Route</button>
+                                <button type="button" class="btn btn-outline btn-xs" onclick="resetFullDemoState()">Reset</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
-                        <div class="hero-kpi-box" style="padding:8px 10px;">
-                            <span class="kpi-label-compact">CANOPY TEMP</span>
-                            <strong id="matrixTemp" style="font-size:16px; color:#dc2626;">34.2°C</strong>
-                        </div>
-                        <div class="hero-kpi-box" style="padding:8px 10px;">
-                            <span class="kpi-label-compact">HUMIDITY</span>
-                            <strong id="matrixRh" style="font-size:16px; color:#d97706;">54% RH</strong>
-                        </div>
-                        <div class="hero-kpi-box" style="padding:8px 10px;">
-                            <span class="kpi-label-compact">RESPIRATION</span>
-                            <strong id="matrixResp" style="font-size:16px; color:#dc2626;">179 mW/kg</strong>
-                        </div>
-                        <div class="hero-kpi-box" style="padding:8px 10px;">
-                            <span class="kpi-label-compact">VAPOR DEFICIT</span>
-                            <strong id="matrixVpd" style="font-size:16px; color:#d97706;">2.48 kPa</strong>
-                        </div>
-                    </div>
-
-                    <div class="hardware-card">
-                        <div class="hardware-img-wrap">
-                            <img src="assets/awiten-rev1-prototype.jpg" alt="AWITEN REV-1 Prototype Pod" class="hardware-img">
-                            <div class="hardware-overlay-badge">
-                                <span class="status-dot status-dot-green"></span>
-                                <span>DUAL ATTESTED</span>
-                            </div>
-                        </div>
-                        <div class="hardware-body">
-                            <strong style="font-size:12px; color:var(--brand-forest);">AWITEN.ai | REV-1 · BGT-402-POD-ESP32S3</strong>
-                            <div style="font-size:11px; color:var(--text-secondary);">
-                                Pod UID: <code id="uiDeviceHash">d7603c328641...</code> · Dock: <code>BULACAN-DOCK3-NFC-TERMINAL</code> (<code id="uiDockDeviceHash">8edde750...</code>)
-                            </div>
-                            <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
-                                <a id="txLinkRegisterDevice" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link" style="font-size:11px;">
-                                    Pod Tx
-                                </a>
-                                <a id="txLinkRegisterDock" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link" style="font-size:11px;">
-                                    Dock Tx
-                                </a>
-                            </div>
-                        </div>
+                    <!-- INTERACTIVE CHART.JS CANVAS -->
+                    <div class="chart-box" style="height:340px;">
+                        <canvas id="freshnessChart"></canvas>
                     </div>
                 </div>
 
-                <!-- COL 2: 02 · ECONOMIC SOLVER (ΔEV) -->
-                <div class="clean-card" style="border-color:rgba(16,185,129,0.35);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                        <span class="kpi-label-compact">02 · ECONOMIC SOLVER (&Delta;EV)</span>
-                        <span class="pill pill-green"><span class="status-dot status-dot-green"></span> OPTIMAL DELTA</span>
+                <div style="margin-top:10px; font-size:11.5px; color:var(--text-muted); display:flex; justify-content:space-between;">
+                    <span>F(t) Arrhenius degradation curve updated live</span>
+                    <span>Dual SHT40 sensors active</span>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN (38%): AUTONOMOUS DIVERSION DECISION (ID="NOIR-VELO") -->
+            <div id="noir-velo" class="clean-card" style="border-color:rgba(16,185,129,0.35); display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <span class="kpi-label-compact">AUTONOMOUS DIVERSION DECISION</span>
+                        <span class="pill pill-amber"><span class="status-dot status-dot-amber"></span> DIVERT REQUIRED</span>
                     </div>
 
+                    <!-- FINANCIAL COMPARISON BOX -->
                     <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; margin-bottom:12px;">
                         <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #e2e8f0;">
-                            <span style="font-size:12px; font-weight:700; color:#64748b;">CONTINUE TO MANILA</span>
-                            <strong style="font-size:14px; color:#dc2626;">₱120,000 <span style="font-size:11px; color:#94a3b8;">(12.00 XLM)</span></strong>
+                            <span style="font-size:12px; font-weight:700; color:#64748b;">Continue to Manila (Spoiled)</span>
+                            <strong style="font-size:13.5px; color:#dc2626;">₱120,000 (12.00 XLM)</strong>
                         </div>
                         <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #e2e8f0;">
-                            <span style="font-size:12px; font-weight:700; color:#64748b;">DIVERT TO BULACAN</span>
-                            <strong style="font-size:14px; color:#16a34a;">₱237,980 <span style="font-size:11px; color:#16a34a;">(23.80 XLM Net)</span></strong>
+                            <span style="font-size:12px; font-weight:700; color:#64748b;">Divert to Bulacan (@ ₱32/kg)</span>
+                            <strong style="font-size:13.5px; color:#16a34a;">₱237,980 (23.80 XLM Net)</strong>
                         </div>
-                        <div style="background:#ecfdf5; border:1px solid rgba(16,185,129,0.3); border-radius:8px; padding:10px; margin-top:8px; text-align:center;">
-                            <div class="kpi-label-compact" style="color:#065f46;">NET RESCUE VALUE</div>
-                            <div class="kpi-val-hero success" style="font-size:24px;">+₱117,980 SAVED (+98.3%)</div>
-                        </div>
-                    </div>
-
-                    <!-- 4-PILL ZERO-CASH ANTI-FRAUD SHIELD STRIP -->
-                    <div class="shield-strip" style="margin-bottom:12px;">
-                        <div class="shield-pill">
-                            <span class="status-dot status-dot-green"></span>
-                            <span>Zero Driver Cash</span>
-                        </div>
-                        <div class="shield-pill">
-                            <span class="status-dot status-dot-green"></span>
-                            <span>2AM Auto-Advance</span>
-                        </div>
-                        <div class="shield-pill">
-                            <span class="status-dot status-dot-green"></span>
-                            <span>Velo Floor Lock</span>
-                        </div>
-                        <div class="shield-pill">
-                            <span class="status-dot status-dot-green"></span>
-                            <span>Atomic Escrow Unwind</span>
+                        <div style="background:#ecfdf5; border:1px solid rgba(16,185,129,0.3); border-radius:8px; padding:8px; margin-top:8px; text-align:center;">
+                            <div class="kpi-val-hero success" style="font-size:22px;">+₱117,980 SAVED (+98.3%)</div>
                         </div>
                     </div>
 
-                    <div style="background:#eff6ff; border:1px solid rgba(37,99,235,0.25); border-radius:10px; padding:10px 12px; margin-bottom:12px; font-size:11.5px; color:#1e3a8a;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                            <strong>Velo Checkout Floor</strong>
-                            <span id="veloEscrowStatusBadge" class="pill pill-amber" style="font-size:10px;">Awaiting Checkout</span>
-                        </div>
-                        <div>Intent: <code id="uiVeloIntentId">pi_awiten_bgt402_ready</code> · <strong id="uiVeloAmount" style="color:#15803d;">25.60 XLM (₱256k)</strong></div>
-                        <div>Buyer: <strong id="uiVeloBuyerName">Bulacan Food Dehydrator</strong></div>
-                        <div style="margin-top:3px; word-break:break-all;">HMAC: <code id="uiLatestWebhookSig">Awaiting x-velo-signature</code></div>
-                    </div>
-
-                    <div style="display:flex; flex-direction:column; gap:8px;">
-                        <button type="button" class="btn btn-primary btn-sm" onclick="triggerAutonomousDiversionFlow()">
-                            Execute Autonomous Diversion
+                    <!-- PRIMARY & SECONDARY ACTION BUTTONS -->
+                    <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;">
+                        <button type="button" class="btn btn-primary btn-lg" style="width:100%;" onclick="triggerAutonomousDiversionFlow()">
+                            1-Tap Divert &amp; Advance 6.50 XLM Fuel
                         </button>
-                        <button type="button" class="btn btn-blue btn-sm" onclick="simulateVerifiedVeloWebhookUI()">
-                            Simulate Verified Velo Webhook
+                        <button type="button" class="btn btn-blue" style="width:100%;" onclick="simulateVerifiedVeloWebhookUI()">
+                            Confirm Buyer Velo Webhook
                         </button>
                     </div>
-                </div>
 
-                <!-- COL 3: 03 · AUTONOMOUS ON-CHAIN EXECUTION -->
-                <div class="clean-card" style="border-color:rgba(37,99,235,0.35);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                        <span class="kpi-label-compact">03 · AUTONOMOUS ON-CHAIN EXECUTION</span>
-                        <span class="pill pill-blue"><span class="status-dot status-dot-blue"></span> SOROBAN SAC</span>
-                    </div>
-
-                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:8px 10px; margin-bottom:10px; font-size:11px; display:flex; flex-direction:column; gap:4px;">
-                        <div style="display:flex; justify-content:space-between;"><span style="font-weight:700; color:#475569;">device_registry</span> <code id="contractIdDeviceRegistry">CB4DPMGO...HOWIRA</code></div>
-                        <div style="display:flex; justify-content:space-between;"><span style="font-weight:700; color:#475569;">agent_registry</span> <code id="contractIdAgentRegistry">CBTDMJVC...IXQ25JZ</code></div>
-                        <div style="display:flex; justify-content:space-between;"><span style="font-weight:700; color:#475569;">payment_escrow</span> <code id="contractIdPaymentEscrow">CA5S4S7Q...BYK7HIX</code></div>
-                    </div>
-
-                    <div class="pipeline-5row">
+                    <!-- COMPACT 4-STEP PIPELINE -->
+                    <div class="pipeline-5row" style="margin-bottom:12px;">
                         <div class="pipeline-step">
-                            <div style="display:flex; align-items:center; gap:8px;">
+                            <div style="display:flex; align-items:center; gap:6px;">
                                 <span class="pipeline-idx">01</span>
-                                <strong>Hardware Attested (Pod + NFC Dock)</strong>
+                                <div><strong>Pod Attested</strong> <span style="font-size:11px; color:#64748b;">(device_registry)</span></div>
                             </div>
-                            <a id="txLinkRegisterDeviceRow" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">279fb4f3...</a>
+                            <a id="txLinkRegisterDevice" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
                         </div>
                         <div class="pipeline-step">
-                            <div style="display:flex; align-items:center; gap:8px;">
+                            <div style="display:flex; align-items:center; gap:6px;">
                                 <span class="pipeline-idx">02</span>
-                                <strong>x402 Oracle · 1.00 XLM</strong>
+                                <div><strong>6.50 XLM Fuel Sent</strong> <span style="font-size:11px; color:#64748b;">(defund_escrow 36 XLM)</span></div>
                             </div>
-                            <a id="txLinkClearingFee" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">6e680996...</a>
+                            <a id="txLinkDefundEscrow" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
                         </div>
                         <div class="pipeline-step">
-                            <div style="display:flex; align-items:center; gap:8px;">
+                            <div style="display:flex; align-items:center; gap:6px;">
                                 <span class="pipeline-idx">03</span>
-                                <strong>Driver Advance · 6.50 XLM + Unwind (defund_escrow)</strong>
+                                <div><strong>25.60 XLM Velo Floor</strong> <span style="font-size:11px; color:#64748b;">(PaymentIntent locked)</span></div>
                             </div>
-                            <a id="txLinkDefundEscrow" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">df5cc030...</a>
+                            <a id="txLinkFundEscrow" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
                         </div>
                         <div class="pipeline-step">
-                            <div style="display:flex; align-items:center; gap:8px;">
+                            <div style="display:flex; align-items:center; gap:6px;">
                                 <span class="pipeline-idx">04</span>
-                                <strong>Velo Checkout Lock · 25.60 XLM</strong>
+                                <div><strong>23.80 XLM Co-op Paid</strong> <span style="font-size:11px; color:#64748b;">(NFC dock tap release)</span></div>
                             </div>
-                            <a id="txLinkFundEscrow" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">3ca5f7ae...</a>
-                        </div>
-                        <div class="pipeline-step">
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <span class="pipeline-idx">05</span>
-                                <strong>Co-op Settlement · 23.80 XLM</strong>
-                            </div>
-                            <a id="txLinkRegisterAgent" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">6e72a527...</a>
+                            <a id="txLinkRegisterAgent" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
                         </div>
                     </div>
 
-                    <div style="margin-top:10px; font-size:11px; color:#64748b; display:flex; justify-content:space-between;">
-                        <span>Agent: <code id="uiAgentPubKey">GATDP2GA...</code></span>
-                        <span>Owner: <code id="uiOwnerPubKey">GBZOFVJB...</code></span>
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; padding-top:8px; border-top:1px solid #e2e8f0;">
+                        <span style="color:var(--text-secondary);">Buyer Floor Status:</span>
+                        <span id="veloEscrowStatusBadge" class="pill pill-amber">Awaiting Checkout</span>
                     </div>
-                    <div id="engineDecisionBadge" style="display:none;">HOLD_PRIMARY_ROUTE</div>
-                    <div id="engineLayer1Summary" style="display:none;">VPD 2.48 kPa · 179 mW/kg · RUL 1.5h</div>
-                    <div id="engineLayer2Summary" style="display:none;">₱237,980 vs ₱120,000 (+₱117,980)</div>
-                    <div id="engineRationaleText" style="display:none;">RUL (1.5h) &lt; ETA_Manila (8.5h) at 34.2°C (179 mW/kg). Diverting to Bulacan Floor saves +₱117,980 (+11.80 XLM).</div>
-                    <div id="uiEscrowBalanceBadge" style="display:none;"></div>
-                    <div id="uiClearingFeeText" style="display:none;">1.15 XLM</div>
-                    <div id="uiCoopPayoutText" style="display:none;">23.80 XLM</div>
-                    <div id="uiUnwoundEscrowText" style="display:none;">36.00 XLM</div>
                 </div>
-
             </div>
 
-            <!-- CHART + ROOT-CAUSE SPOILAGE BARS -->
-            <div class="split-2" style="margin-top:16px;">
-                <div class="chart-box">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                        <span class="kpi-label-compact">FRESHNESS DEGRADATION CURVE F(t)</span>
-                        <span class="pill pill-green"><span class="status-dot status-dot-green"></span> Live Telemetry</span>
-                    </div>
-                    <canvas id="freshnessChart"></canvas>
+        </div>
+
+        <!-- COLLAPSED TECHNICAL ON-CHAIN PROOFS & HARDWARE SPECS ACCORDION -->
+        <details class="tech-details-accordion">
+            <summary class="tech-details-summary">
+                View Technical On-Chain Proofs &amp; Hardware Specs
+            </summary>
+            <div class="tech-details-body">
+                <div style="display:none;">
+                    <code id="uiVeloIntentId">pi_awiten_bgt402_ready</code>
+                    <strong id="uiVeloBuyerName">Bulacan Food Dehydrator (Contracted Floor)</strong>
+                    <strong id="uiVeloAmount">25.60 XLM (₱256,000 Gross)</strong>
+                    <code id="uiLatestWebhookSig">None yet</code>
                 </div>
 
-                <div class="clean-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+                <!-- CONTRACT SWITCHER & ADDRESS CODES -->
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
                     <div>
-                        <span class="kpi-label-compact">FACTOR ATTRIBUTION (TREESHAP)</span>
-                        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
-                            Real-time sensor contribution to freshness loss:
-                        </p>
+                        <span class="pill pill-green" id="activeContractSetLabel">Active Set: Builder Handbook (2026-10-24)</span>
+                    </div>
+                    <div style="display:flex; gap:6px;">
+                        <button id="btnSetSdkDefault" type="button" class="btn btn-primary btn-xs" onclick="switchContractSetUI('SDK_DEFAULT_2026_10_07')">
+                            SDK Default (2026-10-07)
+                        </button>
+                        <button id="btnSetHandbook" type="button" class="btn btn-outline btn-xs" onclick="switchContractSetUI('HANDBOOK_2026_10_24')">
+                            Handbook (2026-10-24)
+                        </button>
+                    </div>
+                </div>
 
-                        <div class="shap-row">
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:10px; margin-bottom:16px; font-size:11.5px;">
+                    <div style="background:#f8fafc; padding:8px 10px; border-radius:6px; border:1px solid #e2e8f0;">
+                        <strong>device_registry:</strong> <code id="contractIdDeviceRegistry">CB4DPMGOA374JIB2ZVD4AHW5GJKQUYNOFGRYNOJ75EFH2KCJSMHOWIRA</code>
+                    </div>
+                    <div style="background:#f8fafc; padding:8px 10px; border-radius:6px; border:1px solid #e2e8f0;">
+                        <strong>agent_registry:</strong> <code id="contractIdAgentRegistry">CBTDMJVCFQDIVWZBKAKZ2FQ3UEJNAAUFYCTJ3E4ON2MYXPLPSIXQ25JZ</code>
+                    </div>
+                    <div style="background:#f8fafc; padding:8px 10px; border-radius:6px; border:1px solid #e2e8f0;">
+                        <strong>payment_escrow:</strong> <code id="contractIdPaymentEscrow">CA5SI2J4V67Q5RL526HCFK25W757F26E77A6N2X3T3YV26E6CFFSZU3S</code>
+                    </div>
+                </div>
+
+                <!-- TREESHAP SPOILAGE ATTRIBUTION & CAD DIAGRAM -->
+                <div class="split-2" style="margin-bottom:16px;">
+                    <div class="clean-card">
+                        <span class="kpi-label-compact">TREESHAP SENSOR ATTRIBUTION</span>
+                        <div class="shap-row" style="margin-top:8px;">
                             <div class="shap-label-line">
                                 <span>Trapped Canopy Heat</span>
                                 <strong id="shapThermalVal" style="color:#dc2626;">52%</strong>
@@ -731,7 +567,6 @@
                                 <div id="shapThermalBar" class="shap-bar-fill" style="width:52%; background:#dc2626;"></div>
                             </div>
                         </div>
-
                         <div class="shap-row">
                             <div class="shap-label-line">
                                 <span>Moisture Loss (Wilting)</span>
@@ -741,7 +576,6 @@
                                 <div id="shapMoistureBar" class="shap-bar-fill" style="width:24%; background:#f5821f;"></div>
                             </div>
                         </div>
-
                         <div class="shap-row">
                             <div class="shap-label-line">
                                 <span>Highway Shock &amp; Bruising</span>
@@ -751,7 +585,6 @@
                                 <div id="shapVibrationBar" class="shap-bar-fill" style="width:14%; background:#2563eb;"></div>
                             </div>
                         </div>
-
                         <div class="shap-row">
                             <div class="shap-label-line">
                                 <span>Harvest Field Heat</span>
@@ -763,19 +596,16 @@
                         </div>
                     </div>
 
-                    <div style="padding-top:10px; border-top:1px solid var(--border-subtle); display:flex; justify-content:space-between; font-size:11.5px; font-weight:600; color:var(--text-secondary);">
-                        <span>Pod #BGT-402-POD · 94% Batt</span>
-                        <span>65/65 Mountain Packets Synced</span>
+                    <div class="clean-card" style="display:flex; flex-direction:column; justify-content:center;">
+                        <span class="kpi-label-compact">REV-1 HARDWARE CAD DIAGRAM</span>
+                        <div style="border-radius:8px; overflow:hidden; border:1px solid #cbd5e1; margin-top:8px;">
+                            <img src="assets/awiten-rev1-cad.jpg" alt="AWITEN REV-1 CAD" style="width:100%; height:auto; display:block;">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- VERIFIED ON-CHAIN TRANSACTION LEDGER TABLE -->
-            <div class="clean-card" style="margin-top:16px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-                    <h3 style="margin:0; font-size:16px;">Verified Stellar Testnet Transaction Proofs</h3>
-                    <span class="pill pill-green" id="activeContractSetLabel">Active Set: Builder Handbook (2026-10-24)</span>
-                </div>
+                <!-- FULL VERIFIED STELLAR TESTNET TRANSACTION LEDGER TABLE -->
+                <h4 style="margin:0 0 8px; font-size:14px;">Stellar Testnet Transaction Proofs</h4>
                 <table>
                     <thead>
                         <tr>
@@ -786,213 +616,49 @@
                         </tr>
                     </thead>
                     <tbody id="onChainProofTableBody">
-                        <!-- Populated dynamically from /api/agent/state & testnet-proofs.json -->
+                        <!-- Populated dynamically from testnet proofs -->
                     </tbody>
                 </table>
+
+                <!-- HIDDEN NODES PRESERVED FOR LEGACY COMPATIBILITY -->
+                <div style="display:none;">
+                    <span id="matrixTriggerBadge" style="display:none;"></span>
+                    <span id="matrixTriggerDesc" style="display:none;"></span>
+                    <span id="matrixRul" style="display:none;">1.5h</span>
+                    <span id="matrixEta" style="display:none;">8.5h</span>
+                    <span id="matrixTemp" style="display:none;">34.2°C</span>
+                    <span id="matrixRh" style="display:none;">54% RH</span>
+                    <span id="matrixResp" style="display:none;">179 mW/kg</span>
+                    <span id="matrixVpd" style="display:none;">2.48 kPa</span>
+                    <span id="uiDeviceHash">d7603c328641...</span>
+                    <span id="uiDockDeviceHash">8edde7503399...</span>
+                    <span id="uiAgentPubKey">GATDP2GA...</span>
+                    <span id="uiOwnerPubKey">GBZOFVJB...</span>
+                    <span id="uiClearingFeeText">1.15 XLM</span>
+                    <span id="uiCoopPayoutText">23.80 XLM</span>
+                    <span id="uiUnwoundEscrowText">36.00 XLM</span>
+                    <span id="uiEscrowBalanceBadge"></span>
+                    <span id="dispatcherHighestBidLabel">₱33.50 / kg</span>
+                    <a id="txLinkRegisterDock" href="https://stellar.expert/explorer/testnet">Dock Tx</a>
+                    <a id="txLinkClearingFee" href="https://stellar.expert/explorer/testnet">Fee Tx</a>
+                    <select id="truckSelect"><option value="bgt402" selected>BGT-402</option></select>
+                    <input type="checkbox" id="autonomousAgentToggle" checked>
+                    <span id="aiActionHeader"><span id="aiAction">1-Tap Divert Now</span></span>
+                    <span id="rerouteBannerDesc">Divert BGT-402</span>
+                    <div id="engineDecisionBadge">EXECUTE_AUTONOMOUS_DIVERSION</div>
+                    <div id="engineLayer1Summary">VPD 2.48 kPa · 179 mW/kg · RUL 1.5h</div>
+                    <div id="engineLayer2Summary">₱237,980 vs ₱120,000 (+₱117,980)</div>
+                    <div id="engineRationaleText">RUL (1.5h) &lt; ETA_Manila (8.5h)</div>
+                </div>
+
             </div>
-        </section>
-
-        <!-- TAB 2: LIVE TRUCK MONITOR -->
-        <section id="dashboard" class="tab">
-            <div class="decision-banner">
-                <div>
-                    <h3 id="aiActionHeader">Recommended Action: <span id="aiAction" style="color:#d97706;">1-Tap Divert Now</span></h3>
-                    <p id="rerouteBannerDesc">
-                        Divert Truck BGT-402 40 mins early to <strong>Bulacan Food Dehydrator (@ ₱32/kg)</strong> to lock in <strong>₱237,980 net (23.80 XLM)</strong> and save <strong>+₱117,980</strong> vs. Balintawak.
-                    </p>
-                </div>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <button class="btn btn-primary btn-lg" onclick="openModal()">
-                        1-Tap Reroute &amp; Advance 6.50 XLM (+₱118k)
-                    </button>
-                    <button class="btn btn-outline btn-lg" onclick="showTab('noir-velo')">
-                        View On-Chain Escrow
-                    </button>
-                </div>
-            </div>
-
-            <!-- 4 BIG SCANNABLE KPI CARDS -->
-            <div class="kpi-grid-4">
-                <div class="kpi-card">
-                    <span class="kpi-label">Freshness Score F(t)</span>
-                    <span id="freshnessScore" class="kpi-value" style="color:#d97706;">62.4%</span>
-                    <span id="aiGrade" class="pill pill-amber">Grade 3</span>
-                    <span id="gradeSubtext" class="kpi-sub" style="display:block; margin-top:4px;">Processing Tier</span>
-                </div>
-
-                <div class="kpi-card">
-                    <span class="kpi-label">Time Before Price Crash</span>
-                    <span id="rulValue" class="kpi-value" style="color:#d97706;">2.8 hrs</span>
-                    <span id="nsgaStatusText" class="kpi-sub" style="color:#15803d; font-weight:700;">Divert Window Open</span>
-                </div>
-
-                <div class="kpi-card">
-                    <span class="kpi-label">Canopy Heat &amp; Humidity</span>
-                    <span id="tempValue" class="kpi-value" style="color:#dc2626;">34.2°C</span>
-                    <span id="rhValue" class="kpi-sub">RH: 54%</span> · <span id="vpdValue" class="kpi-sub">2.48 kPa</span>
-                    <div id="respValue" style="font-size:11px; color:var(--text-muted); margin-top:2px;">Heat: 174 mW/kg</div>
-                </div>
-
-                <div class="kpi-card">
-                    <span class="kpi-label">Best Rescue Outcome</span>
-                    <span id="liveEvDelta" class="kpi-value" style="color:#15803d;">+₱117,980</span>
-                    <span id="aiBuyerSub" class="kpi-sub">Bulacan Floor: ₱32/kg (25.60 XLM)</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 3: RESCUE BUYERS -->
-        <section id="marketplace" class="tab">
-            <div style="margin-bottom:16px;">
-                <h2 style="font-size:22px; color:var(--brand-forest);">Pre-Contracted Rescue Buyers (Mid-Route Off-Take)</h2>
-                <p style="font-size:13.5px; color:var(--text-secondary);">
-                    Tap any buyer below to reroute Truck #BGT-402 (8,000 kg Cabbage), advance <code>6.50 XLM</code> to Mang Ramon, and open a Velo Checkout Session.
-                </p>
-            </div>
-
-            <div class="buyer-grid">
-                <div class="buyer-card" style="border-color:rgba(22,163,74,0.6);">
-                    <div>
-                        <span class="pill pill-green">RECOMMENDED · GUARANTEED FLOOR</span>
-                        <h3 style="margin-top:8px;">Bulacan Food Dehydrator</h3>
-                        <div class="buyer-price">₱32.00 / kg <span style="font-size:15px; color:var(--text-muted);">(25.60 XLM)</span></div>
-                        <p style="font-size:13px; color:var(--text-secondary); margin-top:4px;">
-                            <strong>₱237,980 Net Payout (23.80 XLM)</strong> · Saves <strong>+₱117,980</strong> vs. Balintawak. Pre-signed Grade 3 processing contract—zero waiting for bids.
-                        </p>
-                    </div>
-                    <button class="btn btn-primary" onclick="acceptBuyerOffer('Bulacan Food Dehydrator (Contracted Floor)', 32.0)">
-                        Reroute to Bulacan Dehydrator (₱32/kg · 25.60 XLM)
-                    </button>
-                </div>
-
-                <div class="buyer-card" style="border-color:rgba(37,99,235,0.4);">
-                    <div>
-                        <span class="pill pill-blue">LIVE REGIONAL BROKER BID</span>
-                        <h3 style="margin-top:8px;">Urdaneta / Tarlac Wholesale Broker</h3>
-                        <div id="dispatcherHighestBidLabel" class="buyer-price" style="color:#1d4ed8;">₱33.50 / kg</div>
-                        <p style="font-size:13px; color:var(--text-secondary); margin-top:4px;">
-                            Highest sealed bid from accredited regional brokers. <em>(Switch to Broker Terminal to place a higher live bid!)</em>
-                        </p>
-                    </div>
-                    <button class="btn btn-blue" onclick="acceptBuyerOffer('Urdaneta Accredited Broker (Sealed Bid)', window.currentBrokerBid || 33.5)">
-                        Accept Highest Broker Bid
-                    </button>
-                </div>
-
-                <div class="buyer-card">
-                    <div>
-                        <span class="pill pill-amber">INSTITUTIONAL FLOOR</span>
-                        <h3 style="margin-top:8px;">DTI e-Kadiwa / LGU Feeding Hub</h3>
-                        <div class="buyer-price" style="color:#d97706;">₱24.00 / kg <span style="font-size:15px; color:var(--text-muted);">(19.20 XLM)</span></div>
-                        <p style="font-size:13px; color:var(--text-secondary); margin-top:4px;">
-                            <strong>₱192,000 Gross</strong>. Fast-tracks safe produce with minor outer-leaf wilt to municipal relief hubs.
-                        </p>
-                    </div>
-                    <button class="btn btn-outline" onclick="acceptBuyerOffer('DTI e-Kadiwa / LGU Hub', 24.0)">
-                        Route to e-Kadiwa Hub (₱24/kg)
-                    </button>
-                </div>
-
-                <div class="buyer-card">
-                    <div>
-                        <span class="pill pill-red">LAST-RESORT BIOMASS FLOOR</span>
-                        <h3 style="margin-top:8px;">Central Luzon Livestock Feed Mill</h3>
-                        <div class="buyer-price" style="color:#dc2626;">₱12.00 / kg <span style="font-size:15px; color:var(--text-muted);">(9.60 XLM)</span></div>
-                        <p style="font-size:13px; color:var(--text-secondary); margin-top:4px;">
-                            <strong>₱96,000 Gross</strong>. For severely delayed Grade 4 loads—recovers fuel costs and avoids landfill dumping.
-                        </p>
-                    </div>
-                    <button class="btn btn-outline" onclick="acceptBuyerOffer('Central Luzon Feed Mill', 12.0)">
-                        Route to Feed Mill (₱12/kg)
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 4: TRIP MATH & POD SPECS -->
-        <section id="economics" class="tab">
-            <div class="grid-2">
-                <!-- MANG RAMON FINANCIAL COMPARISON -->
-                <div class="clean-card">
-                    <span class="pill pill-green">Mang Ramon's 8-Ton Trip Math (₱10,000 = 1.00 XLM Testnet Scale)</span>
-                    <h3>Why Diverting Beats Pushing to Manila</h3>
-                    <p style="margin-bottom:14px;">Normal Load Value: <strong>₱360,000 (36.00 XLM)</strong> (8,000 kg @ ₱45/kg)</p>
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Metric</th>
-                                <th style="color:#dc2626;">Push to Manila</th>
-                                <th style="color:#15803d;">1-Tap Divert (Noir + Velo)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>2 Tons Rotted</td>
-                                <td>₱0 (Dumped)</td>
-                                <td>Sold @ ₱32/kg</td>
-                            </tr>
-                            <tr>
-                                <td>6 Tons Remaining</td>
-                                <td>₱120,000 (@ ₱20/kg)</td>
-                                <td>Sold @ ₱32/kg (₱256,000 / 25.60 XLM)</td>
-                            </tr>
-                            <tr>
-                                <td>Noir Driver Fuel Advance &amp; 4.5% Fee</td>
-                                <td>—</td>
-                                <td>-₱18,020 (-6.50 XLM advance - 1.15 XLM fee)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Net Cash Home to Co-op</strong></td>
-                                <td><strong style="color:#dc2626;">₱120,000 (12.00 XLM)</strong></td>
-                                <td><strong style="color:#15803d;">₱237,980 (23.80 XLM)</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="saved-callout" style="margin-top:14px; margin-bottom:0;">
-                        <span>NET CASH RECOVERED:</span>
-                        <span style="color:#0b6e3b;">+₱117,980 (+11.80 XLM · 59 Mos of Service)</span>
-                    </div>
-                </div>
-
-                <!-- REV-1 SENSOR POD BOM & CAD -->
-                <div class="clean-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span class="pill pill-blue">Rev-1 Clip-On Pod (device_registry)</span>
-                        <strong style="color:var(--brand-green);">₱2,350 Total BOM</strong>
-                    </div>
-                    <h3>10-Second Mount · 1.56-Month Payback</h3>
-                    <p style="margin-bottom:14px;">Leased at ₱2,000/mo · SHA-256 UID registered in Noir <code>device_registry</code>.</p>
-
-                    <div style="margin-bottom:12px; border-radius:8px; overflow:hidden; border:1px solid #cbd5e1;">
-                        <img src="assets/awiten-rev1-cad.jpg" alt="AWITEN REV-1 CAD Diagram" style="width:100%; height:auto; display:block;">
-                    </div>
-
-                    <table>
-                        <thead>
-                            <tr><th>Part</th><th>Function</th><th>Cost</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><strong>ESP32-S3 + BG95 + NFC</strong></td><td>MCU + LTE-M / 2G / GPS + Dock NFC Tap</td><td>₱1,200</td></tr>
-                            <tr><td><strong>Dual SHT40 + ADXL</strong></td><td>±0.2°C Temp, RH &amp; Road Shock</td><td>₱350</td></tr>
-                            <tr><td><strong>6,000mAh LiFePO4</strong></td><td>14+ Days Runtime per Charge</td><td>₱380</td></tr>
-                            <tr><td><strong>IP67 Case + 32MB Flash</strong></td><td>Magnetic Mount + 96h Buffer</td><td>₱420</td></tr>
-                        </tbody>
-                    </table>
-
-                    <button class="btn btn-outline" style="width:100%; margin-top:14px;" onclick="showNotification('32MB Flash Buffer Verified: 65/65 Mountain Packets Synced (100%)')">
-                        Test Mountain Dead-Zone Buffer Sync
-                    </button>
-                </div>
-            </div>
-        </section>
+        </details>
 
     </main>
 </div>
 
 <!-- =====================================================================
-     VIEW 4: BROKER / PROCESSOR TERMINAL (PORTAL 2)
+     VIEW 4: BROKER / PROCESSOR TERMINAL (CLEAN 1-CARD VELO CHECKOUT)
      ===================================================================== -->
 <div id="brokerView" class="app-view">
 
@@ -1002,213 +668,100 @@
             <span class="brand-divider"></span>
             <div>
                 <div class="logo-subtitle">Processor &amp; Broker Terminal</div>
-                <strong style="font-size:12.5px; color:#1d4ed8;">Accredited Regional Off-Take Network (Velo Checkout Enabled)</strong>
+                <strong style="font-size:12.5px; color:#1d4ed8;">Accredited Regional Off-Take Network (Velo Checkout)</strong>
             </div>
         </div>
 
-        <nav class="console-tabs broker-nav">
-            <button onclick="showBrokerTab('broker-feed', this)" class="nav-btn active-nav-btn">Open Distress Lots (1)</button>
-            <button onclick="showBrokerTab('broker-bids', this)" class="nav-btn">My Bids &amp; Contracts</button>
-        </nav>
-
         <div style="display:flex; align-items:center; gap:8px;">
-            <span class="pill pill-blue">Broker / Processor</span>
+            <button class="btn btn-outline btn-sm" onclick="quickLoginAs('dispatcher')">01 · Fleet Console</button>
             <button class="btn btn-outline btn-sm" onclick="quickLoginAs('driver')">03 · Driver App</button>
-            <button class="btn btn-outline btn-sm" onclick="navigateTo('landing')">Overview</button>
+            <button class="btn btn-outline btn-sm" onclick="navigateTo('landing')">Back to Website</button>
             <button class="btn btn-danger btn-sm" onclick="logoutUser()">Sign Out</button>
         </div>
     </header>
 
     <main class="console-main">
+        <div class="single-card-center-wrap">
+            <div class="single-checkout-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <span class="pill pill-blue"><span class="status-dot status-dot-green"></span> LOT #BGT-402</span>
+                    <span id="brokerVeloStatusBadge" class="pill pill-amber">Ready for Checkout</span>
+                </div>
 
-        <!-- BROKER TAB 1: LIVE DISTRESS AUCTION -->
-        <section id="broker-feed" class="broker-tab active">
-            <div class="split-2">
+                <h2 style="font-size:22px; color:var(--brand-forest); margin:0 0 6px;">
+                    8,000 kg Highland Head Cabbage
+                </h2>
+                <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">
+                    Approaching Meycauayan Dock 3 (ETA 35m) · Attested Pod <code>BGT-402-POD-ESP32S3</code>
+                </p>
 
-                <!-- UNLOCKED LOT FOR BIDDING + VELO CHECKOUT -->
-                <div class="clean-card" style="border-color:rgba(37,99,235,0.45);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-                        <span class="pill pill-blue"><span class="status-dot status-dot-green"></span> OPEN FOR BIDS · LOT #BGT-402</span>
-                        <span style="font-size:13px; color:#d97706; font-weight:800;">
-                            Closes in <span id="auctionCountdown">02:44:18</span>
-                        </span>
+                <div class="grid-3" style="gap:10px; margin-bottom:18px;">
+                    <div class="hero-kpi-box">
+                        <strong id="brokerFeedFScore" style="color:#d97706;">62.4%</strong>
+                        <span>Verified Freshness</span>
                     </div>
-
-                    <h2 style="font-size:23px; margin:10px 0 4px; color:var(--brand-forest);">8,000 kg Highland Head Cabbage</h2>
-                    <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">
-                        Approaching Tarlac / Bulacan Junction (ETA 35 mins · Attested Pod <code>BGT-402-POD-ESP32S3</code>)
-                    </p>
-
-                    <div class="grid-3" style="gap:10px; margin-bottom:16px;">
-                        <div class="hero-kpi-box">
-                            <strong id="brokerFeedFScore" style="color:#d97706;">62.4%</strong>
-                            <span>Verified Freshness</span>
-                        </div>
-                        <div class="hero-kpi-box">
-                            <strong style="color:#d97706;">Grade 3</strong>
-                            <span>0% Core Rot · Crisp</span>
-                        </div>
-                        <div class="hero-kpi-box">
-                            <strong style="color:#15803d;">₱32.00/kg</strong>
-                            <span>Floor (25.60 XLM)</span>
-                        </div>
+                    <div class="hero-kpi-box">
+                        <strong style="color:#15803d;">₱32.00 / kg</strong>
+                        <span>Contract Floor</span>
                     </div>
-
-                    <div style="background:#eff6ff; border:1px solid rgba(37,99,235,0.22); padding:12px 14px; border-radius:12px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-size:13px; font-weight:600; color:var(--text-secondary);">Leading Broker Bid Right Now:</span>
-                        <strong id="brokerCurrentHighBid" style="font-size:17px; color:#1d4ed8;">₱33.50 / kg (₱268,000 · 26.80 XLM)</strong>
-                    </div>
-
-                    <!-- 1-CLICK BID FORM -->
-                    <form onsubmit="submitBrokerBid(event)">
-                        <div style="display:flex; gap:8px; margin-bottom:10px; align-items:center;">
-                            <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Quick Increment:</span>
-                            <button type="button" class="stop-chip" onclick="adjustBrokerBid(0.5)">+₱0.50/kg</button>
-                            <button type="button" class="stop-chip" onclick="adjustBrokerBid(1.0)">+₱1.00/kg</button>
-                            <button type="button" class="stop-chip" onclick="adjustBrokerBid(2.0)">+₱2.00/kg</button>
-                        </div>
-
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
-                            <div>
-                                <label for="bidPriceInput" style="font-size:12px; font-weight:700; color:var(--brand-forest); display:block; margin-bottom:4px;">Your Bid (₱ / kg)</label>
-                                <input id="bidPriceInput" type="number" step="0.5" min="32.0" max="45" value="34.5" class="form-control" oninput="updateBidTotalPreview()" required>
-                            </div>
-                            <div>
-                                <label for="bidHubSelect" style="font-size:12px; font-weight:700; color:var(--brand-forest); display:block; margin-bottom:4px;">Drop-Off Hub</label>
-                                <select id="bidHubSelect" class="form-control">
-                                    <option value="Bulacan Food Dehydrator (Meycauayan Dock 3)">Bulacan Dehydrator (Meycauayan Dock 3)</option>
-                                    <option value="Urdaneta Wholesale Bagsakan">Urdaneta Bagsakan</option>
-                                    <option value="Tarlac Regional Trading Post">Tarlac Trading Post</option>
-                                    <option value="NVAT Bambang Terminal">NVAT Bambang</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-blue btn-lg" style="width:100%; margin-bottom:10px;">
-                            Submit Sealed Bid (<span id="bidTotalPreview">₱276,000</span>)
-                        </button>
-                    </form>
-
-                    <!-- VELO CHECKOUT & VERIFIED WEBHOOK ACTIONS -->
-                    <div class="velo-checkout-box">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <strong style="font-size:13px; color:var(--brand-forest);">Instant Off-Take Settlement via Velo SDK (<code>@carts1024/velo-sdk</code>)</strong>
-                            <span id="brokerVeloStatusBadge" class="pill pill-amber">Ready for Checkout</span>
-                        </div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                            <button type="button" class="btn btn-primary" onclick="launchVeloCheckoutFromBroker()">
-                                Pay &amp; Lock Lot via Velo Checkout
-                            </button>
-                            <button type="button" class="btn btn-outline" onclick="simulateVerifiedVeloWebhookUI()">
-                                Simulate Verified Velo Webhook
-                            </button>
-                        </div>
-                        <div id="brokerVeloSessionInfo" style="font-size:12px; color:var(--text-secondary); margin-top:8px;">
-                            Locks <code>25.60 XLM</code> (₱256,000 Processor Floor) via <code>velo.checkout.sessions.create()</code> and unlocks Mang Ramon's Dehydrator Dock NFC Handoff.
-                        </div>
+                    <div class="hero-kpi-box">
+                        <strong style="color:var(--brand-green);">25.60 XLM</strong>
+                        <span>₱256,000 Gross</span>
                     </div>
                 </div>
 
-                <!-- RIGHT COLUMN: QUALITY STAMP + FARMER FIREWALL -->
-                <div style="display:flex; flex-direction:column; gap:14px;">
-                    <div class="clean-card">
-                        <span class="pill pill-green">Sensor-Verified Quality</span>
-                        <h3 style="font-size:16px; margin-top:8px;">Why You Can Bid Sight-Unseen</h3>
-                        <div style="font-size:13px; color:var(--text-secondary); display:flex; flex-direction:column; gap:6px; margin-top:10px;">
-                            <div>• <strong>Noir Hardware Attested:</strong> <code>device_registry</code> verified</div>
-                            <div>• <strong>PNS/BAFS 19:2018 Certified:</strong> Grade 3 Processing</div>
-                            <div>• <strong>Zero Microbial Rot:</strong> Only outer wrapper leaf wilt</div>
-                            <div>• <strong>94.2% Dry-Matter Yield:</strong> Ideal for shredding/dehydration</div>
-                            <div>• <strong>0% Buyer Fee:</strong> 4.5% fee is paid by seller upon rescue</div>
-                        </div>
-                    </div>
-
-                    <div class="clean-card">
-                        <h3 style="font-size:15px; margin-top:0;">Farmer Firewall (Normal Runs Hidden)</h3>
-                        <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:10px;">
-                            Normal cooperative shipments are encrypted so destination buyers cannot use sensor data to slash prices:
-                        </p>
-                        <div style="display:flex; flex-direction:column; gap:8px;">
-                            <div class="shield-card">
-                                <span><strong>#BGT-118</strong> · 6,500 kg Wombok</span>
-                                <span class="pill pill-green">Grade 1 · Shielded</span>
-                            </div>
-                            <div class="shield-card">
-                                <span><strong>#NVT-309</strong> · 9,000 kg Carrots</span>
-                                <span class="pill pill-green">Grade 1 · Shielded</span>
-                            </div>
-                        </div>
-                    </div>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <button type="button" class="btn btn-primary btn-lg" style="width:100%;" onclick="launchVeloCheckoutFromBroker()">
+                        Pay 25.60 XLM via Velo Checkout
+                    </button>
+                    <button type="button" class="btn btn-outline" style="width:100%;" onclick="simulateVerifiedVeloWebhookUI()">
+                        Confirm Payment Webhook
+                    </button>
                 </div>
 
+                <div id="brokerVeloSessionInfo" style="font-size:12px; color:var(--text-secondary); margin-top:12px; text-align:center;">
+                    Locks ₱256,000 (25.60 XLM) in escrow and unlocks Dock 3 NFC delivery.
+                </div>
+
+                <!-- HIDDEN COMPATIBILITY BID ELEMENTS -->
+                <div style="display:none;">
+                    <strong id="brokerCurrentHighBid">₱33.50 / kg</strong>
+                    <div id="broker-feed" class="broker-tab active">
+                        <span id="auctionCountdown">02:44:18</span>
+                        <input id="bidPriceInput" type="number" value="34.5">
+                        <select id="bidHubSelect"><option value="Bulacan">Bulacan</option></select>
+                        <span id="bidTotalPreview">₱276,000</span>
+                    </div>
+                    <div id="broker-bids" class="broker-tab">
+                        <table><tbody id="brokerBidLedgerBody"></tbody></table>
+                    </div>
+                </div>
             </div>
-        </section>
-
-        <!-- BROKER TAB 2: MY BIDS & FLOOR CONTRACTS -->
-        <section id="broker-bids" class="broker-tab">
-            <h2 style="font-size:20px; margin-bottom:12px; color:var(--brand-forest);">Submitted Sealed Bids &amp; Standing Floors</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Lot &amp; Cargo</th>
-                        <th>Drop-Off Hub</th>
-                        <th>Bid Price</th>
-                        <th>Total Value</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="brokerBidLedgerBody">
-                    <tr>
-                        <td><strong>#BGT-402</strong> (8,000 kg Cabbage)</td>
-                        <td>Urdaneta Wholesale Bagsakan</td>
-                        <td><strong style="color:#1d4ed8;">₱33.50 / kg</strong></td>
-                        <td>₱268,000 (26.80 XLM)</td>
-                        <td><span class="pill pill-blue">Leading Broker Bid</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Standing Floor</strong> (Grade 3)</td>
-                        <td>Bulacan Food Dehydrator</td>
-                        <td><strong style="color:#15803d;">₱32.00 / kg</strong></td>
-                        <td>₱256,000 (25.60 XLM)</td>
-                        <td><span class="pill pill-green">Guaranteed Floor</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Standing Floor</strong> (Grade 4)</td>
-                        <td>Central Luzon Feed Mill</td>
-                        <td><strong style="color:#d97706;">₱12.00 / kg</strong></td>
-                        <td>₱96,000 (9.60 XLM)</td>
-                        <td><span class="pill pill-amber">Biomass Floor</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
+        </div>
     </main>
 </div>
 
 <!-- =====================================================================
-     VIEW 5 (PORTAL 3): VIAJERO DRIVER & DOCK NFC HANDOFF MOBILE APP
+     VIEW 5: VIAJERO DRIVER & DOCK NFC HANDOFF MOBILE APP (SINGLE-TAP UI)
      ===================================================================== -->
 <div id="driverView" class="app-view">
+
     <header class="console-header">
         <div class="brand-wrap" onclick="navigateTo('landing')">
             <img src="assets/awiten-logo.png" alt="AWITEN.ai" class="brand-logo-img">
             <span class="brand-divider"></span>
             <div>
-                <div class="logo-subtitle">Portal 3 · Viajero Driver &amp; Dock NFC Handoff App</div>
+                <div class="logo-subtitle">Portal 3 · Viajero Driver Mobile App</div>
                 <strong style="font-size:12.5px; color:var(--brand-green);">#BGT-402 · Mang Ramon · 8,000 kg Scorpio Cabbage</strong>
             </div>
         </div>
 
-        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-            <button type="button" class="btn btn-outline btn-sm" onclick="triggerAutonomousDiversionFlow()">
-                Simulate Hour 4.5 Advance (+6.50 XLM)
-            </button>
-            <button type="button" class="btn btn-outline btn-sm" onclick="simulateVerifiedVeloWebhookUI()">
-                Simulate Velo Buyer Lock
-            </button>
+        <div style="display:flex; align-items:center; gap:8px;">
             <button type="button" class="btn btn-outline btn-sm" onclick="quickLoginAs('dispatcher')">
                 01 · Fleet Console
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="navigateTo('landing')">
+                Back to Website
             </button>
             <button type="button" class="btn btn-danger btn-sm" onclick="logoutUser()">
                 Sign Out
@@ -1220,97 +773,75 @@
         <div class="mobile-phone-frame">
             <div class="phone-notch"></div>
 
-            <!-- PHONE HEADER: VIAJERO CABIN STATUS -->
+            <!-- CABIN STATUS HEADER -->
             <div class="phone-header">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span class="pill pill-green" style="font-size:10.5px;">POD BGT-402-POD · ATTESTED</span>
+                    <span class="pill pill-green" style="font-size:10.5px;">TRUCK #BGT-402 · MANG RAMON</span>
                     <span id="driverPhoneTempBadge" class="pill pill-red" style="font-size:10.5px;">34.2°C · RH 54%</span>
                 </div>
-                <h2 style="font-size:19px; color:#ffffff; margin-top:8px;">#BGT-402 · Mang Ramon</h2>
-                <div style="font-size:12px; color:#bbf7d0;">8,000 kg Scorpio Head Cabbage · Benguet Highland Co-op</div>
+                <h2 style="font-size:18px; color:#ffffff; margin:8px 0 2px;">Benguet Highland Co-op</h2>
+                <div style="font-size:11.5px; color:#bbf7d0;">8,000 kg Scorpio Head Cabbage · Pod BGT-402-POD</div>
             </div>
 
             <div class="phone-body">
-                <!-- CARD 1: ACTIVE ROUTE & REROUTE ORDER -->
+                <!-- 1. REROUTE ORDER CARD -->
                 <div id="driverRouteBanner" class="phone-card phone-alert-card">
                     <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:#b45309;">
-                        AUTONOMOUS REROUTE ORDER (HOUR 4.5)
+                        NEW ROUTE ASSIGNED
                     </div>
                     <strong id="driverRouteHeadline" style="display:block; font-size:14.5px; color:var(--brand-forest); margin-top:3px;">
-                        Exit TPLEX at Carmen &rarr; Bulacan Food Dehydrator (Meycauayan Dock 3)
+                        Divert to Bulacan Dehydrator (Dock 3)
                     </strong>
                     <p id="driverRouteSubtext" style="font-size:12px; color:var(--text-secondary); margin-top:4px;">
-                        Avoids 8.5-hr NLEX Bocaue gridlock &amp; Grade 4 rot collapse. Pre-contracted ₱32.00/kg floor locked.
+                        Take Carmen Exit. ₱32/kg floor price locked.
                     </p>
                 </div>
 
-                <!-- CARD 2: NOIR DRIVER TRIP WALLET (6.50 XLM ADVANCE) -->
+                <!-- 2. FUEL & TOLL ADVANCE CARD -->
                 <div class="phone-card">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <span style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--text-muted);">
-                            NOIR DRIVER TRIP WALLET
+                            FUEL &amp; TOLL ADVANCE
                         </span>
                         <span id="driverWalletPill" class="pill pill-green" style="font-size:10.5px;">
-                            <span id="driverWalletStatusPill">+6.50 XLM CREDITED</span>
+                            <span id="driverWalletStatusPill">CREDITED</span>
                         </span>
                     </div>
                     <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:6px;">
                         <strong id="driverWalletXlm" style="font-size:26px; font-family:'Outfit',sans-serif; color:var(--brand-green);">
-                            <span id="driverWalletXlmAmount">+6.50 XLM</span>
+                            <span id="driverWalletXlmAmount">+₱6,500 (6.50 XLM)</span>
                         </strong>
-                        <span id="driverWalletPhp" style="font-size:13px; font-weight:700; color:var(--text-secondary);">
-                            <span id="driverWalletPhpAmount">₱6,500 PHP Eq. (Toll &amp; Diesel)</span>
+                        <span id="driverWalletPhp" style="font-size:12px; color:var(--text-muted); display:none;">
+                            <span id="driverWalletPhpAmount">₱6,500</span>
                         </span>
                     </div>
-                    <div style="font-size:11.5px; color:var(--text-muted); margin-top:4px;">
-                        Disbursed autonomously via <code>@noirx402/agent-sdk</code> (<code>authorizePayment</code> + <code>claim</code>).
-                    </div>
-                    <div style="margin-top:8px;">
-                        <a id="driverAdvanceTxLink" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link" style="font-size:11px;">
-                            View 6.50 XLM Driver Advance Tx on Stellar Expert &rarr;
-                        </a>
+                    <div style="display:none;">
+                        <a id="driverAdvanceTxLink" href="https://stellar.expert/explorer/testnet">Tx</a>
+                        <span id="driverBuyerLockBadge">Awaiting Velo Checkout</span>
+                        <span id="driverBuyerLockSubtext"></span>
                     </div>
                 </div>
 
-                <!-- CARD 3: VELO OFF-TAKER ESCROW LOCK STATUS -->
-                <div class="phone-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--text-muted);">
-                            OFF-TAKER BUYER ESCROW (VELO)
-                        </span>
-                        <span id="driverBuyerLockBadge" class="pill pill-amber" style="font-size:10.5px;">
-                            Awaiting Velo Checkout
-                        </span>
-                    </div>
-                    <div style="font-size:13px; font-weight:700; color:var(--brand-forest); margin-top:6px;">
-                        Bulacan Food Dehydrator · Meycauayan Weighbridge Dock 3
-                    </div>
-                    <div id="driverBuyerLockSubtext" style="font-size:12px; color:var(--text-secondary); margin-top:3px;">
-                        Guaranteed Floor: <strong>25.60 XLM (₱256,000 Gross)</strong> · Net Co-op Payout: <strong>23.80 XLM (₱237,980)</strong>
-                    </div>
-                </div>
-
-                <!-- CARD 4: PULSING DEHYDRATOR DOCK NFC HANDOFF BUTTON -->
+                <!-- 3. ONE GIANT SINGLE-TAP BUTTON -->
                 <button id="nfcHandoffBtn" type="button" class="nfc-tap-btn" onclick="confirmDriverNfcHandoff()">
-                    Tap Dehydrator Dock NFC Terminal (BGT-402-POD)
+                    TAP DOCK NFC TO COMPLETE DELIVERY
                 </button>
 
-                <!-- CARD 5: ON-CHAIN DELIVERY & ESCROW SETTLEMENT RECEIPT -->
+                <!-- 4. SETTLEMENT RECEIPT (SHOWN AFTER NFC TAP) -->
                 <div id="driverSettlementReceiptCard" class="phone-card settlement-receipt-card" style="display:none;">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span class="pill pill-green" style="font-size:10.5px;">ON-CHAIN ESCROW SETTLED</span>
-                        <code style="font-size:10.5px; color:#065f46;">payment_escrow.claim</code>
+                        <span class="pill pill-green" style="font-size:10.5px;">DELIVERY CONFIRMED</span>
+                        <span style="font-size:11px; font-weight:700; color:#065f46;">+₱117,980 Saved</span>
                     </div>
-                    <h3 style="font-size:16px; color:#065f46; margin:6px 0 4px;">
-                        23.80 XLM (₱237,980 Net) Released to Benguet Co-op!
+                    <h3 style="font-size:15px; color:#065f46; margin:6px 0 4px;">
+                        ₱237,980 (23.80 XLM) Paid to Benguet Co-op
                     </h3>
-                    <div style="font-size:12px; color:var(--text-secondary); display:flex; flex-direction:column; gap:3px;">
-                        <div>• <strong>Attested Device:</strong> <code id="receiptDeviceHash">BGT-402-POD-ESP32S3</code></div>
-                        <div>• <strong>Net Cash Rescued vs. Manila:</strong> <strong style="color:#15803d;">+₱117,980 (+11.80 XLM)</strong></div>
+                    <div style="display:none;">
+                        <code id="receiptDeviceHash">BGT-402-POD-ESP32S3</code>
                     </div>
-                    <div style="margin-top:8px;">
+                    <div style="margin-top:6px;">
                         <a id="receiptSettlementTxLink" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link" style="font-size:11px;">
-                            View 23.80 XLM Co-op Settlement Tx on Stellar Expert &rarr;
+                            View Settlement Receipt on Stellar Expert &rarr;
                         </a>
                     </div>
                 </div>
@@ -1331,8 +862,8 @@
     </div>
 </div>
 
-<!-- PERSISTENT COLLAPSIBLE AGENT HUD DRAWER -->
-<div id="agentHudDrawer" class="agent-hud-drawer">
+<!-- PERSISTENT COLLAPSIBLE AGENT HUD DRAWER (COLLAPSED BY DEFAULT) -->
+<div id="agentHudDrawer" class="agent-hud-drawer collapsed">
     <div class="agent-hud-header" onclick="toggleAgentHudDrawer()">
         <div class="agent-hud-title">
             <span class="live-dot pulse"></span>
