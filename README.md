@@ -1,7 +1,7 @@
 # AWITEN-Pay — Autonomous Post-Harvest Spoilage Clearinghouse & Agentic Payment Protocol on Stellar
 
 ## 1. Project Description
-**AWITEN-Pay (Agri Watch Intelligence Trading Exchange Network):** An autonomous biophysical clearinghouse agent on Stellar that senses in-transit vegetable spoilage inside open-canvas Philippine *Viajero* trucks, autonomously advances driver diversion fuel via **Noir Soroban Escrow (`@noirx402/agent-sdk`)**, liquidates distressed loads to pre-contracted regional processors via **Velo Checkout (`@carts1024/velo-sdk`)**, and settles farmer cooperative payouts on physical NFC dock handoff.ß
+**AWITEN-Pay (Agri Watch Intelligence Trading Exchange Network):** An autonomous biophysical clearinghouse agent on Stellar that senses in-transit vegetable spoilage inside open-canvas Philippine *Viajero* trucks, autonomously advances driver diversion fuel via **Noir Soroban Escrow (`@noirx402/agent-sdk`)**, liquidates distressed loads to pre-contracted regional processors via **Velo Checkout (`@carts1024/velo-sdk`)**, and settles farmer cooperative payouts on physical NFC dock handoff.
 
 ---
 
@@ -25,13 +25,41 @@
 
 ---
 
-## 4. Problem Statement
-Ninety-seven percent of Philippine highland vegetables travel from Benguet to Metro Manila inside unrefrigerated, open-canvas *Viajero* trucks. When an 8,000 kg load of Scorpio head cabbage (`₱360,000` normal wholesale value at `₱45/kg`) hits a 13-hour NLEX traffic stall or midday lowland heat spike (`34.2°C` under the tarp), respiratory heat accelerates exponentially. By the time the truck reaches Balintawak Market in Manila, 2,000 kg have rotted (`₱0`) and the remaining 6,000 kg are slashed to `₱20/kg` distress pricing—leaving the farmer cooperative with only **`₱120,000` (`-₱240,000` value lost)**.
+## 4. Problem Statement: The Exact Problem AWITEN-Pay Solves
 
-Even when a pre-contracted regional processor (such as a Bulacan food dehydrator at `₱32/kg` = `₱256,000` gross) sits 40 minutes away along the highway, mid-route rescue fails in practice for three financial reasons:
-1. **Driver Liquidity Bottleneck:** The *Viajero* driver (Mang Ramon) does not carry extra cash for unplanned exit tolls and diversion diesel (`₱6,500`).
-2. **Off-Taker Payment Friction:** The cooperative cannot risk diverting an 8-ton truck off its primary route unless the rescue buyer's funds (`₱256,000`) are cryptographically locked before arrival.
-3. **Unverified Delivery Handoff:** Manual bank transfers take days to clear and lack hardware proof that the exact attested truck load arrived at the processor's weighbridge dock.
+`AWITEN.ai` already solves the **physical detection problem (`SENSE · PREDICT`)**: an ESP32-S3 telemetry pod under the canvas tarp detects a `34.2°C` heat spike on TPLEX and calculates that an 8-ton load of Benguet Scorpio head cabbage (`₱360,000` normal wholesale value at `₱45/kg`) has only **`1.5 hours` of Remaining Useful Life (`RUL`)** before fermentation—while Manila is still **`8.5 hours` away** (where the rotted load will be slashed to `₱120,000`, losing `-₱240,000`).
+
+Without **`AWITEN-Pay` (`LIQUIDATE`)**, knowing the vegetables are about to rot cannot save the load on a Philippine highway. Diverting an 8-ton truck mid-transit fails in the real world because of **four financial and principal-agent breakdowns**:
+
+### Failure A: Driver Cash-Handling Fraud & Moral Hazard ("Bawas", Fake Distress, & Fuel Skimming)
+- **The Real-World Breakdown:** In traditional *Viajero* hauling, if a cooperative sends `₱6,500` emergency cash to a driver's personal GCash to divert to a secondary buyer, or lets the driver negotiate a distress sale in cash on the side of the highway, three types of fraud happen:
+  1. **Fake Distress (*"Palit-Karga" / Collusion*):** A driver claims the vegetables overheated mid-highway, diverts to an accomplice buyer for cash, and reports a partial loss to the co-op.
+  2. **Fuel & Toll Advance Skimming:** The driver pockets the `₱6,500` emergency diversion cash and stays on the original route anyway.
+  3. **Cash Short-Changing (*"Bawas"*):** When the secondary buyer pays in cash at the loading dock, the driver under-reports the final weight or price paid per kilo and pockets the spread.
+- **How `AWITEN-Pay` Eliminates It (`device_registry` + `agent_registry` + Velo Checkout):**
+  - **Zero Driver Cash Handling on Cargo Sale:** The Bulacan processor's `25.60 XLM` (`₱256,000`) rescue payment **never touches the driver's hands**. It is paid directly through a hosted **Velo Checkout session** (`apps/server/src/index.js`) and locked in Stellar escrow until settlement goes straight to the **Benguet Highland Co-op wallet** (`GA25IKKS...QZPN`).
+  - **Cryptographic Proof of Distress (No Fake Diversions):** The autonomous agent refuses to trigger a diversion or release a fuel advance unless the distress payload carries a valid HMAC-SHA256 hardware signature (`verifyHardwareProof`) from the truck's registered `device_registry` pod (`BGT-402-POD-ESP32S3`).
+  - **Dual-Hardware Dock Attestation (No Weight/Delivery Fraud):** Final settlement and driver incentive clearance require **two independent hardware signatures** registered in `device_registry` (`CB4DPMGOA374JIB2ZVD4AHW5GJKQUYNOFGRYNOJ75EFH2KCJSMHOWIRA`): the truck pod (`BGT-402-POD-ESP32S3`) and the processor's stationary weighbridge NFC terminal (`BULACAN-DOCK3-NFC-TERMINAL`) at Dock 3.
+
+### Failure B: 2:00 AM Highway Liquidity Paralysis
+- **The Real-World Breakdown:** Highland vegetable trucks travel between `11:00 PM` and `6:00 AM`. Drivers are given exact cash for planned tolls and diesel. When a thermal spike hits at `3:30 AM` approaching the TPLEX Carmen exit, the co-op treasurer is asleep, rural banks are closed, and the truck has **12 minutes** before passing the exit ramp.
+- **How `AWITEN-Pay` Eliminates It (`agent_registry` + `x402`):**
+  - The cooperative pre-authorizes the **AWITEN Clearinghouse Agent** in `agent_registry` (`CBTDMJVCFQDIVWZBKAKZ2FQ3UEJNAAUFYCTJ3E4ON2MYXPLPSIXQ25JZ`) with a hard on-chain spending cap (`100.00 XLM`), asset whitelist (`XLM`), and 24-hour expiry.
+  - While the truck rolls at `60 km/h`, the agent autonomously pays `1.00 XLM` to unlock the `x402` Route & Weather Oracle (`apps/server/src/index.js`) and disburses the exact `6.50 XLM` (`₱6,500`) NLEX toll and diesel advance in 5 seconds via `payment_escrow`—zero human wake-up call required.
+
+### Failure C: Gate-Side Hostage Bargaining ("Bakaw" Price-Slashing)
+- **The Real-World Breakdown:** In Balintawak/Divisoria, once an unrefrigerated truck arrives with wilting outer leaves, wholesale brokers know the farmer cannot drive the load back up to Benguet. They slash the price by `60%–70%` at the gate (`₱45/kg -> ₱15/kg`, leaving `₱120,000`), or if a truck diverts to a provincial processor on a verbal phone promise, the processor lowballs the price once the truck is parked at their dock.
+- **How `AWITEN-Pay` Eliminates It (`@carts1024/velo-sdk` + `Velo.webhooks.verify`):**
+  - Before Mang Ramon completes the dock handoff in Pulilan, Bulacan, the secondary buyer (*Bulacan Agro-Dehydration & Pickling Corp.*) must lock the `25.60 XLM` (`₱256,000` at `₱32/kg`) distress floor via **Velo Checkout**.
+  - The server verifies the cryptographic `x-velo-signature` via `Velo.webhooks.verify({ payload, signature, secret })` (`apps/server/src/index.js`). The price is locked in code before a single crate is unloaded.
+
+### Failure D: Multi-Party Escrow Gridlock on Diverted Cargo
+- **The Real-World Breakdown:** When a truck bound for a primary Manila buyer (`₱360,000` invoice) is diverted mid-highway to a secondary Bulacan processor (`₱256,000` rescue order), three ledgers collide: the original Manila buyer's locked deposit, the driver's `₱6,500` emergency fuel advance, and the secondary buyer's rescue payment.
+- **How `AWITEN-Pay` Eliminates It (`payment_escrow` Atomic Unwind & Settlement):**
+  - The instant the Bulacan Dock 3 NFC tap is verified (`apps/server/src/index.js`), the agent executes an atomic 3-step settlement on `payment_escrow` (`CA5S4S7QGHJHJWVJBYL3CXZXZTNGKXMNZVDAEQNN7NUXFP4D7BYK7HIX`):
+    1. **`defund_escrow` (`36.00 XLM` / `₱360,000`):** Refunds the original Manila buyer's locked escrow because the truck was diverted.
+    2. **`authorize + claim` (`1.15 XLM` / `₱11,520`):** Collects the `4.5%` AWITEN clearinghouse fee (`₱6,500` fuel advance already disbursed at Hour 4.5).
+    3. **`authorize + claim` (`23.80 XLM` / `₱237,980`):** Settles the net rescue payout directly to the Benguet Highland Co-op—saving **`+₱117,980` (`+98.3%`)** over the `₱120,000` Manila spoilage loss.
 
 ---
 
