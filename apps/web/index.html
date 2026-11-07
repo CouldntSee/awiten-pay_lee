@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="https://www.velo-build.dev/wallets/v1/velo-wallet.js"></script>
 </head>
 <body>
 
@@ -35,6 +36,7 @@
 
         <div class="nav-actions">
             <span id="navSessionBadge" class="pill pill-green" style="display:none;"></span>
+            <velo-wallet id="stellar-wallet" project-key="vw_pk_TH73LPXfh_8OdvQPiYiMyL179KBbnGi_" api-base="https://www.velo-build.dev"></velo-wallet>
             <button id="navReturnConsoleBtn" class="btn btn-outline btn-sm" style="display:none;" onclick="returnToActiveConsole()">
                 Open My Console
             </button>
@@ -62,7 +64,7 @@
 
         <div class="hero-video-content">
             <span class="hero-eyebrow">THE ONE-STOP AUTONOMOUS CARGO CLEARINGHOUSE</span>
-            <h1 class="hero-video-title">STOP LOSING HARVESTS TO HIGHWAY HEAT</h1>
+            <h1 class="hero-video-title">STOP LOSING HARVESTS ON THE ROAD</h1>
             <p class="hero-video-sub">
                 When a highland vegetable truck overheats mid-highway, AWITEN-Pay advances driver diversion fuel, locks a nearby processor's floor price via Velo Checkout, and settles Noir escrow on delivery.
             </p>
@@ -180,7 +182,7 @@
                         Dock Receiver: <code>BULACAN-DOCK3-NFC-TERMINAL</code>
                     </div>
                     <div style="margin-top:10px; display:flex; gap:8px;">
-                        <a href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link" style="font-size:11px;">
+                        <a href="https://stellar.expert/explorer/testnet/tx/279fb4f3aa4adac7838c4bb056f74122f4795caecedff4915ae8f3f5721dfe28" target="_blank" rel="noopener" class="tx-pill-link" style="font-size:11px;">
                             View Pod Attestation on Stellar Expert &rarr;
                         </a>
                     </div>
@@ -480,28 +482,28 @@
                                 <span class="pipeline-idx">01</span>
                                 <div><strong>Pod Attested</strong> <span style="font-size:11px; color:#64748b;">(device_registry)</span></div>
                             </div>
-                            <a id="txLinkRegisterDevice" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
+                            <a id="txLinkRegisterDevice" href="https://stellar.expert/explorer/testnet/tx/279fb4f3aa4adac7838c4bb056f74122f4795caecedff4915ae8f3f5721dfe28" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
                         </div>
                         <div class="pipeline-step">
                             <div style="display:flex; align-items:center; gap:6px;">
                                 <span class="pipeline-idx">02</span>
                                 <div><strong>6.50 XLM Fuel Sent</strong> <span style="font-size:11px; color:#64748b;">(defund_escrow 36 XLM)</span></div>
                             </div>
-                            <a id="txLinkDefundEscrow" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
+                            <a id="txLinkDefundEscrow" href="https://stellar.expert/explorer/testnet/tx/26d1feec7625b1b8a5de61edf42d0a9bf00258a33640d7719f223733a94b020a" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
                         </div>
                         <div class="pipeline-step">
                             <div style="display:flex; align-items:center; gap:6px;">
                                 <span class="pipeline-idx">03</span>
                                 <div><strong>25.60 XLM Velo Floor</strong> <span style="font-size:11px; color:#64748b;">(PaymentIntent locked)</span></div>
                             </div>
-                            <a id="txLinkFundEscrow" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
+                            <a id="txLinkFundEscrow" href="https://stellar.expert/explorer/testnet/tx/3ca5f7ae30a12d167feb8218ab79e050799a405ab0d2a57a66aea6e3f6a7fd9b" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
                         </div>
                         <div class="pipeline-step">
                             <div style="display:flex; align-items:center; gap:6px;">
                                 <span class="pipeline-idx">04</span>
                                 <div><strong>23.80 XLM Co-op Paid</strong> <span style="font-size:11px; color:#64748b;">(NFC dock tap release)</span></div>
                             </div>
-                            <a id="txLinkRegisterAgent" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
+                            <a id="txLinkRegisterAgent" href="https://stellar.expert/explorer/testnet/tx/6e72a527d8348d1d10e749c0ee33708e3479f81de244a0fb17820ecc8cd33def" target="_blank" rel="noopener" class="tx-pill-link">[Tx]</a>
                         </div>
                     </div>
 
@@ -639,8 +641,8 @@
                     <span id="uiUnwoundEscrowText">36.00 XLM</span>
                     <span id="uiEscrowBalanceBadge"></span>
                     <span id="dispatcherHighestBidLabel">₱33.50 / kg</span>
-                    <a id="txLinkRegisterDock" href="https://stellar.expert/explorer/testnet">Dock Tx</a>
-                    <a id="txLinkClearingFee" href="https://stellar.expert/explorer/testnet">Fee Tx</a>
+                    <a id="txLinkRegisterDock" href="https://stellar.expert/explorer/testnet/tx/279fb4f3aa4adac7838c4bb056f74122f4795caecedff4915ae8f3f5721dfe28" target="_blank" rel="noopener">Dock Tx</a>
+                    <a id="txLinkClearingFee" href="https://stellar.expert/explorer/testnet/tx/6e72a527d8348d1d10e749c0ee33708e3479f81de244a0fb17820ecc8cd33def" target="_blank" rel="noopener">Fee Tx</a>
                     <select id="truckSelect"><option value="bgt402" selected>BGT-402</option></select>
                     <input type="checkbox" id="autonomousAgentToggle" checked>
                     <span id="aiActionHeader"><span id="aiAction">1-Tap Divert Now</span></span>
@@ -815,10 +817,15 @@
                             <span id="driverWalletPhpAmount">₱6,500</span>
                         </span>
                     </div>
-                    <div style="display:none;">
-                        <a id="driverAdvanceTxLink" href="https://stellar.expert/explorer/testnet">Tx</a>
-                        <span id="driverBuyerLockBadge">Awaiting Velo Checkout</span>
-                        <span id="driverBuyerLockSubtext"></span>
+                    <div style="margin-top:8px;">
+                        <a id="driverAdvanceTxLink" href="https://stellar.expert/explorer/testnet/tx/26d1feec7625b1b8a5de61edf42d0a9bf00258a33640d7719f223733a94b020a" target="_blank" rel="noopener" class="tx-pill-link" style="font-size:11px;">
+                            View 6.50 XLM Driver Advance Tx on Stellar Expert &rarr;
+                        </a>
+                    </div>
+                    <div style="margin-top:6px; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:11px; color:var(--text-secondary);">Processor Floor Lock:</span>
+                        <span id="driverBuyerLockBadge" class="pill pill-amber" style="font-size:10px;">Awaiting Velo Checkout</span>
+                        <span id="driverBuyerLockSubtext" style="display:none;"></span>
                     </div>
                 </div>
 
@@ -840,7 +847,7 @@
                         <code id="receiptDeviceHash">BGT-402-POD-ESP32S3</code>
                     </div>
                     <div style="margin-top:6px;">
-                        <a id="receiptSettlementTxLink" href="https://stellar.expert/explorer/testnet" target="_blank" rel="noopener" class="tx-pill-link" style="font-size:11px;">
+                        <a id="receiptSettlementTxLink" href="https://stellar.expert/explorer/testnet/tx/6e72a527d8348d1d10e749c0ee33708e3479f81de244a0fb17820ecc8cd33def" target="_blank" rel="noopener" class="tx-pill-link" style="font-size:11px;">
                             View Settlement Receipt on Stellar Expert &rarr;
                         </a>
                     </div>

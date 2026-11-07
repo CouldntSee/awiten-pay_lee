@@ -348,6 +348,10 @@ async function runVerification() {
     'defund_escrow',
     'HTTP 402',
     'freshnessChart',
+    'STOP LOSING HARVESTS ON THE ROAD',
+    '<velo-wallet',
+    'id="stellar-wallet"',
+    'https://stellar.expert/explorer/testnet/tx/',
   ];
 
   for (const marker of requiredHtmlMarkers) {
@@ -356,6 +360,11 @@ async function runVerification() {
       `apps/web/index.html missing required marker: ${marker}`
     );
   }
+
+  assert.ok(
+    !htmlContent.includes('STOP LOSING HARVESTS TO HIGHWAY HEAT'),
+    'apps/web/index.html must not contain obsolete headline STOP LOSING HARVESTS TO HIGHWAY HEAT'
+  );
 
   // Assert 100% Zero-Emoji rule in apps/web/index.html
   const emojiMatches = htmlContent.match(/\p{Extended_Pictographic}/ug);

@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import express from 'express';
+import * as StellarSdk from '@stellar/stellar-sdk';
 import { Velo } from '@carts1024/velo-sdk';
 import {
   DEFAULT_PRIMARY_CONTRACT_SET,
@@ -26,6 +27,85 @@ import {
 } from '../../../packages/agent/src/index.js';
 
 export { generateHardwareProof, verifyHardwareProof };
+
+/**
+ * Transfer live XLM on Stellar Testnet to a connected Velo wallet address.
+ * Automatically funds destination via friendbot if the account does not yet exist.
+ */
+export async function transferTestnetXlmToConnectedWallet(
+  destinationAddress,
+  amountXlm,
+  memoText = 'AWITEN Pay'
+) {
+  if (
+    !destinationAddress ||
+    typeof destinationAddress !== 'string' ||
+    !/^G[A-Z2-7]{55}$/.test(destinationAddress)
+  ) {
+    return null;
+  }
+
+  const secret = process.env.OWNER_SECRET_KEY || process.env.AGENT_SECRET_KEY;
+  if (!secret) {
+    console.warn('[Stellar Transfer] Neither OWNER_SECRET_KEY nor AGENT_SECRET_KEY is configured in env.');
+    return null;
+  }
+
+  const server = new StellarSdk.Horizon.Server('https://horizon-testnet.stellar.org');
+  const sourceKeypair = StellarSdk.Keypair.fromSecret(secret);
+
+  // Check if destination exists; fund via friendbot if not funded yet
+  try {
+    await server.loadAccount(destinationAddress);
+  } catch (err) {
+    const status = err?.response?.status || err?.status;
+    if (status === 404) {
+      console.log(`[Stellar Transfer] Destination ${destinationAddress} not found on testnet. Funding via Friendbot...`);
+      try {
+        await server.friendbot(destinationAddress).call();
+      } catch (fbErr) {
+        console.warn('[Stellar Transfer] Friendbot funding warning:', fbErr?.message || fbErr);
+      }
+    }
+  }
+
+  const sourceAccount = await server.loadAccount(sourceKeypair.publicKey());
+
+  const txBuilder = new StellarSdk.TransactionBuilder(sourceAccount, {
+    fee: StellarSdk.BASE_FEE,
+    networkPassphrase: StellarSdk.Networks.TESTNET,
+  })
+    .addOperation(
+      StellarSdk.Operation.payment({
+        destination: destinationAddress,
+        asset: StellarSdk.Asset.native(),
+        amount: String(amountXlm),
+      })
+    )
+    .setTimeout(30);
+
+  if (memoText) {
+    txBuilder.addMemo(StellarSdk.Memo.text(String(memoText).slice(0, 28)));
+  }
+
+  const tx = txBuilder.build();
+  tx.sign(sourceKeypair);
+
+  const txResult = await server.submitTransaction(tx);
+  const liveTxHash = txResult.hash;
+  const explorerUrl = `https://stellar.expert/explorer/testnet/tx/${liveTxHash}`;
+
+  console.log(`[Stellar Transfer] Sent ${amountXlm} XLM to ${destinationAddress} (Tx: ${liveTxHash})`);
+
+  return {
+    liveTransfer: true,
+    destination: destinationAddress,
+    amountXlm: String(amountXlm),
+    txHash: liveTxHash,
+    explorerUrl,
+  };
+}
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -701,14 +781,31 @@ export function createApp() {
         proofs?.contractSets?.[contractSetKey] ||
         proofs?.contractSets?.SDK_DEFAULT_2026_10_07;
 
-      const driverAdvanceProof = setProofs?.transactions?.driverAdvance || {
+      // Check for connected Velo wallet address to disburse live 6.50 XLM
+      const walletAddress = req.body?.walletAddress;
+      let connectedWalletTransfer = null;
+      if (walletAddress && typeof walletAddress === 'string' && /^G[A-Z2-7]{55}$/.test(walletAddress)) {
+        try {
+          connectedWalletTransfer = await transferTestnetXlmToConnectedWallet(
+            walletAddress,
+            '6.50',
+            'AWITEN Fuel Adv'
+          );
+        } catch (transferErr) {
+          console.warn('[execute-diversion] Connected wallet transfer warning:', transferErr?.message || transferErr);
+        }
+      }
+
+      const rawDriverAdvance = setProofs?.transactions?.driverAdvance || {};
+      const driverAdvanceProof = {
         purpose: 'Mang Ramon NLEX Toll & Diesel Diversion Advance (Hour 4.5)',
         amountXlm: '6.50',
         amountPhpEquivalent: 6500,
-        authorizeTxHash: null,
-        authorizeExplorerUrl: null,
-        claimTxHash: null,
-        claimExplorerUrl: null,
+        authorizeTxHash: rawDriverAdvance.authorizeTxHash || null,
+        authorizeExplorerUrl: rawDriverAdvance.authorizeExplorerUrl || null,
+        claimTxHash: connectedWalletTransfer?.txHash || rawDriverAdvance.claimTxHash || null,
+        claimExplorerUrl: connectedWalletTransfer?.explorerUrl || rawDriverAdvance.claimExplorerUrl || null,
+        ...(connectedWalletTransfer ? { connectedWalletTransfer } : {}),
       };
 
       const unwoundEscrowProof =
@@ -779,6 +876,7 @@ export function createApp() {
 
       res.json({
         ok: true,
+        connectedWalletTransfer,
         driverAdvance: driverAdvanceProof,
         veloSession,
         unwoundOriginalBuyerEscrow: unwoundEscrowProof,
@@ -943,7 +1041,7 @@ export function createApp() {
   // ==========================================================================
   // 8. CONFIRM NFC DOCK HANDOFF (DUAL HARDWARE ATTESTATION -> CO-OP SETTLEMENT)
   // ==========================================================================
-  app.post('/api/agent/confirm-handoff', async (req, res) => {
+  const handleConfirmHandoff = async (req, res) => {
     try {
       const truckSerial = req.body?.deviceSerial || TRUCK_POD_DEVICE_SERIAL;
       const dockSerial = req.body?.dockSerial || DOCK_TERMINAL_DEVICE_SERIAL;
@@ -981,14 +1079,31 @@ export function createApp() {
         proofs?.contractSets?.[contractSetKey] ||
         proofs?.contractSets?.SDK_DEFAULT_2026_10_07;
 
-      const coopSettlementProof = setProofs?.transactions?.coopSettlement || {
+      // Check for connected Velo wallet address to disburse live 23.80 XLM
+      const walletAddress = req.body?.walletAddress;
+      let connectedWalletTransfer = null;
+      if (walletAddress && typeof walletAddress === 'string' && /^G[A-Z2-7]{55}$/.test(walletAddress)) {
+        try {
+          connectedWalletTransfer = await transferTestnetXlmToConnectedWallet(
+            walletAddress,
+            '23.80',
+            'AWITEN Co-op Payout'
+          );
+        } catch (transferErr) {
+          console.warn('[confirm-handoff] Connected wallet transfer warning:', transferErr?.message || transferErr);
+        }
+      }
+
+      const rawCoopSettlement = setProofs?.transactions?.coopSettlement || {};
+      const coopSettlementProof = {
         purpose: 'Benguet Highland Co-op Net Rescue Payout on NFC Dock Tap (Hour 5.2)',
         amountXlm: '23.80',
         amountPhpEquivalent: 237980,
-        authorizeTxHash: null,
-        authorizeExplorerUrl: null,
-        claimTxHash: null,
-        claimExplorerUrl: null,
+        authorizeTxHash: rawCoopSettlement.authorizeTxHash || null,
+        authorizeExplorerUrl: rawCoopSettlement.authorizeExplorerUrl || null,
+        claimTxHash: connectedWalletTransfer?.txHash || rawCoopSettlement.claimTxHash || null,
+        claimExplorerUrl: connectedWalletTransfer?.explorerUrl || rawCoopSettlement.claimExplorerUrl || null,
+        ...(connectedWalletTransfer ? { connectedWalletTransfer } : {}),
       };
 
       const clearingFeeProof = setProofs?.transactions?.clearingFee || {
@@ -1085,7 +1200,10 @@ export function createApp() {
         error: err?.message || 'Failed to confirm NFC dock handoff',
       });
     }
-  });
+  };
+
+  app.post('/api/agent/confirm-handoff', handleConfirmHandoff);
+  app.post('/api/agent/confirm-nfc-handoff', handleConfirmHandoff);
 
   // ==========================================================================
   // 9. SWITCH ACTIVE CONTRACT SET & RESET DEMO STATE
@@ -1138,7 +1256,7 @@ if (isMain) {
   const app = createApp();
   app.listen(port, () => {
     console.log(
-      `🚀 AWITEN-Pay Full-Stack Server listening on http://localhost:${port}`
+      `[SERVER] AWITEN-Pay Full-Stack Server listening on http://localhost:${port}`
     );
   });
 }

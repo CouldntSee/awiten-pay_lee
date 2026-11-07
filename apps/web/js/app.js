@@ -220,6 +220,36 @@ function toggleAgentHudDrawer() {
     }
 }
 
+
+function appendClientTerminalLog(tag, message) {
+    if (typeof appendTerminalLogUI === "function") {
+        appendTerminalLogUI(tag, message);
+    }
+}
+window.appendClientTerminalLog = appendClientTerminalLog;
+
+function initVeloWalletComponent() {
+    const wallet = document.querySelector("#stellar-wallet");
+    if (!wallet) return;
+
+    wallet.addEventListener("velo:wallet-connected", (event) => {
+        console.log("Connected", event.detail?.address);
+        const addr = event.detail?.address;
+        if (addr) {
+            window.connectedVeloWalletAddress = addr;
+            appendClientTerminalLog("VELO WALLET", "Connected Stellar wallet: " + addr);
+            if (typeof showNotification === "function") {
+                showNotification("Velo Wallet connected: " + addr.slice(0, 4) + "..." + addr.slice(-4));
+            }
+        }
+    });
+
+    wallet.addEventListener("velo:wallet-error", (event) => {
+        console.error("Wallet error", event.detail?.error);
+        appendClientTerminalLog("VELO ERROR", "Wallet error: " + (event.detail?.error || "unknown"));
+    });
+}
+
 function clearTerminalLogs() {
     const feed = document.getElementById("agentTerminalFeed");
     if (feed) feed.innerHTML = "";
@@ -799,7 +829,8 @@ async function triggerAutonomousDiversionFlow(customBuyer, customPricePerKg, opt
             body: JSON.stringify({
                 buyerName,
                 pricePhpPerKg,
-                contractSetKey: window.activeContractSetKey
+                contractSetKey: window.activeContractSetKey,
+                walletAddress: window.connectedVeloWalletAddress
             })
         });
         const data = await res.json();
@@ -819,6 +850,12 @@ async function triggerAutonomousDiversionFlow(customBuyer, customPricePerKg, opt
             }
 
             syncDriverAppViewForHour(4.5);
+            if (data.connectedWalletTransfer?.explorerUrl) {
+                const advanceLink = document.getElementById("driverAdvanceTxLink");
+                if (advanceLink) {
+                    advanceLink.href = data.connectedWalletTransfer.explorerUrl;
+                }
+            }
 
             appendTerminalLogUI(
                 "SIGN & DISBURSE",
@@ -958,7 +995,8 @@ async function confirmDriverNfcHandoff() {
             body: JSON.stringify({
                 deviceSerial: "BGT-402-POD-ESP32S3",
                 dockSerial: "BULACAN-DOCK3-NFC-TERMINAL",
-                contractSetKey: window.activeContractSetKey
+                contractSetKey: window.activeContractSetKey,
+                walletAddress: window.connectedVeloWalletAddress
             })
         });
         const data = await res.json();
@@ -972,6 +1010,12 @@ async function confirmDriverNfcHandoff() {
             }
             if (receiptCard) {
                 receiptCard.style.display = "block";
+            }
+            if (data.receipt?.explorerUrl) {
+                const receiptLink = document.getElementById("receiptSettlementTxLink");
+                if (receiptLink) {
+                    receiptLink.href = data.receipt.explorerUrl;
+                }
             }
 
             appendTerminalLogUI(
@@ -1153,6 +1197,7 @@ function showNotification(message, bgColor) {
 document.addEventListener("DOMContentLoaded", () => {
     updateClocks();
     renderNoirVeloProofUI();
+    initVeloWalletComponent();
     updatePublicNavbarSessionUI();
     loadInitialTerminalLogs();
 
