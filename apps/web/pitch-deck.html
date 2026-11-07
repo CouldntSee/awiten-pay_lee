@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWITEN-Pay — 10-Slide Pitch Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #050814;
+      --bg-gradient: radial-gradient(ellipse at 80% 20%, #162456 0%, #0c1228 50%, #050814 100%);
+      --panel-bg: rgba(15, 23, 42, 0.78);
+      --panel-border: rgba(255, 255, 255, 0.09);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --emerald: #10b981;
+      --emerald-light: #34d399;
+      --emerald-glow: rgba(16, 185, 129, 0.22);
+      --amber: #f59e0b;
+      --amber-light: #fbbf24;
+      --cyan: #38bdf8;
+      --rose: #f43f5e;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Deck Viewport & Scaling Container */
+    #deck-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-gradient);
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      max-width: 1920px;
+      max-height: 1080px;
+      aspect-ratio: 16 / 9;
+      padding: 56px 80px 48px;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: scale(0.985);
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      background: transparent;
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: scale(1);
+      z-index: 2;
+    }
+
+    /* Ambient Background Subtle Grid */
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 50% 10%, rgba(56, 189, 248, 0.05) 0%, transparent 60%),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 48px 48px, 48px 48px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Global Slide Typography */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .category-tag {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .category-tag::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .slide-title {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      color: #ffffff;
+      line-height: 1.15;
+    }
+
+    .slide-subtitle {
+      font-size: 17px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: 1px;
+    }
+
+    /* Common Card Layouts */
+    .card {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Bottom Status / Key Metrics Banner */
+    .slide-footer-banner {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      border-radius: 12px;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--emerald-light);
+    }
+
+    /* Navigation HUD */
+    #hud-controls {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(11, 17, 33, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 8px 18px;
+      border-radius: 999px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+      z-index: 100;
+      transition: opacity 0.3s ease;
+    }
+
+    .hud-btn {
+      background: transparent;
+      border: none;
+      color: #cbd5e1;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+
+    .hud-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+
+    .hud-counter {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--cyan);
+      padding: 0 8px;
+      letter-spacing: 1px;
+    }
+
+    .hud-print-btn {
+      background: rgba(16, 185, 129, 0.18);
+      color: var(--emerald-light);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+    }
+
+    .hud-print-btn:hover {
+      background: var(--emerald);
+      color: #04100c;
+    }
+
+    /* Top Progress Bar */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--emerald) 0%, var(--cyan) 100%);
+      width: 10%;
+      z-index: 101;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* =====================================================================
+       SPECIFIC SLIDE LAYOUTS
+       ===================================================================== */
+
+    /* Slide 1: Title / Hook */
+    #slide-1 {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 36px;
+    }
+
+    .brand-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .brand-icon {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 24px rgba(16, 185, 129, 0.45));
+    }
+
+    .brand-name {
+      font-size: 80px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .brand-name .awiten { color: #10b981; }
+    .brand-name .pay { color: #f59e0b; }
+
+    .hero-subtitle {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: -0.3px;
+    }
+
+    .hero-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+      max-width: 1100px;
+      margin-top: 10px;
+    }
+
+    .hero-metric-card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-metric-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--cyan);
+    }
+
+    .hero-metric-card:nth-child(3)::before {
+      background: var(--emerald);
+    }
+
+    .hero-metric-card .val {
+      font-size: 52px;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      line-height: 1;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .hero-metric-card:nth-child(3) .val {
+      color: var(--emerald-light);
+    }
+
+    .hero-metric-card .lbl {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+    }
+
+    /* Slide 2: Problem */
+    .alert-header-box {
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: #fca5a5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      flex: 1;
+      margin-bottom: 24px;
+    }
+
+    .problem-card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .problem-card .num-badge {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--amber);
+      background: rgba(245, 158, 11, 0.12);
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+      margin-bottom: 14px;
+    }
+
+    .problem-card .title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .problem-card .desc {
+      font-size: 15px;
+      color: #cbd5e1;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    /* Slide 3: Solution (5-Step Flow) */
+    .solution-flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      flex: 1;
+      margin-bottom: 24px;
+      align-items: stretch;
+    }
+
+    .step-card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(16, 185, 129, 0.22);
+      border-radius: 14px;
+      padding: 22px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .step-card .step-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--emerald-light);
+      background: rgba(16, 185, 129, 0.12);
+      padding: 3px 8px;
+      border-radius: 6px;
+      width: fit-content;
+      margin-bottom: 12px;
+    }
+
+    .step-card .step-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .step-card .step-desc {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+
+    /* Slide 4: Target Market */
+    .market-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      flex: 1;
+      margin-bottom: 24px;
+    }
+
+    .market-card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 18px;
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .market-card .tag {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+
+    .market-card .val {
+      font-family: var(--font-mono);
+      font-size: 64px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    .market-card .desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      font-weight: 500;
+    }
+
+    /* Slide 5: Product (Split) */
+    .product-split {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 36px;
+      flex: 1;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .product-img-box {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      position: relative;
+      height: 100%;
+      max-height: 440px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .product-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-img-box .caption-tag {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      background: rgba(5, 8, 20, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--emerald-light);
+      backdrop-filter: blur(8px);
+    }
+
+    .product-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .pillar-card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 20px 24px;
+    }
+
+    .pillar-card .pillar-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pillar-card .pillar-title span {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--cyan);
+      background: rgba(56, 189, 248, 0.12);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .pillar-card .pillar-desc {
+      font-size: 15px;
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+
+    /* Slide 6: GTM (Corridor Rollout) */
+    .gtm-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      flex: 1;
+      margin-bottom: 24px;
+    }
+
+    .gtm-card {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 32px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .gtm-card .phase-pill {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--emerald-light);
+      background: rgba(16, 185, 129, 0.12);
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+      margin-bottom: 16px;
+    }
+
+    .gtm-card .gtm-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 14px;
+    }
+
+    .gtm-card .gtm-desc {
+      font-size: 15px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    /* Slide 7: Competitive Landscape */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      flex: 1;
+      margin-bottom: 24px;
+    }
+
+    .compare-card {
+      border-radius: 18px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .compare-card.legacy {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(244, 63, 94, 0.25);
+    }
+
+    .compare-card.awiten {
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      box-shadow: 0 0 40px -15px var(--emerald-glow);
+    }
+
+    .compare-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .compare-card.legacy .compare-title { color: #fca5a5; }
+    .compare-card.awiten .compare-title { color: var(--emerald-light); }
+
+    .compare-points {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .point-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .point-item .heading {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .point-item .sub {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Slide 8: Team & Validation */
+    .badge-bar {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      flex: 1;
+      margin-bottom: 24px;
+    }
+
+    .team-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 18px;
+      padding: 30px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .team-card .role-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--emerald-light);
+      background: rgba(16, 185, 129, 0.12);
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+      margin-bottom: 14px;
+    }
+
+    .team-card .name {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .team-card .dept {
+      font-size: 13px;
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      margin-bottom: 12px;
+    }
+
+    .team-card .bio {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+
+    /* Slide 9: Key Financials Table */
+    .table-container {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      background: rgba(15, 23, 42, 0.95);
+      padding: 16px 24px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--panel-border);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    td {
+      padding: 16px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+      background: rgba(16, 185, 129, 0.08);
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    td.delta-col {
+      color: var(--emerald-light);
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .unit-econ-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .unit-econ-card {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .unit-econ-card .val {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--amber-light);
+    }
+
+    .unit-econ-card .lbl {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Slide 10: Fundraise & Allocation */
+    .alloc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      flex: 1;
+      margin-bottom: 24px;
+    }
+
+    .alloc-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 16px;
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .alloc-card .percent {
+      font-family: var(--font-mono);
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--cyan);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .alloc-card:nth-child(1) .percent { color: var(--emerald-light); }
+    .alloc-card:nth-child(2) .percent { color: var(--cyan); }
+    .alloc-card:nth-child(3) .percent { color: var(--amber-light); }
+    .alloc-card:nth-child(4) .percent { color: #a78bfa; }
+
+    .alloc-card .title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .alloc-card .desc {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.45;
+    }
+
+    .metrics-summary-strip {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 12px;
+      padding: 16px 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      text-align: center;
+    }
+
+    .metrics-summary-strip .item-val {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--emerald-light);
+    }
+
+    .metrics-summary-strip .item-lbl {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Print Styles */
+    @media print {
+      body, #deck-container {
+        background: #050814 !important;
+        overflow: visible !important;
+        height: auto !important;
+      }
+
+      #hud-controls, #progress-bar {
+        display: none !important;
+      }
+
+      .slide {
+        display: flex !important;
+        opacity: 1 !important;
+        position: relative !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        transform: none !important;
+        padding: 48px 64px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Dynamic Progress Bar -->
+  <div id="progress-bar"></div>
+
+  <!-- Deck Viewport -->
+  <div id="deck-container">
+
+    <!-- ==========================================
+         SLIDE 1: Title / Hook
+         ========================================== -->
+    <div class="slide active" id="slide-1">
+      <div class="brand-hero">
+        <div class="header-badge" style="margin-bottom: 8px;">STELLAR • SOROBAN • VELO SDK</div>
+        <div class="brand-logo-wrap">
+          <img src="assets/awiten-icon.png" alt="AWITEN.PAY Icon" class="brand-icon">
+          <div class="brand-name">
+            <span class="awiten">AWITEN</span><span class="pay">.PAY</span>
+          </div>
+        </div>
+        <div class="hero-subtitle">Autonomous Cargo Liquidation & Escrow Agent on Stellar</div>
+      </div>
+
+      <div class="hero-metrics-grid">
+        <div class="hero-metric-card">
+          <div class="val">1.5h</div>
+          <div class="lbl">RUL Shelf Life Left</div>
+        </div>
+        <div class="hero-metric-card">
+          <div class="val">8.5h</div>
+          <div class="lbl">Travel Time to Manila</div>
+        </div>
+        <div class="hero-metric-card">
+          <div class="val">+₱117,980</div>
+          <div class="lbl">Saved per 8-Ton Load</div>
+        </div>
+      </div>
+
+      <div class="slide-footer-banner" style="justify-content: center; gap: 32px;">
+        <span>DICT Philippine Startup Challenge XI Region 1 — Top 2 Winner</span>
+        <span>•</span>
+        <span>Team WalangKenen · Universidad de Dagupan</span>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 2: Problem
+         ========================================== -->
+    <div class="slide" id="slide-2">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="category-tag">01 · Problem Statement</div>
+          <div class="slide-title">The 4 Highway Financial Breakdowns</div>
+          <div class="slide-subtitle">Why Diverting A Wilting Truck Fails In The Real World</div>
+        </div>
+        <div class="header-badge">HIGH-HEAT TRANSIT CRISIS</div>
+      </div>
+
+      <div class="alert-header-box">
+        <span>ALERT METRIC: 34.2°C CANOPY HEAT</span>
+        <span>1.5h SHELF LIFE LEFT vs. 8.5h MANILA ETA</span>
+      </div>
+
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="num-badge">BREAKDOWN 01</div>
+          <div class="title">Driver Cash Fraud ("Bawas")</div>
+          <div class="desc">Fake distress claims, fuel advance skimming, and under-reported dock cash.</div>
+        </div>
+        <div class="problem-card">
+          <div class="num-badge">BREAKDOWN 02</div>
+          <div class="title">2:00 AM Liquidity Paralysis</div>
+          <div class="desc">Co-op asleep, banks closed, 12 mins before passing the exit ramp.</div>
+        </div>
+        <div class="problem-card">
+          <div class="num-badge">BREAKDOWN 03</div>
+          <div class="title">Gate-Side Slashing ("Bakaw")</div>
+          <div class="desc">Brokers slash price 67% (₱45/kg → ₱15/kg) upon wilted arrival.</div>
+        </div>
+        <div class="problem-card">
+          <div class="num-badge">BREAKDOWN 04</div>
+          <div class="title">3-Party Escrow Gridlock</div>
+          <div class="desc">Manila deposit, driver fuel advance, and rescue buyer collide.</div>
+        </div>
+      </div>
+
+      <div class="slide-footer-banner">
+        <span>RESULT OF INACTION: Terminal produce spoilage, 2,000 kg dumped to landfill, -₱278,000 co-op capital loss.</span>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 3: Solution
+         ========================================== -->
+    <div class="slide" id="slide-3">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="category-tag">02 · Solution Architecture</div>
+          <div class="slide-title">5-Minute Autonomous Rescue Loop</div>
+          <div class="slide-subtitle">Replacing Manual Phone Calls with Deterministic Agentic Execution</div>
+        </div>
+        <div class="header-badge">STELLAR SMART CONTRACTS</div>
+      </div>
+
+      <div class="solution-flow">
+        <div class="step-card">
+          <div class="step-num">STEP 01</div>
+          <div class="step-title">01 Lock Escrow</div>
+          <div class="step-desc">₱360k (36 XLM) Manila deposit locked; AI agent capped.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">STEP 02</div>
+          <div class="step-title">02 Sense & Verify</div>
+          <div class="step-desc">Pod detects RUL &lt; ETA; agent pays 1 XLM x402 route oracle.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">STEP 03</div>
+          <div class="step-title">03 Advance Fuel</div>
+          <div class="step-desc">Agent sends ₱6,500 (6.50 XLM) toll & diesel advance in 5 sec.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">STEP 04</div>
+          <div class="step-title">04 Flash-Sell</div>
+          <div class="step-desc">Bulacan processor locks ₱256k (25.60 XLM @ ₱32/kg) via Velo.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">STEP 05</div>
+          <div class="step-title">05 Atomic Payout</div>
+          <div class="step-desc">Dual NFC dock tap refunds Manila buyer & pays Co-op ₱237,980.</div>
+        </div>
+      </div>
+
+      <div class="slide-footer-banner">
+        <span>Zero Driver Cash Handling</span>
+        <span style="color: #ffffff;">•</span>
+        <span>Autonomous Execution Time: &lt; 5 Minutes</span>
+        <span style="color: #ffffff;">•</span>
+        <span style="color: #34d399; font-weight: 800;">+₱117,980 (+98.3%) Net Salvage Recovery</span>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 4: Target Market
+         ========================================== -->
+    <div class="slide" id="slide-4">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="category-tag">03 · Market Sizing</div>
+          <div class="slide-title">Target Market: High-Risk Corridors</div>
+          <div class="slide-subtitle">Highland-to-Urban Produce Hauling on Agentic Payment Rails</div>
+        </div>
+        <div class="header-badge">TAM · SAM · SOM</div>
+      </div>
+
+      <div class="market-grid">
+        <div class="market-card">
+          <div class="tag">TAM · TOTAL ADDRESSABLE MARKET</div>
+          <div class="val">₱45B</div>
+          <div class="desc">Annual Philippine Fresh Produce Freight Volume</div>
+        </div>
+        <div class="market-card">
+          <div class="tag">SAM · SERVICEABLE ADDRESSABLE MARKET</div>
+          <div class="val">₱12B</div>
+          <div class="desc">Highland-to-Urban Unrefrigerated Viajero Haulers (95%+ Open-Canvas)</div>
+        </div>
+        <div class="market-card">
+          <div class="tag">SOM · SERVICEABLE OBTAINABLE MARKET</div>
+          <div class="val">₱1.8B</div>
+          <div class="desc">Benguet–TPLEX–NLEX–Bulacan Co-ops on Agentic Payment Rails</div>
+        </div>
+      </div>
+
+      <div class="slide-footer-banner">
+        <span>Primary Artery: Benguet (BAPTC) • TPLEX • NLEX • Bulacan Agro-Dehydrators • Manila Wholesale Bagsakan</span>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 5: Product
+         ========================================== -->
+    <div class="slide" id="slide-5">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="category-tag">04 · Core Technology</div>
+          <div class="slide-title">The 3 Core Moving Parts</div>
+          <div class="slide-subtitle">Zero-Retrofit Hardware Attestation · Soroban Vaults · Velo Payment Engine</div>
+        </div>
+        <div class="header-badge">PRODUCT STACK</div>
+      </div>
+
+      <div class="product-split">
+        <div class="product-img-box">
+          <img src="assets/awiten-rev1-prototype.jpg" alt="AWITEN.ai REV-1 Telemetry Pod Prototype">
+          <div class="caption-tag">REV-1 Telemetry Pod Prototype (Lab Bench)</div>
+        </div>
+
+        <div class="product-pillars">
+          <div class="pillar-card">
+            <div class="pillar-title">
+              <span>01</span> REV-1 Telemetry Pod
+            </div>
+            <div class="pillar-desc">₱2,350 BOM · Clip-on Temp/RH + NFC · Cryptographic hardware proof.</div>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-title">
+              <span>02</span> Guardrailed AI Escrow
+            </div>
+            <div class="pillar-desc">50 XLM cap · 24-hr expiry · Autonomous x402 &amp; fuel advances.</div>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-title">
+              <span>03</span> Velo Checkout &amp; Gas
+            </div>
+            <div class="pillar-desc">Instant buyer checkout links · 0% crypto gas fees for users.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer-banner">
+        <span>Zero Vehicle Rewiring · Clip-On Deployment in 10 Seconds · IP67 Weatherproof Enclosure</span>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 6: Go-to-Market Strategy
+         ========================================== -->
+    <div class="slide" id="slide-6">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="category-tag">05 · Market Strategy</div>
+          <div class="slide-title">Go-to-Market: Corridor Rollout</div>
+          <div class="slide-subtitle">Capturing Freight Supply and Industrial Off-Take Demand Concurrently</div>
+        </div>
+        <div class="header-badge">CORRIDOR EXPANSION</div>
+      </div>
+
+      <div class="gtm-grid">
+        <div class="gtm-card">
+          <div>
+            <div class="phase-pill">PHASE 01 · BEACHHEAD</div>
+            <div class="gtm-title">01 Co-op Pilots (Benguet)</div>
+            <div class="gtm-desc">Equip 50 Viajero trucks (₱2,000/mo pod + console subscription).</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 13px; color: var(--emerald-light); font-weight: 700;">Highland Trucking Co-ops</div>
+        </div>
+        <div class="gtm-card">
+          <div>
+            <div class="phase-pill">PHASE 02 · OFF-TAKE</div>
+            <div class="gtm-title">02 Industrial Off-Takers (Central Luzon)</div>
+            <div class="gtm-desc">Pre-contract Bulacan & Tarlac dehydrators (₱12–₱32/kg floors + NFC docks).</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 13px; color: var(--amber-light); font-weight: 700;">Guaranteed Floor Liquidity</div>
+        </div>
+        <div class="gtm-card">
+          <div>
+            <div class="phase-pill">PHASE 03 · SCALE</div>
+            <div class="gtm-title">03 National Corridors</div>
+            <div class="gtm-desc">Scale to Nueva Vizcaya (NVAT), Mindanao banana & Visayas routes.</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 13px; color: var(--cyan); font-weight: 700;">Inter-Island Cold-Chain</div>
+        </div>
+      </div>
+
+      <div class="slide-footer-banner">
+        <span>Dual Lock-in: Fleets install hardware pods · Processors install stationary NFC weighbridge docks.</span>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 7: Competitive Landscape
+         ========================================== -->
+    <div class="slide" id="slide-7">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="category-tag">06 · Competitive Advantage</div>
+          <div class="slide-title">Competitive Landscape</div>
+          <div class="slide-subtitle">Why Alerting A Sleeping Human Fails At 3:00 AM</div>
+        </div>
+        <div class="header-badge">AUTONOMOUS vs. PASSIVE</div>
+      </div>
+
+      <div class="compare-grid">
+        <div class="compare-card legacy">
+          <div>
+            <div class="compare-title">Standard Telematics & Chatbots</div>
+            <div class="compare-points">
+              <div class="point-item">
+                <div class="heading">3:00 AM Passive Alerts</div>
+                <div class="sub">Sends unread push notifications to sleeping humans.</div>
+              </div>
+              <div class="point-item">
+                <div class="heading">₱0 Spending Power</div>
+                <div class="sub">Cannot buy weather oracle data or disburse highway fuel tolls.</div>
+              </div>
+              <div class="point-item">
+                <div class="heading">0% Floor Price Protection</div>
+                <div class="sub">Cargo sits helpless while market value collapses.</div>
+              </div>
+            </div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 13px; color: #f87171; font-weight: 700;">Status: Blind Haul & Slashing</div>
+        </div>
+
+        <div class="compare-card awiten">
+          <div>
+            <div class="compare-title">AWITEN-Pay Agentic Architecture</div>
+            <div class="compare-points">
+              <div class="point-item">
+                <div class="heading">5-Sec Autonomous Fuel Advance</div>
+                <div class="sub">Pays x402 oracle & driver fuel toll advance on the fly.</div>
+              </div>
+              <div class="point-item">
+                <div class="heading">Instant Velo Floor Checkout</div>
+                <div class="sub">Locks processor rescue contracts before unloading.</div>
+              </div>
+              <div class="point-item">
+                <div class="heading">Hard Smart-Contract Spending Caps</div>
+                <div class="sub">Strict on-chain guardrails eliminate fraud and unauthorized spend.</div>
+              </div>
+            </div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 13px; color: var(--emerald-light); font-weight: 700;">Status: Autonomous Financial Salvage</div>
+        </div>
+      </div>
+
+      <div class="slide-footer-banner">
+        <span>Moat: Cryptographic hardware attestation coupled with autonomous on-chain clearing power.</span>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 8: Team & Validation
+         ========================================== -->
+    <div class="slide" id="slide-8">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="category-tag">07 · Founders & Execution</div>
+          <div class="slide-title">Team & Validation</div>
+          <div class="slide-subtitle">Team WalangKenen — Universidad de Dagupan</div>
+        </div>
+        <div class="header-badge">DICT PSC XI REGION 1 WINNER</div>
+      </div>
+
+      <div class="badge-bar">
+        <span>TOP 2 WINNER — DICT Philippine Startup Challenge XI (Region 1 Qualifier · 55 Entries)</span>
+      </div>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div>
+            <div class="role-pill">SYSTEMS ARCHITECT</div>
+            <div class="name">John Dominic Ragudo</div>
+            <div class="dept">BS Computer Engineering</div>
+            <div class="bio">Autonomous Decision Engine, Biophysical Decay Models & Soroban Smart Contracts.</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">Lead Architect</div>
+        </div>
+
+        <div class="team-card">
+          <div>
+            <div class="role-pill">HARDWARE LEAD</div>
+            <div class="name">CpE Co-Founder</div>
+            <div class="dept">BS Computer Engineering</div>
+            <div class="bio">REV-1 Telemetry Pod (₱2,350 BOM), Sensor Instrumentation & Hardware Attestation.</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">Embedded Systems</div>
+        </div>
+
+        <div class="team-card">
+          <div>
+            <div class="role-pill">PLATFORM LEAD</div>
+            <div class="name">IT Co-Founder</div>
+            <div class="dept">BS Information Technology</div>
+            <div class="bio">3-Portal Clearinghouse Web Platform, Driver Mobile App & Velo Checkout Rails.</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">Full-Stack & Fintech</div>
+        </div>
+      </div>
+
+      <div class="slide-footer-banner">
+        <span>Institution: Universidad de Dagupan · College of Information Technology and Engineering</span>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 9: Key Financials
+         ========================================== -->
+    <div class="slide" id="slide-9">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="category-tag">08 · Unit Economics</div>
+          <div class="slide-title">8-Ton Load Ledger & Unit Economics</div>
+          <div class="slide-subtitle">Salvage Accounting for 8,000 kg Benguet Cabbage Load</div>
+        </div>
+        <div class="header-badge">FINANCIAL AUDIT</div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Financial Item</th>
+              <th>Manila Spoilage</th>
+              <th>AWITEN-Pay Rescue</th>
+              <th>Performance Delta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Gross Produce Realized</td>
+              <td style="color: #f87171;">₱120,000 (₱15/kg)</td>
+              <td style="color: #ffffff;">₱256,000 (₱32/kg / 25.60 XLM)</td>
+              <td class="delta-col">+₱136,000</td>
+            </tr>
+            <tr>
+              <td>Driver Fuel & Toll Advance</td>
+              <td>₱0 (Stranded)</td>
+              <td>-₱6,500 (6.50 XLM)</td>
+              <td style="font-family: var(--font-mono); color: var(--text-muted);">-₱6,500</td>
+            </tr>
+            <tr>
+              <td>x402 Oracle + 4.5% Fee</td>
+              <td>₱0</td>
+              <td>-₱11,520 (2.15 XLM)</td>
+              <td style="font-family: var(--font-mono); color: var(--text-muted);">-₱11,520</td>
+            </tr>
+            <tr>
+              <td>Net Co-op Payout Received</td>
+              <td style="color: #f87171;">₱120,000</td>
+              <td style="color: var(--emerald-light); font-weight: 800;">₱237,980 (23.80 XLM)</td>
+              <td class="delta-col" style="font-size: 17px;">+₱117,980 (+98.3%)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="unit-econ-strip">
+        <div class="unit-econ-card">
+          <div class="val">4.5% Take-Rate</div>
+          <div class="lbl">₱11,520 Clearing Take-Rate / 8-Ton Rescued Load</div>
+        </div>
+        <div class="unit-econ-card">
+          <div class="val">₱2,000 / Mo</div>
+          <div class="lbl">Pod Lease (₱1,500) + Console SaaS (₱500) per Truck</div>
+        </div>
+        <div class="unit-econ-card">
+          <div class="val">1.56 Months</div>
+          <div class="lbl">Hardware Payback on ₱2,350 BOM (78.4% Annual Margin)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SLIDE 10: Fundraise & Allocation
+         ========================================== -->
+    <div class="slide" id="slide-10">
+      <div class="slide-header">
+        <div class="header-left">
+          <div class="category-tag">09 · Capital Allocation</div>
+          <div class="slide-title">Scaling Autonomous Freight Liquidity</div>
+          <div class="slide-subtitle">Capital Deployment & Core Operational Guardrails</div>
+        </div>
+        <div class="header-badge">FUNDRAISE ALLOCATION</div>
+      </div>
+
+      <div class="alloc-grid">
+        <div class="alloc-card">
+          <div>
+            <div class="percent">40%</div>
+            <div class="title">Hardware & Pod Deployment</div>
+            <div class="desc">₱2,350 BOM pods + NFC dock terminals.</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--emerald-light);">Fleet Rollout</div>
+        </div>
+        <div class="alloc-card">
+          <div>
+            <div class="percent">30%</div>
+            <div class="title">Smart Contract & Agent SDK</div>
+            <div class="desc">Soroban escrow + Velo payment rails.</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--cyan);">On-Chain Infra</div>
+        </div>
+        <div class="alloc-card">
+          <div>
+            <div class="percent">20%</div>
+            <div class="title">Off-Taker Network Growth</div>
+            <div class="desc">Bulacan & Tarlac processor floor contracts.</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--amber-light);">Buyer Liquidity</div>
+        </div>
+        <div class="alloc-card">
+          <div>
+            <div class="percent">10%</div>
+            <div class="title">Operations & IP</div>
+            <div class="desc">Instrumented highway runs & IPOPHL Utility Model.</div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: #a78bfa;">Patent & Legal</div>
+        </div>
+      </div>
+
+      <div class="metrics-summary-strip">
+        <div>
+          <div class="item-val">100%</div>
+          <div class="item-lbl">Autonomous Execution</div>
+        </div>
+        <div>
+          <div class="item-val">0%</div>
+          <div class="item-lbl">User Gas Fees</div>
+        </div>
+        <div>
+          <div class="item-val">&lt;5 Min</div>
+          <div class="item-lbl">Rescue Lock</div>
+        </div>
+        <div>
+          <div class="item-val">+98.3%</div>
+          <div class="item-lbl">Value Recovered</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HUD Controls -->
+  <div id="hud-controls">
+    <button class="hud-btn" id="prev-btn" title="Previous Slide (Left Arrow)">←</button>
+    <span class="hud-counter" id="slide-indicator">01 / 10</span>
+    <button class="hud-btn" id="next-btn" title="Next Slide (Right Arrow / Space)">→</button>
+    <button class="hud-btn hud-print-btn" id="print-btn" title="Print to PDF / Save as PDF">⎙ PDF</button>
+    <button class="hud-btn" id="fullscreen-btn" title="Toggle Fullscreen">⛶</button>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+
+    const slideIndicator = document.getElementById('slide-indicator');
+    const progressBar = document.getElementById('progress-bar');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const printBtn = document.getElementById('print-btn');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+    function updateSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === index);
+      });
+
+      currentSlide = index;
+      const formattedCurrent = String(currentSlide + 1).padStart(2, '0');
+      const formattedTotal = String(totalSlides).padStart(2, '0');
+      slideIndicator.textContent = `${formattedCurrent} / ${formattedTotal}`;
+      progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+    }
+
+    prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
+
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => console.log(err));
+      } else {
+        document.exitFullscreen().catch(err => console.log(err));
+      }
+    });
+
+    // Keyboard Navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        updateSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        updateSlide(currentSlide - 1);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        updateSlide(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        updateSlide(totalSlides - 1);
+      } else if (e.key === 'p' && (e.ctrlKey || e.metaKey)) {
+        // Let native print dialog open
+      }
+    });
+
+    // Swipe support for touch devices
+    let touchStartX = 0;
+    let touchEndX = 0;
+    window.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+    window.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) updateSlide(currentSlide + 1);
+      if (touchEndX - touchStartX > 50) updateSlide(currentSlide - 1);
+    });
+
+    // Initialize
+    updateSlide(0);
+  </script>
+</body>
+</html>
