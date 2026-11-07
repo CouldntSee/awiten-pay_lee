@@ -82,13 +82,13 @@ function confirmDiversion() {
 
     const actionEl = document.getElementById("aiAction");
     if (actionEl) {
-        actionEl.innerText = "Rerouted + 6.50 XLM Sent ✅";
+        actionEl.innerText = "REROUTED + 6.50 XLM ADVANCED";
         actionEl.style.color = "#15803d";
     }
 
     const nsgaEl = document.getElementById("nsgaStatusText");
     if (nsgaEl) {
-        nsgaEl.innerText = "Locked → " + offer.buyer;
+        nsgaEl.innerText = "Locked -> " + offer.buyer;
         nsgaEl.style.color = "#15803d";
     }
 
@@ -96,7 +96,7 @@ function confirmDiversion() {
         triggerAutonomousDiversionFlow(offer.buyer, offer.pricePerKg);
     } else if (typeof showNotification === "function") {
         showNotification(
-            "✅ 1-Tap Reroute Confirmed! #BGT-402 routed to " +
+            "[CONFIRMED] Reroute executed. #BGT-402 routed to " +
                 offer.buyer +
                 " · Net Payout: " +
                 formatPeso(offer.netPayout)
@@ -173,7 +173,7 @@ function submitBrokerBid(event) {
 
     if (typeof showNotification === "function") {
         showNotification(
-            `🔨 Bid of ₱${bidPrice.toFixed(2)}/kg (${formatPeso(grossValue)} / ${grossXlm} XLM) placed! Synced to Fleet Console.`
+            `[BID PLACED] Bid of ₱${bidPrice.toFixed(2)}/kg (${formatPeso(grossValue)} / ${grossXlm} XLM) placed. Synced to Fleet Console.`
         );
     }
 }

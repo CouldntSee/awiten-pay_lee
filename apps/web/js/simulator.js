@@ -39,7 +39,7 @@ function getCorridorLocationName(hour) {
     if (h <= 0.5) return "BAPTC La Trinidad Loading Dock (Cool 17.5°C)";
     if (h <= 2.5) return "Buguias Mountain Dead Zone (Offline Flash Buffering)";
     if (h <= 4.0) return "TPLEX Sison Lowland Entry (x402 Oracle Queried · 1.00 XLM)";
-    if (h <= 5.5) return "Tarlac / Bulacan Junction (40m Before Grade Crash ⭐)";
+    if (h <= 5.5) return "Tarlac / Bulacan Junction (40m Before Grade Crash [DIVERT])";
     if (h <= 7.5) return "Pulilan Bulacan Dehydrator Exit Window";
     if (h <= 10.5) return "NLEX Bocaue Overnight Traffic Gridlock";
     return "Balintawak Manila Gate (2 Tons Rotted, 6 Tons Slashed)";
@@ -155,7 +155,7 @@ function switchTruckPreset(presetKey) {
     updateSimulation(preset.defaultHour);
 
     if (typeof showNotification === "function") {
-        showNotification("🚚 Viewing " + preset.label);
+        showNotification("Viewing " + preset.label);
     }
 }
 
@@ -167,13 +167,13 @@ function toggleAutoSimulation() {
         clearInterval(autoSimInterval);
         autoSimInterval = null;
         if (playBtn) {
-            playBtn.innerText = "▶ Auto-Play Route";
+            playBtn.innerText = "Play Route";
         }
         return;
     }
 
     if (playBtn) {
-        playBtn.innerText = "⏸ Pause Route";
+        playBtn.innerText = "Pause Route";
     }
 
     let currentHour = sliderEl ? parseFloat(sliderEl.value) : 0;
@@ -185,7 +185,7 @@ function toggleAutoSimulation() {
             clearInterval(autoSimInterval);
             autoSimInterval = null;
             if (playBtn) {
-                playBtn.innerText = "▶ Auto-Play Route";
+                playBtn.innerText = "Play Route";
             }
             return;
         }

@@ -343,7 +343,7 @@ async function runVerification() {
     'id="noir-velo"',
     'id="agentHudDrawer"',
     'id="autonomousAgentToggle"',
-    '🤖 AWITEN Clearinghouse Agent — Live Terminal',
+    'AWITEN Clearinghouse Agent — Live Terminal',
     'BULACAN-DOCK3-NFC-TERMINAL',
     'defund_escrow',
     'HTTP 402',
@@ -357,8 +357,15 @@ async function runVerification() {
     );
   }
 
+  // Assert 100% Zero-Emoji rule in apps/web/index.html
+  const emojiMatches = htmlContent.match(/\p{Extended_Pictographic}/ug);
+  assert.ok(
+    !emojiMatches || emojiMatches.length === 0,
+    `apps/web/index.html must contain 0 emojis! Found: ${(emojiMatches || []).join(' ')}`
+  );
+
   console.log(
-    `[PASS 5/6] 3-Portal Web UI verified: dispatcherView, brokerView, driverView, persistent agent HUD drawer, and Zero-Click autonomy controls`
+    `[PASS 5/6] 3-Portal Web UI verified: dispatcherView, brokerView, driverView, persistent agent HUD drawer, Zero-Click autonomy controls, and 0 emojis`
   );
 
   // -------------------------------------------------------------------------
@@ -367,8 +374,15 @@ async function runVerification() {
   const readmePath = path.join(MONOREPO_ROOT, 'README.md');
   const readmeContent = fs.readFileSync(readmePath, 'utf8');
 
+  const hasSection1 =
+    readmeContent.includes('## 1. Project Title & One-Line Pitch') ||
+    readmeContent.includes('## 1. Project Description');
+  assert.ok(
+    hasSection1,
+    'README.md missing section 1 (accepts "## 1. Project Description" or "## 1. Project Title & One-Line Pitch")'
+  );
+
   const requiredReadmeSections = [
-    '## 1. Project Title & One-Line Pitch',
     '## 2. Team Name & Members',
     '## 3. Live Links',
     '## 4. Problem Statement',

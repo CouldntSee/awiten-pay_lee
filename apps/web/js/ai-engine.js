@@ -97,7 +97,7 @@ function runAIAnalysis(freshnessScore, hour, tempC, rhPercent) {
         decisionCode = "EXECUTE_AUTONOMOUS_DIVERSION";
         buyerSub = "Bulacan Floor: ₱32/kg (25.60 XLM)";
         statusColor = "#d97706";
-        nsgaStatus = "Divert Window Open ⭐";
+        nsgaStatus = "Divert Window Open [ACTION]";
         evDeltaText = "+₱117,980";
         bannerDesc =
             "Divert Truck BGT-402 40 mins early to <strong>Bulacan Dehydrator (@ ₱32/kg · 25.60 XLM)</strong> or accept broker bid (<strong>₱" +
@@ -166,7 +166,41 @@ function runAIAnalysis(freshnessScore, hour, tempC, rhPercent) {
     setElText("liveEvDelta", evDeltaText, "#15803d");
     setElText("brokerFeedFScore", fScore.toFixed(1) + "%", statusColor);
 
-    // Sync Tab 4 Decision Engine summary cards
+    // Sync Centerpiece 3-Column Decision Engine Matrix (Col 1 Biophysical Trigger)
+    setElText("matrixRul", rulHours.toFixed(1) + "h", rulHours < etaManila ? "#dc2626" : "#15803d");
+    setElText("matrixEta", etaManila.toFixed(1) + "h", rulHours < etaManila ? "#dc2626" : "#475569");
+    setElText("matrixTemp", temp.toFixed(1) + "°C", temp >= 31 ? "#dc2626" : temp >= 25 ? "#d97706" : "#15803d");
+    setElText("matrixRh", Math.round(rh) + "% RH", rh <= 60 ? "#d97706" : "#15803d");
+    setElText("matrixResp", respRate + " mW/kg", respRate >= 120 ? "#dc2626" : "#15803d");
+    setElText("matrixVpd", vpd.toFixed(2) + " kPa", vpd >= 1.8 ? "#d97706" : "#15803d");
+
+    const triggerBadgeEl = document.getElementById("matrixTriggerBadge");
+    if (triggerBadgeEl) {
+        if (decisionCode === "HOLD_PRIMARY_ROUTE") {
+            triggerBadgeEl.className = "pill pill-green";
+            triggerBadgeEl.innerHTML = '<span class="status-dot status-dot-green"></span> SAFE TRANSIT';
+        } else if (decisionCode === "QUERY_X402_ORACLE") {
+            triggerBadgeEl.className = "pill pill-blue";
+            triggerBadgeEl.innerHTML = '<span class="status-dot status-dot-blue"></span> X402 ORACLE ACTIVE';
+        } else {
+            triggerBadgeEl.className = "pill pill-amber";
+            triggerBadgeEl.innerHTML = '<span class="status-dot status-dot-amber"></span> DIVERT REQUIRED';
+        }
+    }
+
+    const triggerDescEl = document.getElementById("matrixTriggerDesc");
+    if (triggerDescEl) {
+        if (rulHours < etaManila) {
+            const gap = Math.max(0.1, etaManila - rulHours).toFixed(1);
+            triggerDescEl.innerText = `RUL (${rulHours.toFixed(1)}h) < ETA (${etaManila.toFixed(1)}h) · Spoils ${gap}h before Balintawak`;
+            triggerDescEl.style.color = "#991b1b";
+        } else {
+            triggerDescEl.innerText = `RUL (${rulHours.toFixed(1)}h) >= ETA (${etaManila.toFixed(1)}h) · Safe margin to Manila`;
+            triggerDescEl.style.color = "#065f46";
+        }
+    }
+
+    // Sync Tab 1 Decision Engine summary cards
     setElText("engineDecisionBadge", decisionCode);
     setElText(
         "engineLayer1Summary",
@@ -180,7 +214,7 @@ function runAIAnalysis(freshnessScore, hour, tempC, rhPercent) {
     // Sync Portal #3 Driver Mobile App temperature & route banner
     setElText(
         "driverPhoneTempBadge",
-        `🌡️ ${temp.toFixed(1)}°C · RH ${Math.round(rh)}%`
+        `${temp.toFixed(1)}°C · RH ${Math.round(rh)}%`
     );
 
     const gradeEl = document.getElementById("aiGrade");

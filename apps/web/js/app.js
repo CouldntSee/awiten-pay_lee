@@ -8,21 +8,21 @@ const AUTH_USERS = {
         username: "dispatcher",
         password: "admin",
         role: "dispatcher",
-        displayName: "🚛 Co-op Fleet Console (Dispatcher)",
+        displayName: "01 · Dispatch & Decision Engine",
         allowedView: "dispatcher"
     },
     broker: {
         username: "broker",
         password: "admin",
         role: "broker",
-        displayName: "🏭 Processor & Broker Bidding Terminal",
+        displayName: "02 · Buyer Checkout Terminal",
         allowedView: "broker"
     },
     driver: {
         username: "driver",
         password: "admin",
         role: "driver",
-        displayName: "📱 Viajero Driver Mobile App (Mang Ramon)",
+        displayName: "03 · Driver NFC App (Mang Ramon)",
         allowedView: "driver"
     }
 };
@@ -208,8 +208,8 @@ function toggleAutonomousAgentMode(checked) {
     }
     showNotification(
         window.autonomousAgentMode
-            ? "🤖 Autonomous Agent Mode enabled (Zero-Click Execution active)."
-            : "⚠️ Autonomous Agent Mode disabled (Manual confirmation required)."
+            ? "[MODE] Autonomous Agent Mode enabled (Zero-Click Execution active)."
+            : "[MODE] Autonomous Agent Mode disabled (Manual confirmation required)."
     );
 }
 
@@ -322,7 +322,7 @@ async function executeAutonomousOracleQueryUI() {
                 `Intercepted HTTP 402 challenge -> Autonomously paid 1.00 XLM (${(data.paymentTx || "").slice(0, 10)}...). Received: STALL_CONFIRMED (NLEX delay 3.5h, Bulacan Dock 3 ready).`
             );
             showNotification(
-                "🤖 AWITEN Agent intercepted HTTP 402 challenge and autonomously paid 1.00 XLM Oracle Fee"
+                "[ORACLE] Intercepted HTTP 402 challenge and autonomously paid 1.00 XLM fee."
             );
             return;
         }
@@ -335,7 +335,7 @@ async function executeAutonomousOracleQueryUI() {
         "Intercepted HTTP 402 challenge -> Autonomously paid 1.00 XLM via @noirx402/agent-sdk. Received: STALL_CONFIRMED (NLEX delay 3.5h, Bulacan Dock 3 ready)."
     );
     showNotification(
-        "🤖 AWITEN Agent intercepted HTTP 402 challenge and autonomously paid 1.00 XLM Oracle Fee"
+        "[ORACLE] Intercepted HTTP 402 challenge and autonomously paid 1.00 XLM fee."
     );
 }
 
@@ -400,10 +400,10 @@ function updatePublicNavbarSessionUI() {
         returnBtn.style.display = "inline-flex";
         returnBtn.innerText =
             window.currentAuthUser.role === "dispatcher"
-                ? "🚛 Return to Co-op Console"
+                ? "Return to Dispatch Engine"
                 : window.currentAuthUser.role === "broker"
-                ? "🏭 Return to Broker Terminal"
-                : "📱 Return to Driver App";
+                ? "Return to Broker Terminal"
+                : "Return to Driver App";
     } else {
         badgeEl.style.display = "none";
         returnBtn.style.display = "none";
@@ -444,7 +444,7 @@ function handleLogin(event) {
         if (errBox) {
             errBox.style.display = "block";
         }
-        showNotification("❌ Invalid credentials. Use dispatcher/admin, broker/admin, or driver/admin.", "#ef4444");
+        showNotification("[ERROR] Invalid credentials. Use dispatcher/admin, broker/admin, or driver/admin.", "#ef4444");
         return;
     }
 
@@ -454,13 +454,13 @@ function handleLogin(event) {
 
     window.currentAuthUser = matchedAccount;
     navigateTo(matchedAccount.allowedView);
-    showNotification("✅ Welcome, " + matchedAccount.displayName);
+    showNotification("[AUTH] Welcome, " + matchedAccount.displayName);
 }
 
 function logoutUser() {
     window.currentAuthUser = null;
     navigateTo("landing");
-    showNotification("👋 Signed out successfully.");
+    showNotification("[AUTH] Signed out successfully.");
 }
 
 function quickLoginAs(roleName) {
@@ -468,7 +468,7 @@ function quickLoginAs(roleName) {
     if (acc) {
         window.currentAuthUser = acc;
         navigateTo(acc.allowedView);
-        showNotification("⚡ Switched to " + acc.displayName);
+        showNotification("[PORTAL] Switched to " + acc.displayName);
     }
 }
 
@@ -521,7 +521,7 @@ function switchContractSetUI(contractSetKey) {
     }).catch(() => {});
 
     renderNoirVeloProofUI();
-    showNotification(`⛓️ Viewing ${contractSetKey} Noir Soroban Contracts & Proofs`);
+    showNotification(`Viewing ${contractSetKey} Noir Soroban Contracts & Proofs`);
 }
 
 function renderNoirVeloProofUI() {
@@ -555,20 +555,21 @@ function renderNoirVeloProofUI() {
         }
     }
 
-    setEl("contractIdDeviceRegistry", activeSet.contracts.deviceRegistry);
-    setEl("contractIdAgentRegistry", activeSet.contracts.agentRegistry);
-    setEl("contractIdPaymentEscrow", activeSet.contracts.paymentEscrow);
+    const shortId = (s) => (s && s.length > 16 ? s.slice(0, 8) + "..." + s.slice(-6) : s);
+    setEl("contractIdDeviceRegistry", shortId(activeSet.contracts.deviceRegistry));
+    setEl("contractIdAgentRegistry", shortId(activeSet.contracts.agentRegistry));
+    setEl("contractIdPaymentEscrow", shortId(activeSet.contracts.paymentEscrow));
     setEl("activeContractSetLabel", "Active Set: " + activeSet.label);
 
     if (proofs.deviceHash) {
-        setEl("uiDeviceHash", proofs.deviceHash.slice(0, 16) + "..." + proofs.deviceHash.slice(-8));
+        setEl("uiDeviceHash", proofs.deviceHash.slice(0, 10) + "...");
     }
     if (proofs.dockDeviceHash) {
-        setEl("uiDockDeviceHash", proofs.dockDeviceHash.slice(0, 16) + "..." + proofs.dockDeviceHash.slice(-8));
+        setEl("uiDockDeviceHash", proofs.dockDeviceHash.slice(0, 10) + "...");
     }
     if (proofs.accounts) {
-        setEl("uiOwnerPubKey", proofs.accounts.ownerPublicKey.slice(0, 10) + "..." + proofs.accounts.ownerPublicKey.slice(-6));
-        setEl("uiAgentPubKey", proofs.accounts.agentPublicKey.slice(0, 10) + "..." + proofs.accounts.agentPublicKey.slice(-6));
+        setEl("uiOwnerPubKey", proofs.accounts.ownerPublicKey.slice(0, 8) + "..." + proofs.accounts.ownerPublicKey.slice(-4));
+        setEl("uiAgentPubKey", proofs.accounts.agentPublicKey.slice(0, 8) + "..." + proofs.accounts.agentPublicKey.slice(-4));
     }
 
     const txs = activeSet.transactions;
@@ -577,28 +578,39 @@ function renderNoirVeloProofUI() {
             setHref(
                 "txLinkRegisterDevice",
                 txs.registerDevice.explorerUrl,
-                `🔗 Truck Pod register (${txs.registerDevice.txHash.slice(0, 10)}...) ↗`
+                `Pod (${txs.registerDevice.txHash.slice(0, 8)}...)`
+            );
+            setHref(
+                "txLinkRegisterDeviceRow",
+                txs.registerDevice.explorerUrl,
+                `${txs.registerDevice.txHash.slice(0, 8)}...`
             );
         }
         if (txs.registerDockDevice) {
             setHref(
                 "txLinkRegisterDock",
                 txs.registerDockDevice.explorerUrl,
-                `🔗 Dock Terminal register (${txs.registerDockDevice.txHash.slice(0, 10)}...) ↗`
+                `Dock (${txs.registerDockDevice.txHash.slice(0, 8)}...)`
             );
         }
-        if (txs.registerAgent) {
+        if (txs.coopSettlement) {
+            setHref(
+                "txLinkRegisterAgent",
+                txs.coopSettlement.claimExplorerUrl || txs.coopSettlement.authorizeExplorerUrl,
+                `${(txs.coopSettlement.claimTxHash || "").slice(0, 8)}...`
+            );
+        } else if (txs.registerAgent) {
             setHref(
                 "txLinkRegisterAgent",
                 txs.registerAgent.explorerUrl,
-                `🔗 register_agent (${txs.registerAgent.txHash.slice(0, 10)}...) ↗`
+                `${txs.registerAgent.txHash.slice(0, 8)}...`
             );
         }
         if (txs.fundEscrow) {
             setHref(
                 "txLinkFundEscrow",
                 txs.fundEscrow.explorerUrl,
-                `🔗 fund_escrow 150 XLM (${txs.fundEscrow.txHash.slice(0, 10)}...) ↗`
+                `${txs.fundEscrow.txHash.slice(0, 8)}...`
             );
         }
         if (txs.defundEscrow || txs.unwindOriginalBuyerEscrow) {
@@ -606,28 +618,34 @@ function renderNoirVeloProofUI() {
             setHref(
                 "txLinkDefundEscrow",
                 defundTx.explorerUrl,
-                `🔗 defund_escrow 36.00 XLM Unwind (${defundTx.txHash.slice(0, 10)}...) ↗`
+                `${defundTx.txHash.slice(0, 8)}...`
             );
         }
-        if (txs.clearingFee) {
+        if (txs.oracleQuery) {
+            setHref(
+                "txLinkClearingFee",
+                txs.oracleQuery.claimExplorerUrl || txs.oracleQuery.authorizeExplorerUrl,
+                `${(txs.oracleQuery.claimTxHash || "").slice(0, 8)}...`
+            );
+        } else if (txs.clearingFee) {
             setHref(
                 "txLinkClearingFee",
                 txs.clearingFee.claimExplorerUrl || txs.clearingFee.authorizeExplorerUrl,
-                `🔗 Clearing Fee 1.15 XLM Claim (${txs.clearingFee.claimTxHash.slice(0, 10)}...) ↗`
+                `${txs.clearingFee.claimTxHash.slice(0, 8)}...`
             );
         }
         if (txs.driverAdvance) {
             setHref(
                 "driverAdvanceTxLink",
                 txs.driverAdvance.claimExplorerUrl || txs.driverAdvance.authorizeExplorerUrl,
-                `🔗 6.50 XLM Driver Claim Tx (${(txs.driverAdvance.claimTxHash || "").slice(0, 12)}...) ↗`
+                `6.50 XLM Driver Claim Tx (${(txs.driverAdvance.claimTxHash || "").slice(0, 12)}...) [Tx]`
             );
         }
         if (txs.coopSettlement) {
             setHref(
                 "receiptSettlementTxLink",
                 txs.coopSettlement.claimExplorerUrl || txs.coopSettlement.authorizeExplorerUrl,
-                `🔗 23.80 XLM Co-op Claim Tx (${(txs.coopSettlement.claimTxHash || "").slice(0, 12)}...) ↗`
+                `23.80 XLM Co-op Claim Tx (${(txs.coopSettlement.claimTxHash || "").slice(0, 12)}...) [Tx]`
             );
         }
     }
@@ -687,7 +705,7 @@ function renderNoirVeloProofUI() {
                 claimUrl: txs.oracleQuery?.claimExplorerUrl
             },
             {
-                stage: "Stage 3 · Mang Ramon NLEX Toll & Diesel Advance (Hour 4.5 ⭐)",
+                stage: "Stage 3 · Mang Ramon NLEX Toll & Diesel Advance (Hour 4.5 [TRIGGER])",
                 method: "payment_escrow.authorize + claim",
                 amount: "6.50 XLM (₱6,500)",
                 txHash: txs.driverAdvance?.authorizeTxHash,
@@ -718,9 +736,9 @@ function renderNoirVeloProofUI() {
         tbody.innerHTML = rows
             .filter((r) => r.txHash)
             .map((r) => {
-                const authLink = `<a href="${r.url}" target="_blank" rel="noopener" class="tx-pill-link">${r.claimHash ? "authorize: " : ""}${r.txHash.slice(0, 12)}... ↗</a>`;
+                const authLink = `<a href="${r.url}" target="_blank" rel="noopener" class="tx-pill-link">${r.claimHash ? "authorize: " : ""}${r.txHash.slice(0, 12)}... [Tx]</a>`;
                 const claimLink = r.claimHash
-                    ? ` <a href="${r.claimUrl}" target="_blank" rel="noopener" class="tx-pill-link">claim: ${r.claimHash.slice(0, 12)}... ↗</a>`
+                    ? ` <a href="${r.claimUrl}" target="_blank" rel="noopener" class="tx-pill-link">claim: ${r.claimHash.slice(0, 12)}... [Tx]</a>`
                     : "";
                 return `
                     <tr>
@@ -796,7 +814,7 @@ async function triggerAutonomousDiversionFlow(customBuyer, customPricePerKg, opt
             if (buyerEl) buyerEl.innerText = session.buyerName;
             if (amtEl) amtEl.innerText = `${session.amountXlm} XLM (₱${session.grossPhp.toLocaleString("en-PH")} Gross)`;
             if (statusBadge) {
-                statusBadge.innerText = "🟡 Checkout Created";
+                statusBadge.innerText = "CHECKOUT CREATED";
                 statusBadge.className = "pill pill-amber";
             }
 
@@ -812,7 +830,7 @@ async function triggerAutonomousDiversionFlow(customBuyer, customPricePerKg, opt
             );
 
             showNotification(
-                "🤖 AWITEN Agent autonomously executed 6.50 XLM Driver Advance & Velo Checkout Session"
+                "[AGENT] Executed 6.50 XLM Driver Advance & Velo Checkout Session"
             );
             return;
         }
@@ -830,7 +848,7 @@ async function triggerAutonomousDiversionFlow(customBuyer, customPricePerKg, opt
         `Creating Velo Checkout Session 25.60 XLM floor price -> Bulacan Food Dehydrator.`
     );
     showNotification(
-        "🤖 AWITEN Agent autonomously executed 6.50 XLM Driver Advance & Velo Checkout Session"
+        "[AGENT] Executed 6.50 XLM Driver Advance & Velo Checkout Session"
     );
 }
 
@@ -856,10 +874,10 @@ async function launchVeloCheckoutFromBroker() {
                 badgeEl.className = "pill pill-blue";
             }
             if (infoEl) {
-                infoEl.innerHTML = `✅ Created Velo Checkout Session <code>${s.paymentIntentId}</code> for <strong>${s.amountXlm} XLM (₱${s.grossPhp.toLocaleString("en-PH")})</strong>. Click <strong>"⚡ Simulate Verified Velo Webhook"</strong> to lock buyer funds!`;
+                infoEl.innerHTML = `Created Velo Checkout Session <code>${s.paymentIntentId}</code> for <strong>${s.amountXlm} XLM (₱${s.grossPhp.toLocaleString("en-PH")})</strong>. Click <strong>"Simulate Verified Velo Webhook"</strong> to lock buyer funds.`;
             }
             showNotification(
-                `💳 Velo Checkout Session created: ${s.paymentIntentId} (${s.amountXlm} XLM)`
+                `[VELO] Checkout Session created: ${s.paymentIntentId} (${s.amountXlm} XLM)`
             );
             return;
         }
@@ -867,7 +885,7 @@ async function launchVeloCheckoutFromBroker() {
         // Static fallback
     }
 
-    showNotification("💳 Velo Checkout Session created (25.60 XLM / ₱256,000 Floor)!");
+    showNotification("[VELO] Checkout Session created (25.60 XLM / ₱256,000 Floor).");
 }
 
 async function simulateVerifiedVeloWebhookUI() {
@@ -888,15 +906,15 @@ async function simulateVerifiedVeloWebhookUI() {
                 sigEl.innerText = `${data.webhookRecord.eventId} · x-velo-signature: ${data.webhookRecord.signatureHeader}`;
             }
             if (veloBadge) {
-                veloBadge.innerText = "🟢 Buyer Escrow Locked (Paid)";
+                veloBadge.innerText = "ESCROW LOCKED (PAID)";
                 veloBadge.className = "pill pill-green";
             }
             if (brokerBadge) {
-                brokerBadge.innerText = "🟢 Paid & Verified";
+                brokerBadge.innerText = "PAID & VERIFIED";
                 brokerBadge.className = "pill pill-green";
             }
             if (driverLockBadge) {
-                driverLockBadge.innerText = "🟢 Buyer Escrow Locked via Velo";
+                driverLockBadge.innerText = "BUYER ESCROW LOCKED VIA VELO";
                 driverLockBadge.className = "pill pill-green";
             }
 
@@ -906,7 +924,7 @@ async function simulateVerifiedVeloWebhookUI() {
             );
 
             showNotification(
-                "🔐 Verified x-velo-signature (payment.succeeded · 25.60 XLM)! Mang Ramon's Dehydrator Dock NFC Handoff is now unlocked."
+                "[ESCROW] Verified x-velo-signature (payment.succeeded · 25.60 XLM). Driver NFC handoff unlocked."
             );
             return;
         }
@@ -916,7 +934,7 @@ async function simulateVerifiedVeloWebhookUI() {
 
     const driverLockBadge = document.getElementById("driverBuyerLockBadge");
     if (driverLockBadge) {
-        driverLockBadge.innerText = "🟢 Buyer Escrow Locked via Velo";
+        driverLockBadge.innerText = "BUYER ESCROW LOCKED VIA VELO";
         driverLockBadge.className = "pill pill-green";
     }
     appendTerminalLogUI(
@@ -924,7 +942,7 @@ async function simulateVerifiedVeloWebhookUI() {
         "Verified x-velo-signature for 25.60 XLM. Off-taker escrow confirmed locked."
     );
     showNotification(
-        "🔐 Verified x-velo-signature (payment.succeeded · 25.60 XLM)! Mang Ramon's Dehydrator Dock NFC Handoff is now unlocked."
+        "[ESCROW] Verified x-velo-signature (payment.succeeded · 25.60 XLM). Driver NFC handoff unlocked."
     );
 }
 
@@ -946,11 +964,11 @@ async function confirmDriverNfcHandoff() {
         const data = await res.json();
         if (data && data.ok) {
             if (driverLockBadge) {
-                driverLockBadge.innerText = "🟢 Buyer Escrow Locked via Velo";
+                driverLockBadge.innerText = "BUYER ESCROW LOCKED VIA VELO";
                 driverLockBadge.className = "pill pill-green";
             }
             if (nfcBtn) {
-                nfcBtn.innerText = "✅ Dual NFC Tap Verified · 23.80 XLM Settled on Stellar Testnet";
+                nfcBtn.innerText = "Dual NFC Tap Verified · 23.80 XLM Settled on Stellar Testnet";
             }
             if (receiptCard) {
                 receiptCard.style.display = "block";
@@ -962,7 +980,7 @@ async function confirmDriverNfcHandoff() {
             );
 
             showNotification(
-                "📲 Dual NFC Dock Tap Verified! Released 23.80 XLM (₱237,980 net) from Noir payment_escrow to Benguet Highland Co-op!"
+                "[SETTLED] Dual NFC Dock Tap Verified. Released 23.80 XLM (₱237,980 net) from Noir payment_escrow to Benguet Highland Co-op."
             );
             return;
         }
@@ -971,7 +989,7 @@ async function confirmDriverNfcHandoff() {
     }
 
     if (nfcBtn) {
-        nfcBtn.innerText = "✅ Dual NFC Tap Verified · 23.80 XLM Settled on Stellar Testnet";
+        nfcBtn.innerText = "Dual NFC Tap Verified · 23.80 XLM Settled on Stellar Testnet";
     }
     if (receiptCard) {
         receiptCard.style.display = "block";
@@ -981,7 +999,7 @@ async function confirmDriverNfcHandoff() {
         "Verifying webhook & dual hardware proofs -> Unwinding 36.00 XLM original buyer escrow, releasing 23.80 XLM net to Co-op, 1.15 XLM fee."
     );
     showNotification(
-        "📲 Dual NFC Dock Tap Verified! Released 23.80 XLM (₱237,980 net) from Noir payment_escrow to Benguet Highland Co-op!"
+        "[SETTLED] Dual NFC Dock Tap Verified. Released 23.80 XLM (₱237,980 net) from Noir payment_escrow to Benguet Highland Co-op."
     );
 }
 
@@ -1001,10 +1019,10 @@ async function resetFullDemoState() {
     if (receiptCard) receiptCard.style.display = "none";
     const nfcBtn = document.getElementById("nfcHandoffBtn");
     if (nfcBtn) {
-        nfcBtn.innerText = "📲 Tap Dehydrator Dock NFC Terminal (BGT-402-POD)";
+        nfcBtn.innerText = "Tap Bulacan Dock 3 NFC Terminal (BGT-402-POD)";
     }
     appendTerminalLogUI("PERCEIVE", "Reset route simulation to Hour 0.0 (BAPTC Loading Dock, 17.5°C).");
-    showNotification("🔄 Reset route simulation to Hour 0.0 (La Trinidad Loading Dock).");
+    showNotification("[RESET] Reset route simulation to Hour 0.0.");
 }
 
 function submitPartnerForm(event) {
@@ -1031,7 +1049,7 @@ function submitPartnerForm(event) {
     const form = document.getElementById("partnerForm");
     if (form) form.reset();
 
-    showNotification("🤝 Partnership Inquiry Received for " + orgName + "! Added to Corridor Pipeline.");
+    showNotification("[PARTNERSHIP] Inquiry Received for " + orgName + ". Added to Corridor Pipeline.");
 }
 
 function exportTelemetryReport() {
@@ -1078,7 +1096,7 @@ function exportTelemetryReport() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    showNotification("📥 Exported PNS/BAFS 19:2018 Telemetry & Stellar Testnet Audit Certificate.");
+    showNotification("[AUDIT] Exported PNS/BAFS 19:2018 Telemetry & Stellar Testnet Audit Certificate.");
 }
 
 let auctionRemainingSeconds = 2 * 3600 + 44 * 60 + 18;
@@ -1157,5 +1175,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const requestedRole = params.get("role");
     if (requestedRole && AUTH_USERS[requestedRole]) {
         quickLoginAs(requestedRole);
+    } else {
+        // Boot directly into AWITEN-Pay Decision Engine in dispatcherView
+        quickLoginAs("dispatcher");
+        if (typeof showTab === "function") {
+            showTab("noir-velo");
+        }
     }
 });
