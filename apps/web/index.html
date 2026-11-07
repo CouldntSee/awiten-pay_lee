@@ -84,7 +84,7 @@
             <span class="hero-eyebrow">THE ONE-STOP AUTONOMOUS CARGO CLEARINGHOUSE</span>
             <h1 class="hero-video-title">STOP LOSING HARVESTS ON THE ROAD</h1>
             <p class="hero-video-sub">
-                When a highland vegetable truck overheats mid-highway, AWITEN-Pay advances driver diversion fuel, locks a nearby processor's floor price via Velo Checkout, and settles Noir escrow on delivery.
+                When a highland vegetable truck is delayed mid-highway, AWITEN-Pay advances driver diversion fuel, locks a nearby processor's floor price via Velo Checkout, and settles Noir escrow on delivery.
             </p>
             <div class="hero-video-actions">
                 <button type="button" class="btn btn-primary btn-lg" onclick="quickLoginAs('dispatcher')">
@@ -418,7 +418,10 @@
             </button>
         </nav>
 
-        <div style="display:flex; align-items:center; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <button id="dispatcherWalletPillBtn" type="button" class="console-wallet-pill-btn btn btn-outline btn-sm" onclick="openVeloWalletModal()">
+                Connect Velo Wallet
+            </button>
             <span id="firewallBadge" class="pill pill-green"><span class="status-dot status-dot-green"></span> Firewall Active</span>
             <span id="liveClock" style="font-size:12px; font-weight:700; color:var(--text-muted);"></span>
             <button class="btn btn-outline btn-sm" onclick="navigateTo('landing')">Back to Website</button>
@@ -735,7 +738,10 @@
             </div>
         </div>
 
-        <div style="display:flex; align-items:center; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <button id="brokerWalletPillBtn" type="button" class="console-wallet-pill-btn btn btn-outline btn-sm" onclick="openVeloWalletModal()">
+                Connect Velo Wallet
+            </button>
             <button class="btn btn-outline btn-sm" onclick="quickLoginAs('dispatcher')">01 · Fleet Console</button>
             <button class="btn btn-outline btn-sm" onclick="quickLoginAs('driver')">03 · Driver App</button>
             <button class="btn btn-outline btn-sm" onclick="navigateTo('landing')">Back to Website</button>
@@ -819,7 +825,10 @@
             </div>
         </div>
 
-        <div style="display:flex; align-items:center; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <button id="driverWalletPillBtn" type="button" class="console-wallet-pill-btn btn btn-outline btn-sm" onclick="openVeloWalletModal()">
+                Connect Velo Wallet
+            </button>
             <button type="button" class="btn btn-outline btn-sm" onclick="quickLoginAs('dispatcher')">
                 01 · Fleet Console
             </button>

@@ -213,7 +213,24 @@ async function runVerification() {
     assert.ok(Array.isArray(walletConfigJson.walletIds));
     assert.ok(walletConfigJson.walletIds.includes('noir'));
 
-    // 4c. Real HTTP 402 Payment Required Oracle challenge-response
+    // 4c. Verify /api/webhook-tester endpoint (200 OK by default, 500 on ?status=500)
+    const testerGetRes = await fetch(`${baseUrl}/api/webhook-tester`);
+    assert.equal(testerGetRes.status, 200, 'GET /api/webhook-tester must return HTTP 200 by default');
+    const testerGetJson = await testerGetRes.json();
+    assert.equal(testerGetJson.ok, true);
+
+    const testerGet500Res = await fetch(`${baseUrl}/api/webhook-tester?status=500`);
+    assert.equal(testerGet500Res.status, 500, 'GET /api/webhook-tester?status=500 must return HTTP 500');
+    const testerGet500Json = await testerGet500Res.json();
+    assert.equal(testerGet500Json.simulatedFailure, true);
+
+    const testerPostRes = await fetch(`${baseUrl}/api/webhook-tester`, { method: 'POST' });
+    assert.equal(testerPostRes.status, 200, 'POST /api/webhook-tester must return HTTP 200 by default');
+
+    const testerPost500Res = await fetch(`${baseUrl}/api/webhook-tester?status=500`, { method: 'POST' });
+    assert.equal(testerPost500Res.status, 500, 'POST /api/webhook-tester?status=500 must return HTTP 500');
+
+    // 4d. Real HTTP 402 Payment Required Oracle challenge-response
     const unauthOracleRes = await fetch(`${baseUrl}/api/x402/route-weather-oracle`);
     assert.equal(unauthOracleRes.status, 402, 'Unauthenticated request must return HTTP 402');
     assert.equal(unauthOracleRes.headers.get('x-402-price'), '1.00 XLM');
@@ -366,6 +383,8 @@ async function runVerification() {
     '/api/v1/wallet-config/',
     'isNoir: true',
     'assets/awiten-logo.png',
+    'When a highland vegetable truck is delayed mid-highway',
+    'console-wallet-pill-btn',
   ];
 
   for (const marker of requiredHtmlMarkers) {
@@ -378,6 +397,10 @@ async function runVerification() {
   assert.ok(
     !htmlContent.includes('STOP LOSING HARVESTS TO HIGHWAY HEAT'),
     'apps/web/index.html must not contain obsolete headline STOP LOSING HARVESTS TO HIGHWAY HEAT'
+  );
+  assert.ok(
+    !htmlContent.includes('overheats mid-highway'),
+    'apps/web/index.html must not contain obsolete copy overheats mid-highway'
   );
 
   const navbarSlice = htmlContent.slice(
@@ -408,11 +431,36 @@ async function runVerification() {
     styleCssContent.includes('overflow-x: hidden'),
     'apps/web/css/style.css must set overflow-x: hidden'
   );
+  assert.ok(
+    styleCssContent.includes('.console-wallet-pill-btn'),
+    'apps/web/css/style.css must style .console-wallet-pill-btn'
+  );
 
-  // Assert 100% Zero-Emoji rule in apps/web/index.html, style.css, and server index.js
+  // Assert app.js and modal.js wallet connection gates
+  const appJsPath = path.join(MONOREPO_ROOT, 'apps/web/js/app.js');
+  const appJsContent = fs.readFileSync(appJsPath, 'utf8');
+  assert.ok(
+    appJsContent.includes('requireVeloWalletConnection'),
+    'apps/web/js/app.js must enforce requireVeloWalletConnection'
+  );
+  assert.ok(
+    appJsContent.includes('openVeloWalletModal'),
+    'apps/web/js/app.js must export openVeloWalletModal'
+  );
+
+  const modalJsPath = path.join(MONOREPO_ROOT, 'apps/web/js/modal.js');
+  const modalJsContent = fs.readFileSync(modalJsPath, 'utf8');
+  assert.ok(
+    modalJsContent.includes('requireVeloWalletConnection'),
+    'apps/web/js/modal.js must enforce requireVeloWalletConnection'
+  );
+
+  // Assert 100% Zero-Emoji rule across all frontend and server scripts
   const checkedFiles = [
     { name: 'apps/web/index.html', content: htmlContent },
     { name: 'apps/web/css/style.css', content: styleCssContent },
+    { name: 'apps/web/js/app.js', content: appJsContent },
+    { name: 'apps/web/js/modal.js', content: modalJsContent },
     { name: 'apps/server/src/index.js', content: fs.readFileSync(path.join(MONOREPO_ROOT, 'apps/server/src/index.js'), 'utf8') },
   ];
   for (const file of checkedFiles) {

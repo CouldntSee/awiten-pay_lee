@@ -73,6 +73,11 @@ function acceptBuyerOffer(buyerName, pricePerKg) {
 }
 
 function confirmDiversion() {
+    if (typeof requireVeloWalletConnection === "function") {
+        if (!requireVeloWalletConnection("Confirm Diversion")) {
+            return;
+        }
+    }
     closeModal();
     const offer = window.pendingDiversionOffer || {
         buyer: "Bulacan Food Dehydrator (Contracted Floor)",
@@ -125,6 +130,11 @@ function updateBidTotalPreview() {
 
 function submitBrokerBid(event) {
     if (event) event.preventDefault();
+    if (typeof requireVeloWalletConnection === "function") {
+        if (!requireVeloWalletConnection("Submit Sealed Broker Bid")) {
+            return;
+        }
+    }
 
     const priceInput = document.getElementById("bidPriceInput");
     const hubSelect = document.getElementById("bidHubSelect");
@@ -177,3 +187,6 @@ function submitBrokerBid(event) {
         );
     }
 }
+
+window.submitSealedBrokerBid = submitBrokerBid;
+

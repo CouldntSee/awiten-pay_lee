@@ -365,6 +365,20 @@ velo-wallet::part(trigger) {
     transition: all 0.18s ease;
 }
 
+.console-wallet-pill-btn {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.18s ease;
+}
+
 /* HERO SECTION */
 .hero-section {
     max-width: 1220px;

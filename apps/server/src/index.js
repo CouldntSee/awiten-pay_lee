@@ -361,6 +361,32 @@ export function createApp() {
   // ==========================================================================
   const handleVeloWebhook = async (req, res) => {
     try {
+      const requestedStatus = Number(req.query?.status);
+      if (requestedStatus >= 400 && requestedStatus <= 599) {
+        return res.status(requestedStatus).json({
+          ok: false,
+          status: requestedStatus,
+          simulatedFailure: true,
+          error: `Simulated HTTP ${requestedStatus} failure requested via ?status=${requestedStatus}`,
+        });
+      }
+
+      if (
+        req.path === '/api/webhook-tester' &&
+        !req.headers['x-velo-signature'] &&
+        !req.headers['velo-signature'] &&
+        !req.headers['x-signature'] &&
+        !req.headers['signature']
+      ) {
+        return res.status(200).json({
+          ok: true,
+          status: 200,
+          endpoint: '/api/webhook-tester',
+          message:
+            'AWITEN-Pay Velo webhook tester active. Append ?status=500 to demonstrate failure.',
+        });
+      }
+
       const signature =
         req.headers['x-velo-signature'] ||
         req.headers['velo-signature'] ||
@@ -556,6 +582,25 @@ export function createApp() {
   };
 
   // Mount on all likely paths
+  app.post('/api/webhook-tester', express.raw({ type: '*/*' }), handleVeloWebhook);
+  app.get('/api/webhook-tester', (req, res) => {
+    const s = Number(req.query?.status || 200);
+    if (s >= 400 && s <= 599) {
+      return res.status(s).json({
+        ok: false,
+        status: s,
+        simulatedFailure: true,
+        error: `Simulated HTTP ${s} failure requested via ?status=${s}`,
+      });
+    }
+    return res.status(200).json({
+      ok: true,
+      status: 200,
+      endpoint: '/api/webhook-tester',
+      message:
+        'AWITEN-Pay Velo webhook tester active. Append ?status=500 to demonstrate failure.',
+    });
+  });
   app.post('/api/webhooks/velo', express.raw({ type: '*/*' }), handleVeloWebhook);
   app.post('/api/webhook', express.raw({ type: '*/*' }), handleVeloWebhook);
   app.post('/webhooks/velo', express.raw({ type: '*/*' }), handleVeloWebhook);

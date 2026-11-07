@@ -228,7 +228,71 @@ function appendClientTerminalLog(tag, message) {
 }
 window.appendClientTerminalLog = appendClientTerminalLog;
 
+function openVeloWalletModal() {
+    const walletEl = document.querySelector("#stellar-wallet");
+    if (!walletEl) {
+        if (typeof showNotification === "function") {
+            showNotification("Velo Wallet component not found in DOM");
+        }
+        return;
+    }
+
+    const shadowBtn =
+        walletEl.shadowRoot?.querySelector("button.primary") ||
+        walletEl.shadowRoot?.querySelector("button") ||
+        walletEl.querySelector("button");
+
+    if (shadowBtn) {
+        shadowBtn.click();
+    } else {
+        walletEl.click();
+    }
+}
+window.openVeloWalletModal = openVeloWalletModal;
+
+function updateWalletPillButtons() {
+    const btns = document.querySelectorAll(".console-wallet-pill-btn");
+    const addr = window.connectedVeloWalletAddress;
+    btns.forEach((btn) => {
+        if (addr) {
+            btn.innerHTML = `<span class="status-dot status-dot-green"></span> Wallet: ${addr.slice(0, 4)}...${addr.slice(-4)}`;
+            btn.classList.remove("btn-outline");
+            btn.classList.add("btn-primary");
+            btn.style.borderColor = "var(--brand-emerald)";
+            btn.title = `Connected: ${addr}`;
+        } else {
+            btn.innerHTML = "Connect Velo Wallet";
+            btn.classList.remove("btn-primary");
+            btn.classList.add("btn-outline");
+            btn.style.borderColor = "";
+            btn.title = "Click to connect Velo Stellar Wallet";
+        }
+    });
+}
+window.updateWalletPillButtons = updateWalletPillButtons;
+
+function requireVeloWalletConnection(actionLabel = "this action") {
+    if (window.connectedVeloWalletAddress) {
+        return true;
+    }
+
+    const warningMsg = `Action blocked (${actionLabel}): Connect your Velo Wallet first.`;
+    appendClientTerminalLog("WALLET GATE", warningMsg);
+
+    const alertMsg = `Wallet Required: Please connect your Velo Stellar Wallet before executing ${actionLabel}.`;
+    if (typeof showNotification === "function") {
+        showNotification(alertMsg, "#dc2626");
+    }
+
+    // Automatically trigger Velo Wallet selector modal
+    openVeloWalletModal();
+
+    return false;
+}
+window.requireVeloWalletConnection = requireVeloWalletConnection;
+
 function initVeloWalletComponent() {
+    updateWalletPillButtons();
     const wallet = document.querySelector("#stellar-wallet");
     if (!wallet) return;
 
@@ -237,6 +301,7 @@ function initVeloWalletComponent() {
         const addr = event.detail?.address;
         if (addr) {
             window.connectedVeloWalletAddress = addr;
+            updateWalletPillButtons();
             appendClientTerminalLog("VELO WALLET", "Connected Stellar wallet: " + addr);
             if (typeof showNotification === "function") {
                 showNotification("Velo Wallet connected: " + addr.slice(0, 4) + "..." + addr.slice(-4));
@@ -417,6 +482,7 @@ function navigateTo(viewName) {
 
     renderNoirVeloProofUI();
     updatePublicNavbarSessionUI();
+    updateWalletPillButtons();
 }
 
 function updatePublicNavbarSessionUI() {
@@ -814,6 +880,9 @@ function syncDriverAppViewForHour(h) {
 }
 
 async function triggerAutonomousDiversionFlow(customBuyer, customPricePerKg, options = {}) {
+    if (!requireVeloWalletConnection("Autonomous Diversion")) {
+        return;
+    }
     const buyerName = customBuyer || "Bulacan Food Dehydrator (Contracted Floor)";
     const pricePhpPerKg = parseFloat(customPricePerKg || 32.0);
 
@@ -890,6 +959,9 @@ async function triggerAutonomousDiversionFlow(customBuyer, customPricePerKg, opt
 }
 
 async function launchVeloCheckoutFromBroker() {
+    if (!requireVeloWalletConnection("Launch Velo Checkout")) {
+        return;
+    }
     const bidPriceEl = document.getElementById("bidPriceInput");
     const hubEl = document.getElementById("bidHubSelect");
     const pricePhpPerKg = bidPriceEl ? parseFloat(bidPriceEl.value) || 32.0 : 32.0;
@@ -924,8 +996,12 @@ async function launchVeloCheckoutFromBroker() {
 
     showNotification("[VELO] Checkout Session created (25.60 XLM / ₱256,000 Floor).");
 }
+window.triggerBrokerVeloCheckout = launchVeloCheckoutFromBroker;
 
 async function simulateVerifiedVeloWebhookUI() {
+    if (!requireVeloWalletConnection("Simulate Velo Webhook")) {
+        return;
+    }
     try {
         const res = await fetch("/api/velo/simulate-webhook", {
             method: "POST",
@@ -984,6 +1060,9 @@ async function simulateVerifiedVeloWebhookUI() {
 }
 
 async function confirmDriverNfcHandoff() {
+    if (!requireVeloWalletConnection("Driver NFC Handoff")) {
+        return;
+    }
     const receiptCard = document.getElementById("driverSettlementReceiptCard");
     const nfcBtn = document.getElementById("nfcHandoffBtn");
     const driverLockBadge = document.getElementById("driverBuyerLockBadge");
