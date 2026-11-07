@@ -8,9 +8,9 @@
 ## 2. Team Name & Members
 - **Team Name:** `WalangKenen` (Founders of `AWITEN.ai` — Top 2 Winner, DICT Philippine Startup Challenge XI Region 1)
 - **Members:**
-  - **John Dominic Ragudo (`BS Computer Engineering`)** — Systems Architect, Noir Soroban Contract Integration & 3-Layer Arrhenius RUL Decision Engine
-  - **CpE Co-Founder (`BS Computer Engineering`)** — *Viajero* Clip-On Telemetry Pod (`ESP32-S3 + Dual SHT40 + NFC`) & SHA-256 Hardware Attestation
-  - **IT Co-Founder (`BS Information Technology`)** — 3-Portal Clearinghouse UI, Velo Checkout Pipeline & Driver Mobile NFC Companion
+  - **John Dominic S. Ragudo (`BS Computer Engineering`)** — Systems Architect, Noir Soroban Contract Integration & 3-Layer Arrhenius RUL Decision Engine
+  - **Lee Marc C. Macalanda (`BS Computer Engineering`)** — *Viajero* Clip-On Telemetry Pod (`ESP32-S3 + Dual SHT40 + NFC`) & SHA-256 Hardware Attestation
+  - **Nesrine P. Landingin (`BS Information Technology`)** — 3-Portal Clearinghouse UI, Velo Checkout Pipeline & Driver Mobile NFC Companion
 
 ---
 
