@@ -152,12 +152,32 @@ code {
     cursor: pointer;
 }
 
+.brand-partner-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
 .brand-logo-img {
-    height: 40px;
+    height: 30px;
     width: auto;
     object-fit: contain;
     display: block;
     filter: drop-shadow(0 2px 6px rgba(5, 61, 34, 0.08));
+    transition: height 0.15s ease;
+}
+
+.brand-partner-x {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #64748b;
+    line-height: 1;
+    padding: 0 2px;
+    user-select: none;
+    transition: font-size 0.15s ease;
 }
 
 .brand-logo-lg {
@@ -1803,3 +1823,22 @@ th {
         box-shadow: none;
     }
 }
+
+@media (max-width: 1180px) {
+    .brand-logo-img {
+        height: 24px;
+    }
+    .brand-partner-x {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .brand-logo-img {
+        height: 22px;
+    }
+    .brand-partner-x {
+        font-size: 13px;
+    }
+}
+

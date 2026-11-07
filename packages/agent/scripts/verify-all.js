@@ -32,7 +32,7 @@ function isHex64(val) {
 
 async function runVerification() {
   console.log('======================================================================');
-  console.log('🧪 AWITEN-Pay Full-Stack & Stellar Testnet Verification Suite');
+  console.log('[SUITE] AWITEN-Pay Full-Stack & Stellar Testnet Verification Suite');
   console.log('======================================================================');
 
   // -------------------------------------------------------------------------
@@ -383,6 +383,9 @@ async function runVerification() {
     '/api/v1/wallet-config/',
     'isNoir: true',
     'assets/awiten-logo.png',
+    'assets/awiten-ai-logo.png',
+    'assets/awiten-pay-logo.png',
+    'brand-partner-x',
     'When a highland vegetable truck is delayed mid-highway',
     'console-wallet-pill-btn',
   ];
@@ -434,6 +437,14 @@ async function runVerification() {
   assert.ok(
     styleCssContent.includes('.console-wallet-pill-btn'),
     'apps/web/css/style.css must style .console-wallet-pill-btn'
+  );
+  assert.ok(
+    styleCssContent.includes('.brand-partner-lockup'),
+    'apps/web/css/style.css must style .brand-partner-lockup'
+  );
+  assert.ok(
+    styleCssContent.includes('.brand-partner-x'),
+    'apps/web/css/style.css must style .brand-partner-x'
   );
 
   // Assert app.js and modal.js wallet connection gates
@@ -523,11 +534,11 @@ async function runVerification() {
     `[PASS 6/6] 14-Section Builder Handbook README.md & live Stellar Testnet transaction links verified`
   );
   console.log('======================================================================');
-  console.log('✅ ALL AWITEN-PAY VERIFICATION CHECKS PASSED (EXIT 0)');
+  console.log('[ALL PASSED] ALL AWITEN-PAY VERIFICATION CHECKS PASSED (EXIT 0)');
   console.log('======================================================================');
 }
 
 runVerification().catch((err) => {
-  console.error('❌ Verification failed:', err);
+  console.error('[FAIL] Verification failed:', err);
   process.exit(1);
 });
