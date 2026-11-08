@@ -64,7 +64,7 @@ Without **`AWITEN-Pay` (`LIQUIDATE`)**, knowing the vegetables are about to rot 
 
 ---
 
-## 5. How Your Agent Works
+## 5. How AWITEN-Pay Agent Works
 The `AWITEN-Pay` autonomous agent (`packages/agent/src/decision-engine.js` + `noir-service.js`) runs a deterministic **3-Layer Biophysical & Economic Loop** on every telemetry frame emitted by the clip-on sensor pod (`BGT-402-POD-ESP32S3`):
 
 ### Layer 1: Biophysical Telemetry & Arrhenius RUL Evaluator
