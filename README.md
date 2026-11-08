@@ -15,10 +15,10 @@
 ---
 
 ## 3. Live Links
-- **Live Deployed Web Application (Required Working Site):** [`https://shirts-pulling-earning-ellen.trycloudflare.com`](https://shirts-pulling-earning-ellen.trycloudflare.com)
-- **Direct Portal #3 Link (Mang Ramon Viajero Driver & Dock NFC Handoff Mobile App):** [`https://shirts-pulling-earning-ellen.trycloudflare.com/?role=driver`](https://shirts-pulling-earning-ellen.trycloudflare.com/?role=driver)
-- **Live Velo Webhook Endpoint:** `https://shirts-pulling-earning-ellen.trycloudflare.com/api/webhooks/velo`
-- **Live Webhook Tester (HTTP 200 / ?status=500 Failure Demo):** [`https://shirts-pulling-earning-ellen.trycloudflare.com/api/webhook-tester`](https://shirts-pulling-earning-ellen.trycloudflare.com/api/webhook-tester)
+- **Live Deployed Web Application (Required Working Site):** [`https://charger-installation-networks-contribution.trycloudflare.com`](https://charger-installation-networks-contribution.trycloudflare.com)
+- **Direct Portal #3 Link (Mang Ramon Viajero Driver & Dock NFC Handoff Mobile App):** [`https://charger-installation-networks-contribution.trycloudflare.com/?role=driver`](https://charger-installation-networks-contribution.trycloudflare.com/?role=driver)
+- **Live Velo Webhook Endpoint:** `https://charger-installation-networks-contribution.trycloudflare.com/api/webhooks/velo`
+- **Live Webhook Tester (HTTP 200 / ?status=500 Failure Demo):** [`https://charger-installation-networks-contribution.trycloudflare.com/api/webhook-tester`](https://charger-installation-networks-contribution.trycloudflare.com/api/webhook-tester)
 - **Live Velo Checkout Session (Bulacan Rescue Off-Taker):** [`https://www.velo-build.dev/pay/jx7f3gnymxfm9vvyhv69ny2bzx8hqbwv`](https://www.velo-build.dev/pay/jx7f3gnymxfm9vvyhv69ny2bzx8hqbwv)
 - **Velo Build Project Registry (`VeloPayAccess` Active):** `https://www.velo-build.dev` (`AWITEN-Pay`)
 - **Verified Stellar Testnet Proof Manifest:** [`packages/shared/src/testnet-proofs.json`](./packages/shared/src/testnet-proofs.json)
@@ -275,7 +275,7 @@ All required keys are documented in [`env.template`](./env.template):
 ---
 
 ## 12. How to Test the Flow
-1. **Launch or Visit the App & Connect Wallet:** Open the live deployed site at [`https://shirts-pulling-earning-ellen.trycloudflare.com`](https://shirts-pulling-earning-ellen.trycloudflare.com) (or run locally via `npm start` at `http://localhost:3001`). Connect your Stellar Testnet wallet using the `<velo-wallet>` widget (`Connect Wallet` / `Velo Wallet` button) in the upper-right corner before executing on-chain actions. Use the top **Instant 3-Portal Switcher Bar** to jump between portals in 1 click.
+1. **Launch or Visit the App & Connect Wallet:** Open the live deployed site at [`https://charger-installation-networks-contribution.trycloudflare.com`](https://charger-installation-networks-contribution.trycloudflare.com) (or run locally via `npm start` at `http://localhost:3001`). Connect your Stellar Testnet wallet using the `<velo-wallet>` widget (`Connect Wallet` / `Velo Wallet` button) in the upper-right corner before executing on-chain actions. Use the top **Instant 3-Portal Switcher Bar** to jump between portals in 1 click.
 2. **Autonomous Agent Mode & Zero-Click Liquidation:**
    - In Portal #1 (`1. Dispatcher (Co-op Fleet Console)`), make sure **Autonomous Agent Mode** (`#autonomousAgentToggle`) is checked.
    - Scrub the route timeline to `3.0h (26.4°C)`: The agent intercepts HTTP 402, queries `/api/x402/route-weather-oracle`, pays `1.00 XLM` on-chain, and streams `[PERCEIVE]` logs to the Live Terminal HUD.
