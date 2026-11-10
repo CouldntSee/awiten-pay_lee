@@ -63,11 +63,12 @@ body {
 }
 
 h1, h2, h3, .kpi-value, .buyer-price, .hero-kpi-box strong {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Space Grotesk', 'Outfit', sans-serif;
+    letter-spacing: 0.025em;
 }
 
 code {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
 }
 
 /* ============================================================================
@@ -280,6 +281,28 @@ code {
     color: #ffffff;
 }
 
+.btn-emerald-glass {
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    font-weight: 700;
+}
+
+.btn-emerald-glass:hover {
+    background: rgba(16, 185, 129, 0.22);
+    color: #6ee7b7;
+    border-color: rgba(52, 211, 153, 0.7);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn-emerald-glass:active {
+    transform: translateY(0);
+}
+
 .pill {
     display: inline-flex;
     align-items: center;
@@ -411,10 +434,11 @@ velo-wallet::part(trigger) {
 }
 
 .hero-title {
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
     font-size: 44px;
     font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -1px;
+    line-height: 1.15;
+    letter-spacing: 0.025em;
     margin: 14px 0 14px;
     color: var(--brand-forest);
 }
@@ -864,10 +888,11 @@ velo-wallet::part(trigger) {
 
 .kpi-value {
     display: block;
+    font-family: 'Space Grotesk', 'JetBrains Mono', monospace;
     font-size: 30px;
     font-weight: 800;
     margin: 4px 0 3px;
-    letter-spacing: -0.6px;
+    letter-spacing: 0.02em;
     color: var(--brand-forest);
 }
 
@@ -1080,27 +1105,57 @@ th {
 .driver-stage-wrap {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    padding: 24px 16px 48px;
+    align-items: center;
+    min-height: calc(100vh - 120px);
+    padding: 32px 16px 48px;
+    background: radial-gradient(circle at 50% 25%, rgba(16, 185, 129, 0.08) 0%, transparent 65%);
 }
 
 .mobile-phone-frame {
     width: 390px;
-    max-width: 100%;
+    height: 780px;
+    max-height: 85vh;
     background: #f8fafc;
-    border: 8px solid #052e16;
-    border-radius: 38px;
-    box-shadow: 0 26px 64px rgba(5, 61, 34, 0.26);
-    overflow: hidden;
+    border: 10px solid #141f17;
+    border-radius: 46px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.mobile-phone-frame::-webkit-scrollbar {
+    display: none;
 }
 
 .phone-notch {
-    width: 124px;
-    height: 18px;
-    background: #052e16;
-    border-radius: 0 0 14px 14px;
-    margin: 0 auto;
+    width: 120px;
+    height: 24px;
+    background: #141f17;
+    border-radius: 20px;
+    margin: 10px auto 8px;
+    flex-shrink: 0;
+    position: relative;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.12), 0 2px 6px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 14px;
+}
+
+.phone-notch::after {
+    content: '';
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #1e3a8a 0%, #0f172a 70%, #020617 100%);
+    box-shadow: inset 0 0 2px rgba(0, 255, 200, 0.4);
+    display: block;
 }
 
 .phone-header {
@@ -1598,14 +1653,15 @@ th {
 }
 
 .hero-video-title {
-    font-family: 'Outfit', sans-serif;
-    font-size: clamp(34px, 5.5vw, 58px);
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(34px, 5.5vw, 56px);
     font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.12;
+    letter-spacing: 0.04em;
+    line-height: 1.15;
     margin: 0 0 16px;
     color: #ffffff;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 
 .hero-video-sub {
@@ -1636,10 +1692,10 @@ th {
 }
 
 .trust-statement-text {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
     font-size: clamp(20px, 3.2vw, 32px);
     font-weight: 800;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.035em;
     max-width: 960px;
     margin: 0 auto 20px;
     line-height: 1.35;
@@ -1794,7 +1850,7 @@ th {
     }
     .hero-video-title {
         font-size: 26px;
-        letter-spacing: -0.5px;
+        letter-spacing: 0.03em;
     }
     .hero-video-sub {
         font-size: 14px;
@@ -1817,10 +1873,13 @@ th {
         grid-template-columns: 1fr;
     }
     .mobile-phone-frame {
-        width: 100%;
-        border-width: 3px;
-        border-radius: 18px;
-        box-shadow: none;
+        width: 390px;
+        max-width: 100%;
+        height: 780px;
+        max-height: 85vh;
+        border: 8px solid #141f17;
+        border-radius: 42px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
     }
 }
 
@@ -1840,5 +1899,79 @@ th {
     .brand-partner-x {
         font-size: 13px;
     }
+}
+
+/* ============================================================================
+   EMOTION-AGENCY ANIMATIONS & MOTION INTERACTIONS
+   ============================================================================ */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-video-content > * {
+    animation: fadeInUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-eyebrow {
+    animation-delay: 0.08s;
+}
+
+.hero-video-title {
+    animation-delay: 0.16s;
+}
+
+.hero-video-sub {
+    animation-delay: 0.24s;
+}
+
+.hero-video-actions {
+    animation-delay: 0.32s;
+}
+
+/* Glassmorphic card elevation & border glow on hover */
+.clean-card, .dashboard-card, .role-card, .about-card, .phone-card {
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
+}
+
+.clean-card:hover, .dashboard-card:hover, .role-card:hover, .about-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px rgba(5, 61, 34, 0.12), 0 0 0 1px rgba(16, 185, 129, 0.35);
+}
+
+/* Buttons micro-interaction */
+.btn {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(5, 61, 34, 0.16);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Live telemetry pulsing indicator */
+@keyframes livePulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    }
+}
+
+.live-dot.pulse {
+    animation: livePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
