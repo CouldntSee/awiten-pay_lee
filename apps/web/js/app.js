@@ -399,6 +399,10 @@ async function loadInitialTerminalLogs() {
 }
 
 async function executeAutonomousOracleQueryUI() {
+    if (!requireVeloWalletConnection("Query x402 Route Oracle (1 XLM)")) {
+        return;
+    }
+
     appendTerminalLogUI(
         "PERCEIVE",
         "Canopy warming passed 26.4°C at Hour 3.0. Firing GET /api/x402/route-weather-oracle..."
@@ -855,7 +859,12 @@ function syncDriverAppViewForHour(h) {
     const walletXlm = document.getElementById("driverWalletXlm");
     const walletPhp = document.getElementById("driverWalletPhp");
 
-    if (h < 4.0) {
+    const isDiverted =
+        h >= 4.0 &&
+        window.currentSimState &&
+        window.currentSimState.decisionCode === "EXECUTE_AUTONOMOUS_DIVERSION";
+
+    if (!isDiverted) {
         if (walletPill) {
             walletPill.innerText = "STANDBY · NO DIVERSION";
             walletPill.className = "pill pill-blue";

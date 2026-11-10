@@ -109,20 +109,55 @@ function updateSimulation(hourValue) {
 
     // Zero-Click Autonomous Agent triggers
     if (window.autonomousAgentMode !== false) {
+        // Reset triggers when scrubbing backwards to safe/good hours
+        if (h < 3.0) {
+            window.hasTriggeredOracleHour3 = false;
+            window.hasLoggedOracleGateWarning = false;
+        }
+        if (
+            h < 4.5 ||
+            (window.currentSimState &&
+                window.currentSimState.decisionCode === "HOLD_PRIMARY_ROUTE")
+        ) {
+            window.hasTriggeredDiversionHour45 = false;
+        }
+
+        // Hour 3.0 x402 Oracle Query with strict wallet gate
         if (h >= 3.0 && !window.hasTriggeredOracleHour3) {
-            window.hasTriggeredOracleHour3 = true;
-            if (typeof executeAutonomousOracleQueryUI === "function") {
-                executeAutonomousOracleQueryUI();
+            if (!window.connectedVeloWalletAddress) {
+                if (!window.hasLoggedOracleGateWarning) {
+                    window.hasLoggedOracleGateWarning = true;
+                    if (typeof appendTerminalLogUI === "function") {
+                        appendTerminalLogUI(
+                            "ORACLE GATE",
+                            "1.00 XLM query held: Connect Velo Wallet to authorize autonomous payment."
+                        );
+                    }
+                }
+            } else {
+                window.hasTriggeredOracleHour3 = true;
+                if (typeof executeAutonomousOracleQueryUI === "function") {
+                    executeAutonomousOracleQueryUI();
+                }
             }
         }
+
+        // Hour 4.5 Autonomous Diversion Flow (only when biophysical decision requires diversion)
         if (h >= 4.5 && !window.hasTriggeredDiversionHour45) {
-            window.hasTriggeredDiversionHour45 = true;
-            if (typeof triggerAutonomousDiversionFlow === "function") {
-                triggerAutonomousDiversionFlow(
-                    "Bulacan Food Dehydrator (Contracted Floor)",
-                    32.0,
-                    { zeroClick: true }
-                );
+            if (
+                window.currentSimState &&
+                window.currentSimState.decisionCode === "EXECUTE_AUTONOMOUS_DIVERSION"
+            ) {
+                if (window.connectedVeloWalletAddress) {
+                    window.hasTriggeredDiversionHour45 = true;
+                    if (typeof triggerAutonomousDiversionFlow === "function") {
+                        triggerAutonomousDiversionFlow(
+                            "Bulacan Food Dehydrator (Contracted Floor)",
+                            32.0,
+                            { zeroClick: true }
+                        );
+                    }
+                }
             }
         }
     }
@@ -142,6 +177,10 @@ function updateSimulation(hourValue) {
 }
 
 function switchTruckPreset(presetKey) {
+    window.hasTriggeredOracleHour3 = false;
+    window.hasTriggeredDiversionHour45 = false;
+    window.hasLoggedOracleGateWarning = false;
+
     const preset = TRUCK_PRESETS[presetKey] || TRUCK_PRESETS.bgt402;
     if (window.currentSimState) {
         window.currentSimState.preset = presetKey;

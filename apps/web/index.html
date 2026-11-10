@@ -438,7 +438,7 @@
     <main class="console-main">
 
         <!-- 4 SIMPLE KPI CARDS -->
-        <div class="kpi-grid-4" style="margin-bottom:16px;">
+        <div class="kpi-grid-4">
             <div class="kpi-card">
                 <span class="kpi-label">Cargo Freshness</span>
                 <span id="freshnessScore" class="kpi-value" style="color:#d97706;">62.4%</span>
@@ -517,7 +517,7 @@
                 <div>
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                         <span class="kpi-label-compact">AUTONOMOUS DIVERSION DECISION</span>
-                        <span class="pill pill-amber"><span class="status-dot status-dot-amber"></span> DIVERT REQUIRED</span>
+                        <span id="decisionStatusBadge" class="pill pill-amber"><span class="status-dot status-dot-amber"></span> DIVERT REQUIRED</span>
                     </div>
 
                     <!-- FINANCIAL COMPARISON BOX -->
@@ -537,7 +537,7 @@
 
                     <!-- PRIMARY & SECONDARY ACTION BUTTONS -->
                     <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;">
-                        <button type="button" class="btn btn-primary btn-lg" style="width:100%;" onclick="triggerAutonomousDiversionFlow()">
+                        <button id="btnDivertAction" type="button" class="btn btn-primary btn-lg" style="width:100%;" onclick="triggerAutonomousDiversionFlow()">
                             1-Tap Divert &amp; Advance 6.50 XLM Fuel
                         </button>
                         <button type="button" class="btn btn-blue" style="width:100%;" onclick="simulateVerifiedVeloWebhookUI()">

@@ -61,62 +61,74 @@ function runAIAnalysis(freshnessScore, hour, tempC, rhPercent) {
 
     const highestBrokerBid = window.currentBrokerBid || 33.5;
 
-    if (fScore >= 85 && h < 3.0) {
-        grade = "Grade 1";
-        gradePillClass = "pill pill-green";
-        gradeSub = "Wholesale Retail Grade";
-        action = "Continue to Manila";
+    // Biophysical safety determination:
+    // If cargo freshness is healthy (fScore >= 68% or rulHours >= etaManila) and fScore >= 65%,
+    // hold primary route to Manila.
+    const isSafeTransit = (fScore >= 68.0 || rulHours >= etaManila) && fScore >= 65.0;
+
+    if (isSafeTransit) {
         decisionCode = "HOLD_PRIMARY_ROUTE";
-        buyerSub = "Balintawak Target: ₱45/kg";
+        action = "Continue to Manila";
         statusColor = "#15803d";
-        nsgaStatus = "Safe Transit · Firewall On";
-        evDeltaText = "₱360,000";
-        bannerDesc =
-            "Cargo is healthy (<strong>" +
-            fScore.toFixed(1) +
-            "% Freshness</strong>). Stay on primary route to Balintawak Wholesale Market. Noir Farmer Firewall keeps shipment shielded.";
-    } else if (fScore >= 70 && h < 4.5) {
-        grade = "Grade 2";
-        gradePillClass = "pill pill-green";
-        gradeSub = "Minor Outer Wilt";
-        action = "Query x402 Oracle (1 XLM)";
-        decisionCode = "QUERY_X402_ORACLE";
-        buyerSub = "Urdaneta / Tarlac Standby";
-        statusColor = "#0b6e3b";
-        nsgaStatus = "x402 Oracle Queried (1.00 XLM)";
-        evDeltaText = "+₱64,000 Protected";
-        bannerDesc =
-            "Canopy warming detected (<strong>" +
-            fScore.toFixed(1) +
-            "% Freshness</strong>). Autonomous agent paid <strong>1.00 XLM</strong> via Noir to query live NLEX traffic &amp; Bulacan dock capacity.";
-    } else if (fScore >= 50) {
-        grade = "Grade 3";
-        gradePillClass = "pill pill-amber";
-        gradeSub = "Processing Tier";
-        action = "1-Tap Divert Now";
-        decisionCode = "EXECUTE_AUTONOMOUS_DIVERSION";
-        buyerSub = "Bulacan Floor: ₱32/kg (25.60 XLM)";
-        statusColor = "#d97706";
-        nsgaStatus = "Divert Window Open [ACTION]";
-        evDeltaText = "+₱117,980";
-        bannerDesc =
-            "Divert Truck BGT-402 40 mins early to <strong>Bulacan Dehydrator (@ ₱32/kg · 25.60 XLM)</strong> or accept broker bid (<strong>₱" +
-            highestBrokerBid.toFixed(2) +
-            "/kg</strong>) to lock in <strong>₱237,980 net (23.80 XLM)</strong> and save <strong>+₱117,980</strong>.";
+
+        if (fScore >= 75.0) {
+            grade = "Grade 1";
+            gradePillClass = "pill pill-green";
+            gradeSub = "Wholesale Retail Grade";
+            buyerSub = "Balintawak Target: ₱45/kg";
+            nsgaStatus = "Safe Transit · On Track to Manila";
+            evDeltaText = "₱360,000";
+            bannerDesc =
+                "Cargo is healthy (<strong>" +
+                fScore.toFixed(1) +
+                "% Freshness</strong>). Stay on primary route to Balintawak Wholesale Market. Noir Farmer Firewall keeps shipment shielded.";
+        } else {
+            grade = "Grade 2";
+            gradePillClass = "pill pill-green";
+            gradeSub = "Minor Outer Wilt";
+            buyerSub = "Balintawak Target: ₱45/kg (Low Spoilage Risk)";
+            nsgaStatus = "On Track to Manila · Low Spoilage Risk";
+            evDeltaText = "+₱64,000 Protected";
+            bannerDesc =
+                "Cargo in safe transit (<strong>" +
+                fScore.toFixed(1) +
+                "% Freshness</strong>). Remaining Useful Life (" +
+                rulHours.toFixed(1) +
+                "h) exceeds ETA to Manila (" +
+                etaManila.toFixed(1) +
+                "h). Stay on primary route.";
+        }
     } else {
-        grade = "Grade 4";
-        gradePillClass = "pill pill-red";
-        gradeSub = "Severe Spoilage Risk";
-        action = "Emergency Salvage";
-        decisionCode = "EXECUTE_AUTONOMOUS_DIVERSION";
-        buyerSub = "Feed Mill Floor: ₱12/kg (9.60 XLM)";
-        statusColor = "#dc2626";
-        nsgaStatus = "Wholesale Grade Lost";
-        evDeltaText = "+₱85,180 Salvaged";
-        bannerDesc =
-            "Cargo dropped below Grade 3 (<strong>" +
-            fScore.toFixed(1) +
-            "%</strong>). Reroute immediately to <strong>Central Luzon Feed Mill (@ ₱12/kg)</strong> to avoid landfill loss.";
+        // Cargo degradation threatens delivery (fScore < 65% OR rulHours < etaManila)
+        if (fScore >= 50.0) {
+            grade = "Grade 3";
+            gradePillClass = "pill pill-amber";
+            gradeSub = "Processing Tier";
+            action = "1-Tap Divert Now";
+            decisionCode = "EXECUTE_AUTONOMOUS_DIVERSION";
+            buyerSub = "Bulacan Floor: ₱32/kg (25.60 XLM)";
+            statusColor = "#d97706";
+            nsgaStatus = "Divert Window Open [ACTION]";
+            evDeltaText = "+₱117,980";
+            bannerDesc =
+                "Divert Truck BGT-402 40 mins early to <strong>Bulacan Dehydrator (@ ₱32/kg · 25.60 XLM)</strong> or accept broker bid (<strong>₱" +
+                highestBrokerBid.toFixed(2) +
+                "/kg</strong>) to lock in <strong>₱237,980 net (23.80 XLM)</strong> and save <strong>+₱117,980</strong>.";
+        } else {
+            grade = "Grade 4";
+            gradePillClass = "pill pill-red";
+            gradeSub = "Severe Spoilage Risk";
+            action = "Emergency Salvage";
+            decisionCode = "EXECUTE_AUTONOMOUS_DIVERSION";
+            buyerSub = "Feed Mill Floor: ₱12/kg (9.60 XLM)";
+            statusColor = "#dc2626";
+            nsgaStatus = "Wholesale Grade Lost";
+            evDeltaText = "+₱85,180 Salvaged";
+            bannerDesc =
+                "Cargo dropped below Grade 3 (<strong>" +
+                fScore.toFixed(1) +
+                "%</strong>). Reroute immediately to <strong>Central Luzon Feed Mill (@ ₱12/kg)</strong> to avoid landfill loss.";
+        }
     }
 
     // Root-cause breakdown percentages
@@ -225,6 +237,40 @@ function runAIAnalysis(freshnessScore, hour, tempC, rhPercent) {
 
     const bannerEl = document.getElementById("rerouteBannerDesc");
     if (bannerEl) bannerEl.innerHTML = bannerDesc;
+
+    // Sync Autonomous Diversion Decision card badge & primary action button
+    const decisionBadgeEl = document.getElementById("decisionStatusBadge");
+    if (decisionBadgeEl) {
+        if (decisionCode === "HOLD_PRIMARY_ROUTE") {
+            decisionBadgeEl.className = "pill pill-green";
+            decisionBadgeEl.innerHTML = '<span class="status-dot status-dot-green"></span> SAFE TRANSIT';
+        } else {
+            decisionBadgeEl.className = "pill pill-amber";
+            decisionBadgeEl.innerHTML = '<span class="status-dot status-dot-amber"></span> DIVERT REQUIRED';
+        }
+    }
+
+    const divertBtn = document.getElementById("btnDivertAction");
+    if (divertBtn) {
+        if (decisionCode === "HOLD_PRIMARY_ROUTE") {
+            divertBtn.innerText = "Continue to Manila (Route Safe)";
+            divertBtn.className = "btn btn-outline btn-lg";
+        } else {
+            divertBtn.innerText = "1-Tap Divert & Advance 6.50 XLM Fuel";
+            divertBtn.className = "btn btn-primary btn-lg";
+        }
+    }
+
+    const veloBadge = document.getElementById("veloEscrowStatusBadge");
+    if (veloBadge) {
+        if (decisionCode === "HOLD_PRIMARY_ROUTE") {
+            veloBadge.innerText = "Standby · Primary Route";
+            veloBadge.className = "pill pill-blue";
+        } else if (veloBadge.innerText === "Standby · Primary Route" || veloBadge.innerText === "Awaiting Checkout") {
+            veloBadge.innerText = "Divert Window Open";
+            veloBadge.className = "pill pill-amber";
+        }
+    }
 
     const updateShapBar = (valId, barId, pct) => {
         const vEl = document.getElementById(valId);
