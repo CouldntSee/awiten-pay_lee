@@ -1343,9 +1343,3 @@ export function createApp() {
   return app;
 }
 
-// Start server when invoked directly
-const isMain =
-  process.argv[1] &&
-  path.resolve(process.argv[1]) === path.resolve(__filename);
-
-
