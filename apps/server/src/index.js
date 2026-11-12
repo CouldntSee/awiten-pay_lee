@@ -110,33 +110,6 @@ export async function transferTestnetXlmToConnectedWallet(
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-/**
- * Load environment variables from `.env` or `09_Private/velo_hackathon_env.local` if available
- */
-function hydrateEnvIfNeeded() {
-  const candidates = [
-    path.resolve(__dirname, '../../../.env'),
-    '/Users/kylexavier/.gemini/antigravity/scratch/awiten-pay/.env',
-    path.resolve(__dirname, '../../../../../09_Private/velo_hackathon_env.local'),
-  ];
-  for (const filePath of candidates) {
-    if (!fs.existsSync(filePath)) continue;
-    const raw = fs.readFileSync(filePath, 'utf8');
-    for (const line of raw.split(/\r?\n/)) {
-      const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
-      const idx = trimmed.indexOf('=');
-      if (idx === -1) continue;
-      const k = trimmed.slice(0, idx).trim();
-      const v = trimmed.slice(idx + 1).trim().replace(/^['"]|['"]$/g, '');
-      if (!process.env[k]) {
-        process.env[k] = v;
-      }
-    }
-  }
-}
-
-hydrateEnvIfNeeded();
 
 export const decisionEngine = new DecisionEngine();
 export const noirService = new NoirService({
