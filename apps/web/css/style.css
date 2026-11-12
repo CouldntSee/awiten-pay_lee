@@ -3,7 +3,7 @@
    Includes 3-Portal Switcher, Tab 4 Noir x Velo Cards, and Driver Mobile Frame
    ============================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
 
 :root {
     --brand-forest: #053d22;
@@ -49,7 +49,7 @@ html {
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background:
         radial-gradient(circle at 0% 0%, rgba(187, 247, 208, 0.65) 0%, rgba(187, 247, 208, 0) 42%),
         radial-gradient(circle at 100% 10%, rgba(217, 249, 157, 0.55) 0%, rgba(217, 249, 157, 0) 38%),
@@ -62,13 +62,13 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, .kpi-value, .buyer-price, .hero-kpi-box strong {
-    font-family: 'Space Grotesk', 'Outfit', sans-serif;
-    letter-spacing: 0.025em;
+h1, h2, h3, h4, .kpi-value, .buyer-price, .hero-kpi-box strong {
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: -0.01em;
 }
 
 code {
-    font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+    font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace;
 }
 
 /* ============================================================================
@@ -105,14 +105,14 @@ code {
 }
 
 .portal-switch-chip {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: rgba(255, 255, 255, 0.11);
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.24);
-    padding: 4px 11px;
+    padding: 3.5px 10px;
     border-radius: 999px;
-    font-size: 11.5px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease;
 }
@@ -171,7 +171,7 @@ code {
 }
 
 .brand-partner-x {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 15px;
     color: #64748b;
@@ -206,7 +206,7 @@ code {
    BUTTONS & PILLS
    ============================================================================ */
 .btn {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -402,14 +402,14 @@ velo-wallet::part(trigger) {
     font-size: 13px;
     border-radius: 8px;
     white-space: nowrap;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.18s ease;
 }
 
 .console-wallet-pill-btn {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 12px;
     font-weight: 700;
     padding: 6px 12px;
@@ -434,11 +434,11 @@ velo-wallet::part(trigger) {
 }
 
 .hero-title {
-    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 44px;
     font-weight: 800;
     line-height: 1.15;
-    letter-spacing: 0.025em;
+    letter-spacing: -0.015em;
     margin: 14px 0 14px;
     color: var(--brand-forest);
 }
@@ -664,7 +664,7 @@ velo-wallet::part(trigger) {
 }
 
 .form-control {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     width: 100%;
     padding: 10px 13px;
     background: #ffffff;
@@ -710,7 +710,7 @@ velo-wallet::part(trigger) {
 }
 
 .role-pick-btn {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: #f8faf9;
     border: 1px solid rgba(5, 61, 34, 0.16);
     border-radius: 12px;
@@ -751,42 +751,133 @@ velo-wallet::part(trigger) {
 
 /* ============================================================================
    CONSOLE HEADER & NAVIGATION (DISPATCHER + BROKER + DRIVER)
+   Scaled 10% smaller overall to prevent compression when wallet is connected
    ============================================================================ */
 .console-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 28px;
-    background: rgba(255, 255, 255, 0.92);
+    padding: 7px 18px;
+    background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border-subtle);
-    box-shadow: 0 4px 18px rgba(5, 61, 34, 0.04);
+    box-shadow: 0 3px 14px rgba(5, 61, 34, 0.04);
     position: sticky;
     top: 0;
     z-index: 90;
-    gap: 16px;
-    flex-wrap: wrap;
+    gap: 10px;
+    flex-wrap: nowrap;
+    font-size: 0.9rem;
+    zoom: 0.9;
+}
+
+.console-header .brand-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--brand-forest);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.console-header .brand-logo-img {
+    height: 25px;
+    width: auto;
+}
+
+.console-header .brand-divider {
+    width: 1px;
+    height: 18px;
+    background: rgba(6, 78, 44, 0.2);
+    margin: 0 2px;
+}
+
+.console-header .logo-subtitle {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.15;
+}
+
+.console-header strong {
+    font-size: 11px !important;
+    line-height: 1.2;
 }
 
 .console-tabs {
     display: flex;
-    gap: 6px;
+    gap: 4px;
     background: #eef6f1;
-    padding: 5px;
-    border-radius: 12px;
+    padding: 3.5px;
+    border-radius: 9px;
     border: 1px solid var(--border-subtle);
-    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.console-header .portal-switch-chip {
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--brand-forest);
+    border: 1px solid rgba(5, 61, 34, 0.15);
+    padding: 3px 8px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.console-header .portal-switch-chip:hover {
+    background: rgba(5, 61, 34, 0.08);
+}
+
+.console-header .portal-switch-chip.active {
+    background: var(--brand-forest);
+    color: #ffffff;
+    border-color: var(--brand-forest);
+    box-shadow: 0 2px 6px rgba(5, 61, 34, 0.2);
+}
+
+.console-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+}
+
+.console-header .btn-sm,
+.console-header .console-wallet-pill-btn {
+    padding: 4px 8px;
+    font-size: 10.5px;
+    border-radius: 7px;
+    white-space: nowrap;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+
+.console-header .pill {
+    padding: 2.5px 7px;
+    font-size: 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+
+.console-header #liveClock {
+    font-size: 10.5px;
+    white-space: nowrap;
 }
 
 .nav-btn {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: transparent;
     border: none;
     color: var(--text-secondary);
-    padding: 8px 14px;
-    border-radius: 9px;
-    font-size: 12.5px;
-    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 11.5px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.15s;
 }
@@ -798,7 +889,7 @@ velo-wallet::part(trigger) {
 .nav-btn.active-nav-btn {
     background: linear-gradient(135deg, var(--brand-forest), var(--brand-green));
     color: #ffffff;
-    box-shadow: 0 3px 10px rgba(5, 61, 34, 0.18);
+    box-shadow: 0 2px 8px rgba(5, 61, 34, 0.18);
 }
 
 .broker-nav .nav-btn.active-nav-btn {
@@ -895,11 +986,11 @@ velo-wallet::part(trigger) {
 
 .kpi-value {
     display: block;
-    font-family: 'Space Grotesk', 'JetBrains Mono', monospace;
+    font-family: 'Poppins', sans-serif;
     font-size: 32px;
     font-weight: 800;
     margin: 6px 0 4px;
-    letter-spacing: 0.02em;
+    letter-spacing: -0.01em;
     color: var(--brand-forest);
 }
 
@@ -935,7 +1026,7 @@ velo-wallet::part(trigger) {
 }
 
 .stop-chip {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: #f0fdf4;
     border: 1px solid rgba(22, 163, 74, 0.28);
     color: var(--brand-forest);
@@ -1192,7 +1283,7 @@ th {
 }
 
 .nfc-tap-btn {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     width: 100%;
     padding: 15px 16px;
     border-radius: 16px;
@@ -1312,7 +1403,7 @@ th {
     gap: 10px;
     color: #e2e8f0;
     font-size: 13px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .agent-hud-title strong {
@@ -1457,7 +1548,7 @@ th {
 }
 
 .kpi-val-hero {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 32px;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
@@ -1660,10 +1751,10 @@ th {
 }
 
 .hero-video-title {
-    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
-    font-size: clamp(34px, 5.5vw, 56px);
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(32px, 5.2vw, 54px);
     font-weight: 800;
-    letter-spacing: 0.04em;
+    letter-spacing: -0.015em;
     line-height: 1.15;
     margin: 0 0 16px;
     color: #ffffff;
@@ -1672,12 +1763,13 @@ th {
 }
 
 .hero-video-sub {
-    font-size: clamp(15px, 2vw, 17.5px);
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(15px, 2vw, 17px);
     line-height: 1.65;
     color: #dcfce7;
     max-width: 760px;
     margin: 0 auto 28px;
-    font-weight: 500;
+    font-weight: 400;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -1692,17 +1784,17 @@ th {
 .trust-statement-banner {
     background: #052e16;
     color: #ffffff;
-    padding: 56px 24px;
+    padding: 52px 24px;
     text-align: center;
     border-top: 1px solid rgba(74, 222, 128, 0.2);
     border-bottom: 1px solid rgba(74, 222, 128, 0.2);
 }
 
 .trust-statement-text {
-    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: clamp(20px, 3.2vw, 32px);
-    font-weight: 800;
-    letter-spacing: 0.035em;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     max-width: 960px;
     margin: 0 auto 20px;
     line-height: 1.35;
@@ -1811,9 +1903,9 @@ th {
         gap: 8px;
     }
     .console-header {
-        padding: 12px 18px;
-        flex-wrap: wrap;
-        gap: 12px;
+        padding: 6px 14px;
+        gap: 8px;
+        overflow-x: auto;
     }
     .grid-3,
     .grid-2,
@@ -1840,10 +1932,16 @@ th {
         flex-wrap: wrap;
     }
     .console-header {
-        padding: 10px 14px;
+        padding: 8px 12px;
         flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .console-header-actions {
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 2px;
     }
     .console-tabs {
         width: 100%;
