@@ -1343,3 +1343,19 @@ export function createApp() {
   return app;
 }
 
+// Start server when invoked directly
+const isMain =
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === path.resolve(__filename);
+
+if (isMain) {
+  const port = Number(process.env.PORT || 3001);
+  const app = createApp();
+  app.listen(port, () => {
+    console.log(
+      `[SERVER] AWITEN-Pay Full-Stack Server listening on http://localhost:${port}`
+    );
+  });
+}
+
+export default createApp;
