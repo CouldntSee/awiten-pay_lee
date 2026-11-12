@@ -61,7 +61,6 @@
         </div>
 
         <div class="nav-actions">
-            <span id="navSessionBadge" class="pill pill-green" style="display:none;"></span>
             <velo-wallet id="stellar-wallet" project-key="vw_pk_TH73LPXfh_8OdvQPiYiMyL179KBbnGi_" api-base="https://www.velo-build.dev"></velo-wallet>
             <button id="navReturnConsoleBtn" class="btn btn-outline btn-sm" style="display:none;" onclick="returnToActiveConsole()">
                 Open My Console
@@ -69,9 +68,10 @@
             <button class="btn btn-primary btn-sm" onclick="quickLoginAs('dispatcher')">
                 Open Console
             </button>
-            <button class="btn btn-outline btn-sm" onclick="navigateTo('login')">
+            <button id="navLoginBtn" class="btn btn-outline btn-sm" onclick="navigateTo('login')">
                 Log In
             </button>
+            <span id="navSessionBadge" class="pill pill-green nav-session-pill" style="display:none; cursor:pointer;" onclick="returnToActiveConsole()" title="Click to open console"></span>
         </div>
     </header>
 

@@ -492,21 +492,27 @@ function navigateTo(viewName) {
 function updatePublicNavbarSessionUI() {
     const badgeEl = document.getElementById("navSessionBadge");
     const returnBtn = document.getElementById("navReturnConsoleBtn");
-    if (!badgeEl || !returnBtn) return;
+    const loginBtn = document.getElementById("navLoginBtn");
+    if (!badgeEl) return;
 
     if (window.currentAuthUser) {
-        badgeEl.style.display = "inline-block";
-        badgeEl.innerText = "Signed in: " + window.currentAuthUser.username.toUpperCase();
-        returnBtn.style.display = "inline-flex";
-        returnBtn.innerText =
-            window.currentAuthUser.role === "dispatcher"
-                ? "Return to Dispatch Engine"
-                : window.currentAuthUser.role === "broker"
-                ? "Return to Broker Terminal"
-                : "Return to Driver App";
+        const role = window.currentAuthUser.role;
+        const roleLabel = role === "dispatcher"
+            ? "Dispatcher"
+            : role === "broker"
+            ? "Broker"
+            : role === "driver"
+            ? "Driver App"
+            : (window.currentAuthUser.displayName || "Active");
+
+        badgeEl.style.display = "inline-flex";
+        badgeEl.innerText = "Signed in: " + roleLabel;
+        if (loginBtn) loginBtn.style.display = "none";
+        if (returnBtn) returnBtn.style.display = "none";
     } else {
         badgeEl.style.display = "none";
-        returnBtn.style.display = "none";
+        if (loginBtn) loginBtn.style.display = "inline-flex";
+        if (returnBtn) returnBtn.style.display = "none";
     }
 }
 

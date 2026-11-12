@@ -77,15 +77,14 @@ code {
 .portal-switcher-bar {
     background: #053d22;
     color: #ffffff;
-    padding: 5px 20px;
+    padding: 7px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
     border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-    font-size: 11px;
-    zoom: 0.9;
+    font-size: 12px;
 }
 
 .portal-switcher-left {
@@ -110,9 +109,9 @@ code {
     background: rgba(255, 255, 255, 0.11);
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.24);
-    padding: 3.5px 10px;
+    padding: 4px 11px;
     border-radius: 999px;
-    font-size: 11px;
+    font-size: 11.5px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -350,7 +349,6 @@ code {
 
 /* ============================================================================
    PUBLIC NAVBAR & LANDING PAGE
-   Scaled 10% smaller overall to prevent compression when wallet is connected
    ============================================================================ */
 .public-navbar {
     position: sticky;
@@ -359,36 +357,23 @@ code {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 28px;
+    padding: 13px 40px;
     background: rgba(255, 255, 255, 0.88);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-subtle);
-    box-shadow: 0 3px 16px rgba(5, 61, 34, 0.04);
-    zoom: 0.9;
-}
-
-.public-navbar .brand-partner-lockup {
-    gap: 8px;
-}
-
-.public-navbar .brand-logo-img {
-    height: 25px;
-}
-
-.public-navbar .brand-partner-x {
-    font-size: 13px;
+    box-shadow: 0 4px 20px rgba(5, 61, 34, 0.04);
 }
 
 .public-nav-links {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 28px;
 }
 
 .public-nav-links a {
     color: var(--text-secondary);
     text-decoration: none;
-    font-size: 12.5px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.02em;
     transition: color 0.15s;
@@ -401,22 +386,26 @@ code {
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 10px;
     flex-wrap: nowrap;
 }
 
-.public-navbar .btn-sm {
-    padding: 6px 12px;
-    font-size: 11px;
-    border-radius: 8px;
-    white-space: nowrap;
-}
-
-.public-navbar .pill {
-    padding: 3px 8px;
-    font-size: 10px;
+.nav-session-pill {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 14px;
     border-radius: 999px;
     white-space: nowrap;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.15s ease;
+}
+
+.nav-session-pill:hover {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
 }
 
 velo-wallet {
@@ -429,9 +418,9 @@ velo-wallet::part(status) {
 }
 
 velo-wallet::part(trigger) {
-    padding: 6px 12px;
-    font-size: 11.5px;
-    border-radius: 7px;
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 8px;
     white-space: nowrap;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
@@ -782,30 +771,28 @@ velo-wallet::part(trigger) {
 
 /* ============================================================================
    CONSOLE HEADER & NAVIGATION (DISPATCHER + BROKER + DRIVER)
-   Scaled 10% smaller overall to prevent compression when wallet is connected
    ============================================================================ */
 .console-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 7px 18px;
-    background: rgba(255, 255, 255, 0.94);
+    padding: 12px 28px;
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border-subtle);
-    box-shadow: 0 3px 14px rgba(5, 61, 34, 0.04);
+    box-shadow: 0 4px 18px rgba(5, 61, 34, 0.04);
     position: sticky;
     top: 0;
     z-index: 90;
-    gap: 10px;
-    flex-wrap: nowrap;
-    font-size: 0.9rem;
-    zoom: 0.9;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
 }
 
 .console-header .brand-wrap {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     text-decoration: none;
     color: var(--brand-forest);
     cursor: pointer;
@@ -813,19 +800,19 @@ velo-wallet::part(trigger) {
 }
 
 .console-header .brand-logo-img {
-    height: 25px;
+    height: 30px;
     width: auto;
 }
 
 .console-header .brand-divider {
     width: 1px;
-    height: 18px;
+    height: 22px;
     background: rgba(6, 78, 44, 0.2);
     margin: 0 2px;
 }
 
 .console-header .logo-subtitle {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
@@ -834,26 +821,26 @@ velo-wallet::part(trigger) {
 }
 
 .console-header strong {
-    font-size: 11px !important;
+    font-size: 13px !important;
     line-height: 1.2;
 }
 
 .console-tabs {
     display: flex;
-    gap: 4px;
+    gap: 6px;
     background: #eef6f1;
-    padding: 3.5px;
-    border-radius: 9px;
+    padding: 5px;
+    border-radius: 12px;
     border: 1px solid var(--border-subtle);
-    flex-shrink: 0;
+    flex-wrap: wrap;
 }
 
 .console-header .portal-switch-chip {
     background: rgba(255, 255, 255, 0.85);
     color: var(--brand-forest);
     border: 1px solid rgba(5, 61, 34, 0.15);
-    padding: 3px 8px;
-    font-size: 10px;
+    padding: 4px 10px;
+    font-size: 11.5px;
     white-space: nowrap;
 }
 
@@ -871,24 +858,24 @@ velo-wallet::part(trigger) {
 .console-header-actions {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     flex-shrink: 0;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
 }
 
 .console-header .btn-sm,
 .console-header .console-wallet-pill-btn {
-    padding: 4px 8px;
-    font-size: 10.5px;
-    border-radius: 7px;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 8px;
     white-space: nowrap;
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
 }
 
 .console-header .pill {
-    padding: 2.5px 7px;
-    font-size: 10px;
+    padding: 3px 9px;
+    font-size: 11px;
     border-radius: 999px;
     white-space: nowrap;
     font-weight: 600;
@@ -896,7 +883,7 @@ velo-wallet::part(trigger) {
 }
 
 .console-header #liveClock {
-    font-size: 10.5px;
+    font-size: 12px;
     white-space: nowrap;
 }
 
@@ -905,9 +892,9 @@ velo-wallet::part(trigger) {
     background: transparent;
     border: none;
     color: var(--text-secondary);
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 11.5px;
+    padding: 8px 14px;
+    border-radius: 9px;
+    font-size: 12.5px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s;
@@ -1922,21 +1909,21 @@ th {
 
 @media (max-width: 960px) {
     .public-navbar {
-        padding: 8px 16px;
+        padding: 12px 20px;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 12px;
     }
     .public-nav-links {
         display: none;
     }
     .nav-actions {
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 8px;
     }
     .console-header {
-        padding: 6px 14px;
-        gap: 8px;
-        overflow-x: auto;
+        padding: 12px 18px;
+        flex-wrap: wrap;
+        gap: 12px;
     }
     .grid-3,
     .grid-2,
@@ -1952,28 +1939,22 @@ th {
 
 @media (max-width: 640px) {
     .public-navbar {
-        padding: 8px 12px;
+        padding: 10px 14px;
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
+        gap: 10px;
     }
     .nav-actions {
         width: 100%;
         justify-content: flex-start;
         flex-wrap: wrap;
-        gap: 6px;
-    }
-    .console-header {
-        padding: 8px 12px;
-        flex-direction: column;
-        align-items: stretch;
         gap: 8px;
     }
-    .console-header-actions {
-        width: 100%;
-        justify-content: flex-start;
-        overflow-x: auto;
-        padding-bottom: 2px;
+    .console-header {
+        padding: 10px 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
     }
     .console-tabs {
         width: 100%;
